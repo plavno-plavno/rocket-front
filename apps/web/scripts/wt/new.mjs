@@ -28,6 +28,7 @@ if (existsSync(dir)) {
 }
 execSync(`git worktree add "${dir}" -b ${branch}`, { stdio: 'inherit', cwd: repoRoot });
 execSync('pnpm install --prefer-offline', { stdio: 'inherit', cwd: dir });
+execSync('pnpm gen --quiet', { stdio: 'inherit', cwd: resolve(dir, 'apps/web') });
 
 const webPort = 3100 + n;
 const mockPort = 4100 + n;

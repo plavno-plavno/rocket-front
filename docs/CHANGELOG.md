@@ -200,3 +200,29 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - CI: `fetch-depth: 0`, depcruise + ownership steps.
 
 **Verified locally**: `pnpm check` ✓, `depcruise` ✓ (0 violations on 840 modules), `check:ownership` skips on `main`.
+
+## ui-foundation-v1 — Foundation complete (2026-09-17)
+
+**Fixes after the worktree rehearsal**
+- Fresh worktrees have no generated registries: `premock:api`, `premock:api:watch`, `pree2e` run `pnpm gen`; `wt:new` runs `pnpm gen` after install.
+- `check:ownership` diffs with `--relative` (was blind when run from `apps/web`).
+- Smoke e2e now iterates **all 44 registered routes** (from `scripts/scaffold/features.json`) and checks the admin role in addition to owner / observer.
+
+**Rehearsal (SDD-01T §3.10 «два трека одновременно»)**
+- `pnpm wt:new UI-DS smoke-test` → sibling worktree, branch `ui/UI-DS/smoke-test`, `.env.local` with web 3102 / mock 4102.
+- Worktree `pnpm wt:dev` (3102/4102) and the main checkout (`next dev` 3998 + mock 4010) ran concurrently; sign-in + `/dashboard/overview` → 200 on both.
+- On the track branch `check:ownership` flagged foreign files (`src/features/reviews/index.ts` → UI-F2, `package.json` → UI-0) and accepted the track's own `components/lp` change. Worktree and branch removed afterwards.
+
+**Foundation DoD (SDD-01T §3.10)**
+- [x] SDD-01 T0–T5 (T0 import, T1 cleanup, T2 auth, T3 data layer + locations, T4 theme/i18n, T5 shell)
+- [x] `defineFeature`, generator, `gen --check` with validator
+- [x] All routes with `PlannedPage`; all features scaffolded with `status: planned` (locations / overview `wip`, session `ready`)
+- [x] Public stubs §3.5 and `components/lp/*` with final props
+- [x] Page templates §3.6 and `check:templates`
+- [x] Dependencies §3.7 (`next-intl`, `openapi-fetch`, `openapi-typescript`, `@tanstack/react-virtual`, dnd-kit, `@playwright/test`, `dependency-cruiser`, `diff`, `msw`, `@mswjs/http-middleware`; **not added**: `d3-geo`, `topojson-client`, `maplibre-gl` — deferred to UI-DS together with the geodata / tile-provider licence decision (SDD-01 §4.1); `papaparse` / `xlsx` — not needed, XLSX parsing happens in core-api and the UI only uploads the file)
+- [x] `tracks.json`, `check:ownership`, dependency-cruiser, CODEOWNERS
+- [x] `wt:new` / `wt:dev` / `wt:list` / `wt:prune`; two tracks ran concurrently without port conflicts
+- [x] `docs/tracks/<track>.md` for every track
+- [x] e2e-smoke: all routes open, navigation filtered by role (owner / admin / observer)
+
+Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) may start.

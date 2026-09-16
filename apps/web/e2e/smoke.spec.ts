@@ -1,10 +1,13 @@
 import { expect, openMenu, test } from './support/fixtures';
+import scaffold from '../scripts/scaffold/features.json' with { type: 'json' };
 
 /**
  * Foundation smoke (SDD-01T §3.10): every registered route opens, navigation is filtered by role,
  * auth gate works. Feature behaviour is tested in features/<f>/e2e.
  */
-const ROUTES = ['/dashboard/overview', '/dashboard/locations'];
+const ROUTES = Object.keys(scaffold.routes)
+  .filter((r) => !r.startsWith('$'))
+  .map((r) => r.replace('[platformId]', 'plt_google').replace('[id]', 'loc_smoke'));
 
 test.describe('auth gate', () => {
   test('redirects anonymous users to sign-in with next=', async ({ page }) => {
@@ -43,14 +46,18 @@ test.describe('auth gate', () => {
 });
 
 test.describe('shell', () => {
-  for (const route of ROUTES) {
-    test(`opens ${route}`, async ({ authed }) => {
+  test('every registered route opens without an error boundary', async ({ authed }) => {
+    test.setTimeout(120_000);
+    for (const route of ROUTES) {
       const res = await authed.goto(route);
-      expect(res?.status()).toBe(200);
-      await expect(authed.locator('#main-content')).toBeVisible();
-      await expect(authed.getByText('Что-то пошло не так')).toHaveCount(0);
-    });
-  }
+      expect(res?.status(), route).toBe(200);
+      await expect(authed.locator('#main-content'), route).toBeVisible();
+      await expect(
+        authed.locator('#main-content').getByText('Произошла ошибка'),
+        route
+      ).toHaveCount(0);
+    }
+  });
 
   test('sidebar shows tenant, user and registry navigation', async ({ authed }) => {
     await authed.goto('/dashboard/overview');
@@ -86,6 +93,18 @@ test.describe('shell', () => {
     await openMenu(authed, authed.getByRole('button', { name: 'Меню пользователя' }));
     await authed.getByRole('menuitem', { name: 'Выйти' }).click();
     await expect(authed).toHaveURL(/\/auth\/sign-in/);
+  });
+});
+
+test.describe('roles (admin)', () => {
+  test.use({ user: 'admin' });
+
+  test('admin sees settings and locations actions', async ({ authed }) => {
+    await authed.goto('/dashboard/locations');
+    await expect(authed.getByRole('link', { name: 'Добавить компанию' })).toBeVisible();
+    await expect(authed.getByRole('button', { name: 'Меню пользователя' })).toContainText(
+      'Павел Кузнецов'
+    );
   });
 });
 

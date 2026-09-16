@@ -31,14 +31,15 @@ if (!def) {
 }
 
 const base = opt('base') ?? process.env.GITHUB_BASE_REF ?? 'origin/main';
+// Paths relative to apps/web (the script runs from there); the worktree may be on any branch.
 let changed;
 try {
-  changed = execSync(`git diff --name-only ${base}...HEAD -- apps/web`, { encoding: 'utf8' }).split('\n').filter(Boolean);
+  changed = execSync(`git diff --name-only --relative ${base}...HEAD`, { encoding: 'utf8' }).split('\n').filter(Boolean);
 } catch {
-  changed = execSync('git diff --name-only HEAD~1 -- apps/web', { encoding: 'utf8' }).split('\n').filter(Boolean);
+  changed = execSync('git diff --name-only --relative HEAD~1', { encoding: 'utf8' }).split('\n').filter(Boolean);
 }
 const allowed = [...def.paths, ...config.shared.paths];
-const violations = changed.map((f) => f.replace(/^apps\/web\//, '')).filter((f) => !allowed.some((g) => minimatch(f, g, { dot: true, matchBase: false })));
+const violations = changed.filter((f) => !allowed.some((g) => minimatch(f, g, { dot: true, matchBase: false })));
 
 if (violations.length) {
   const owner = (f) => Object.entries(config.tracks).find(([, t]) => t.paths.some((g) => minimatch(f, g, { dot: true })))?.[0] ?? '—';
