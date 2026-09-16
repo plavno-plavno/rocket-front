@@ -1,10 +1,10 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Tags"
   },
   "page": {
     "title": "Tags",
-    "description": ""
+    "description": "Review tags"
   },
   "picker": {
     "add": "Tag",

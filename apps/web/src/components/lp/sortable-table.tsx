@@ -19,7 +19,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useTranslations } from 'next-intl';
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 import { Icons } from '@/components/icons';
 import {
   Table,
@@ -61,6 +61,8 @@ export function SortableTable<T extends { id: string }>({
   leading
 }: SortableTableProps<T>) {
   const t = useTranslations('table');
+  // Stable id keeps dnd-kit's aria-describedby identical on server and client (no hydration mismatch).
+  const dndId = useId();
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
@@ -77,6 +79,7 @@ export function SortableTable<T extends { id: string }>({
   return (
     <div className={cn('overflow-hidden rounded-lg border', className)}>
       <DndContext
+        id={dndId}
         sensors={sensors}
         collisionDetection={closestCenter}
         modifiers={[restrictToVerticalAxis]}

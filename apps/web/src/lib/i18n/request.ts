@@ -1,5 +1,5 @@
 import { getRequestConfig } from 'next-intl/server';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import {
   DEFAULT_LOCALE,
   DEFAULT_TIMEZONE,
@@ -10,21 +10,11 @@ import {
 } from './config';
 import { messages } from '@/generated/messages';
 
-function negotiateFromHeader(acceptLanguage: string | null): Locale | undefined {
-  if (!acceptLanguage) return undefined;
-  for (const part of acceptLanguage.split(',')) {
-    const tag = part.split(';')[0].trim().toLowerCase().slice(0, 2);
-    if (isLocale(tag)) return tag;
-  }
-  return undefined;
-}
-
 export default getRequestConfig(async () => {
-  const [cookieStore, headerStore] = await Promise.all([cookies(), headers()]);
+  // Russian is the product language; English only when the user picked it (cookie) — no browser negotiation.
+  const cookieStore = await cookies();
   const fromCookie = cookieStore.get(LOCALE_COOKIE)?.value;
-  const locale: Locale = isLocale(fromCookie)
-    ? fromCookie
-    : (negotiateFromHeader(headerStore.get('accept-language')) ?? DEFAULT_LOCALE);
+  const locale: Locale = isLocale(fromCookie) ? fromCookie : DEFAULT_LOCALE;
   const timeZone = cookieStore.get(TIMEZONE_COOKIE)?.value || DEFAULT_TIMEZONE;
 
   return {

@@ -1,9 +1,9 @@
 {
   "nav": {
-    "inbox": "Inbox"
+    "inbox": "Communication"
   },
   "page": {
     "title": "Communication",
-    "description": ""
+    "description": "Customer conversations on platforms"
   }
 }

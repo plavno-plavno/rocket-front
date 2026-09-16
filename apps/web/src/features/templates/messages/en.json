@@ -1,10 +1,10 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Reply templates"
   },
   "page": {
-    "title": "Templates",
-    "description": ""
+    "title": "Reply templates",
+    "description": "Team and private templates with variables"
   },
   "picker": {
     "button": "Template",

@@ -1,9 +1,9 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Публикации"
   },
   "page": {
-    "title": "Publications",
-    "description": ""
+    "title": "Публикации",
+    "description": "Новости, акции и события на площадках"
   }
 }

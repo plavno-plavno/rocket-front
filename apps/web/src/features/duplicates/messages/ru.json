@@ -1,9 +1,9 @@
 {
   "nav": {
-    "queue": "Queue"
+    "queue": "Дубли и фейки"
   },
   "page": {
-    "title": "Duplicates",
-    "description": ""
+    "title": "Дубли и фейки",
+    "description": "Очередь дублей и подозрительных карточек"
   }
 }

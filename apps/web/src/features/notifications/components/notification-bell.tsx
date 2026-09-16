@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter, useNow, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ const MAX_VISIBLE = 6;
 export function NotificationBell() {
   const t = useTranslations('notifications.bell');
   const format = useFormatter();
+  const now = useNow({ updateInterval: 60_000 });
   const router = useRouter();
   const queryClient = useQueryClient();
   const [scope] = useScope();
@@ -100,7 +101,7 @@ export function NotificationBell() {
                     </span>
                     <span className='text-muted-foreground line-clamp-2 text-xs'>{n.body}</span>
                     <span className='text-muted-foreground text-[11px]'>
-                      {format.relativeTime(new Date(n.created_at))}
+                      {format.relativeTime(new Date(n.created_at), now)}
                     </span>
                   </button>
                 </li>

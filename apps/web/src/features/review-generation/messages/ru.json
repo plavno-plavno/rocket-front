@@ -1,12 +1,12 @@
 {
   "nav": {
-    "root": "Root",
-    "campaigns": "Campaigns",
-    "qr": "Qr",
-    "analytics": "Analytics"
+    "root": "Генерация отзывов",
+    "campaigns": "Кампании",
+    "qr": "QR-коды",
+    "analytics": "Аналитика"
   },
   "page": {
-    "title": "Review generation",
-    "description": ""
+    "title": "Генерация отзывов",
+    "description": "Кампании сбора отзывов"
   }
 }

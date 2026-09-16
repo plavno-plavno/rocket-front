@@ -1,9 +1,9 @@
 {
   "nav": {
-    "center": "Center"
+    "center": "База знаний"
   },
   "page": {
-    "title": "Help",
-    "description": ""
+    "title": "Помощь",
+    "description": "База знаний и поддержка"
   }
 }

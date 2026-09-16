@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import * as React from 'react';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -19,6 +21,7 @@ export function InfoButton({
   size = 'icon',
   ...props
 }: InfoButtonProps) {
+  const t = useTranslations('ui');
   const { setContent, setOpen } = useInfobar();
 
   // Set content on mount so the infobar has it ready, but don't force it open
@@ -41,11 +44,11 @@ export function InfoButton({
       size={size}
       className={cn('shrink-0', className)}
       onClick={handleClick}
-      aria-label='Show information'
+      aria-label={t('showInfo')}
       {...props}
     >
       <Icons.info className='h-4 w-4' />
-      <span className='sr-only'>Show information</span>
+      <span className='sr-only'>{t('showInfo')}</span>
     </Button>
   );
 }

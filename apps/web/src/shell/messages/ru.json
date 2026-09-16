@@ -179,5 +179,29 @@
     "hint": "Нажмите на переменную, чтобы вставить её в текст",
     "unknown": "Неизвестные переменные: {vars}",
     "preview": "Предпросмотр"
+  },
+  "ui": {
+    "toggleSidebar": "Переключить меню",
+    "closeInfoPanel": "Закрыть панель справки",
+    "showInfo": "Показать справку",
+    "loading": "Загрузка",
+    "markAsRead": "Отметить прочитанным",
+    "previousPage": "Предыдущая страница",
+    "nextPage": "Следующая страница",
+    "morePages": "Ещё страницы",
+    "closeToast": "Закрыть",
+    "previousSlide": "Предыдущий слайд",
+    "nextSlide": "Следующий слайд",
+    "uploadFiles": "Загрузить файлы",
+    "dropFiles": "Отпустите файлы здесь",
+    "dragOrClick": "Перетащите файлы сюда или нажмите, чтобы выбрать",
+    "removeFile": "Удалить файл",
+    "searchPlaceholder": "Поиск…",
+    "noResults": "Ничего не найдено",
+    "pickDate": "Выберите дату",
+    "pickDateRange": "Выберите период",
+    "uploadLimitMany": "Можно загрузить до {max} файлов, каждый до {size}",
+    "uploadLimitOne": "Один файл до {size}",
+    "selectOption": "Выберите значение"
   }
 }

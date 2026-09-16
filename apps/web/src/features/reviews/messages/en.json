@@ -1,13 +1,13 @@
 {
   "nav": {
-    "inbox": "Inbox"
+    "inbox": "Reviews"
   },
   "kbar": {
-    "openById": "OpenById"
+    "openById": "Open review"
   },
   "page": {
     "title": "Reviews",
-    "description": ""
+    "description": "Review inbox across all platforms"
   },
   "drawer": {
     "title": "Review",

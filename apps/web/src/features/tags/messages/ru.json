@@ -1,10 +1,10 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Теги"
   },
   "page": {
-    "title": "Tags",
-    "description": ""
+    "title": "Теги",
+    "description": "Теги для отзывов"
   },
   "picker": {
     "add": "Тег",

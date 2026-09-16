@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,15 +24,16 @@ export function ComboboxField({
   description,
   required,
   options,
-  placeholder = 'Select an option',
-  searchPlaceholder = 'Search...',
-  emptyMessage = 'No results found.'
+  placeholder,
+  searchPlaceholder,
+  emptyMessage
 }: BaseFieldProps & {
   options: { value: string; label: string; disabled?: boolean }[];
   placeholder?: string;
   searchPlaceholder?: string;
   emptyMessage?: string;
 }) {
+  const t = useTranslations('ui');
   const field = useFieldContext<string>();
   const isInvalid = useFieldInvalid();
   const [open, setOpen] = React.useState(false);
@@ -72,9 +75,9 @@ export function ComboboxField({
         </PopoverTrigger>
         <PopoverContent className='w-(--anchor-width) p-0'>
           <Command>
-            <CommandInput placeholder={searchPlaceholder} />
+            <CommandInput placeholder={searchPlaceholder ?? t('searchPlaceholder')} />
             <CommandList id={listboxId}>
-              <CommandEmpty>{emptyMessage}</CommandEmpty>
+              <CommandEmpty>{emptyMessage ?? t('noResults')}</CommandEmpty>
               <CommandGroup>
                 {options.map((opt) => (
                   <CommandItem

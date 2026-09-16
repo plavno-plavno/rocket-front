@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -59,9 +60,10 @@ function PaginationPrevious({
   text = 'Previous',
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const t = useTranslations('ui');
   return (
     <PaginationLink
-      aria-label='Go to previous page'
+      aria-label={t('previousPage')}
       size='default'
       className={cn('pl-1.5!', className)}
       {...props}
@@ -77,9 +79,10 @@ function PaginationNext({
   text = 'Next',
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const t = useTranslations('ui');
   return (
     <PaginationLink
-      aria-label='Go to next page'
+      aria-label={t('nextPage')}
       size='default'
       className={cn('pr-1.5!', className)}
       {...props}
@@ -91,6 +94,7 @@ function PaginationNext({
 }
 
 function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'>) {
+  const t = useTranslations('ui');
   return (
     <span
       aria-hidden
@@ -102,7 +106,7 @@ function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'
       {...props}
     >
       <IconDots />
-      <span className='sr-only'>More pages</span>
+      <span className='sr-only'>{t('morePages')}</span>
     </span>
   );
 }

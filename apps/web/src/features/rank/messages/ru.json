@@ -1,9 +1,9 @@
 {
   "nav": {
-    "tracker": "Tracker"
+    "tracker": "Трекер позиций"
   },
   "page": {
-    "title": "Rank",
-    "description": ""
+    "title": "Трекер позиций",
+    "description": "Локальные позиции по ключевым словам"
   }
 }

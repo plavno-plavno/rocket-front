@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { Icons } from '@/components/icons';
 import Image from 'next/image';
 import * as React from 'react';
@@ -90,6 +92,7 @@ export interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 export function FileUploader(props: FileUploaderProps) {
+  const t = useTranslations('ui');
   const {
     value: valueProp,
     onValueChange,
@@ -198,13 +201,13 @@ export function FileUploader(props: FileUploaderProps) {
             )}
             {...dropzoneProps}
           >
-            <input {...getInputProps()} aria-label='Upload files' />
+            <input {...getInputProps()} aria-label={t('uploadFiles')} />
             {isDragActive ? (
               <div className='flex flex-col items-center justify-center gap-4 sm:px-5'>
                 <div className='rounded-full border border-dashed p-3'>
                   <Icons.upload className='text-muted-foreground size-7' aria-hidden='true' />
                 </div>
-                <p className='text-muted-foreground font-medium'>Drop the files here</p>
+                <p className='text-muted-foreground font-medium'>{t('dropFiles')}</p>
               </div>
             ) : (
               <div className='flex flex-col items-center justify-center gap-4 sm:px-5'>
@@ -212,15 +215,14 @@ export function FileUploader(props: FileUploaderProps) {
                   <Icons.upload className='text-muted-foreground size-7' aria-hidden='true' />
                 </div>
                 <div className='space-y-px'>
-                  <p className='text-muted-foreground font-medium'>
-                    Drag {`'n'`} drop files here, or click to select files
-                  </p>
+                  <p className='text-muted-foreground font-medium'>{t('dragOrClick')}</p>
                   <p className='text-muted-foreground/70 text-sm'>
-                    You can upload
                     {maxFiles > 1
-                      ? ` ${maxFiles === Infinity ? 'multiple' : maxFiles}
-                      files (up to ${formatBytes(maxSize)} each)`
-                      : ` a file with ${formatBytes(maxSize)}`}
+                      ? t('uploadLimitMany', {
+                          max: maxFiles === Infinity ? '∞' : maxFiles,
+                          size: formatBytes(maxSize)
+                        })
+                      : t('uploadLimitOne', { size: formatBytes(maxSize) })}
                   </p>
                 </div>
               </div>
@@ -253,6 +255,7 @@ interface FileCardProps {
 }
 
 function FileCard({ file, progress, onRemove }: FileCardProps) {
+  const t = useTranslations('ui');
   return (
     <div className='relative flex items-center space-x-4'>
       <div className='flex flex-1 space-x-4'>
@@ -284,7 +287,7 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
           className='size-8 rounded-full'
         >
           <Icons.close className='text-muted-foreground' />
-          <span className='sr-only'>Remove file</span>
+          <span className='sr-only'>{t('removeFile')}</span>
         </Button>
       </div>
     </div>

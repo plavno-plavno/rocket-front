@@ -1,13 +1,13 @@
 {
   "nav": {
-    "inbox": "Inbox"
+    "inbox": "Отзывы"
   },
   "kbar": {
-    "openById": "OpenById"
+    "openById": "Открыть отзыв"
   },
   "page": {
-    "title": "Reviews",
-    "description": ""
+    "title": "Обработка отзывов",
+    "description": "Инбокс отзывов со всех площадок"
   },
   "drawer": {
     "title": "Отзыв",

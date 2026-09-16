@@ -1,7 +1,7 @@
 {
   "nav": {
-    "root": "Root",
-    "panel": "Panel",
+    "root": "Review analytics",
+    "panel": "Dashboard",
     "locations": "Locations",
     "cities": "Cities",
     "tags": "Tags",
@@ -12,7 +12,7 @@
   },
   "page": {
     "title": "Review analytics",
-    "description": ""
+    "description": "Review metrics for a period"
   },
   "trendCard": {
     "title": "Reviews over time",

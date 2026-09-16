@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -314,6 +316,7 @@ function Infobar({
 }
 
 function InfobarTrigger({ className, onClick, ...props }: React.ComponentProps<typeof Button>) {
+  const t = useTranslations('ui');
   const { toggleInfobar } = useInfobar();
 
   return (
@@ -323,7 +326,7 @@ function InfobarTrigger({ className, onClick, ...props }: React.ComponentProps<t
       variant='ghost'
       size='icon'
       className={cn('size-7', className)}
-      aria-label='Close info panel'
+      aria-label={t('closeInfoPanel')}
       onClick={(event) => {
         onClick?.(event);
         toggleInfobar();

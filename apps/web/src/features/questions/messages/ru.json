@@ -1,9 +1,9 @@
 {
   "nav": {
-    "inbox": "Inbox"
+    "inbox": "Вопросы и ответы"
   },
   "page": {
-    "title": "Questions",
-    "description": ""
+    "title": "Вопросы и ответы",
+    "description": "Вопросы пользователей на площадках"
   }
 }

@@ -1,9 +1,9 @@
 'use client';
 
 import { type Table as TanstackTable, flexRender } from '@tanstack/react-table';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTranslations } from 'next-intl';
-import { cn } from '@/lib/utils';
-import type * as React from 'react';
+import * as React from 'react';
 
 import { DataTablePagination } from '@/components/ui/table/data-table-pagination';
 import {
@@ -15,7 +15,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { getCommonPinningStyles } from '@/lib/data-table';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 interface DataTableProps<TData> extends React.ComponentProps<'div'> {
   table: TanstackTable<TData>;
@@ -24,22 +24,56 @@ interface DataTableProps<TData> extends React.ComponentProps<'div'> {
   density?: 'comfortable' | 'compact';
   /** Custom empty state (defaults to a localized "No results"). */
   emptyState?: React.ReactNode;
+  /** Rows above this count are virtualised (SDD-01 §3.2). */
+  virtualizeFrom?: number;
 }
 
+const ROW_HEIGHT = { comfortable: 52, compact: 36 } as const;
+
+/**
+ * Data table with sticky header, column pinning, density and windowing for long pages
+ * (`@tanstack/react-virtual`, on when the page has more than `virtualizeFrom` rows).
+ */
 export function DataTable<TData>({
   table,
   actionBar,
   children,
   density = 'comfortable',
-  emptyState
+  emptyState,
+  virtualizeFrom = 200
 }: DataTableProps<TData>) {
   const t = useTranslations('table');
+  const rows = table.getRowModel().rows;
+  const virtual = rows.length > virtualizeFrom;
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const virtualizer = useVirtualizer({
+    count: virtual ? rows.length : 0,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => ROW_HEIGHT[density],
+    overscan: 12
+  });
+  const items = virtualizer.getVirtualItems();
+  const paddingTop = virtual && items.length ? items[0].start : 0;
+  const paddingBottom =
+    virtual && items.length ? virtualizer.getTotalSize() - items[items.length - 1].end : 0;
+  // Before mount (SSR) the virtualizer has no measurements → render the first window statically.
+  const renderRows = virtual
+    ? items.length
+      ? items.map((v) => rows[v.index])
+      : rows.slice(0, 40)
+    : rows;
+  const columnCount = table.getAllColumns().length;
+
   return (
     <div className='flex flex-1 flex-col space-y-4'>
       {children}
       <div className='relative flex flex-1'>
         <div className='absolute inset-0 flex overflow-hidden rounded-lg border'>
-          <ScrollArea className='h-full w-full'>
+          <div
+            ref={scrollRef}
+            className='h-full w-full overflow-auto'
+            data-virtualized={virtual || undefined}
+          >
             <Table
               className={cn(density === 'compact' && 'text-sm [&_td]:py-1.5 [&_th]:h-9 [&_tr]:h-9')}
               data-density={density}
@@ -51,9 +85,7 @@ export function DataTable<TData>({
                       <TableHead
                         key={header.id}
                         colSpan={header.colSpan}
-                        style={{
-                          ...getCommonPinningStyles({ column: header.column })
-                        }}
+                        style={{ ...getCommonPinningStyles({ column: header.column }) }}
                       >
                         {header.isPlaceholder
                           ? null
@@ -64,15 +96,24 @@ export function DataTable<TData>({
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                {paddingTop > 0 && (
+                  <tr aria-hidden>
+                    <td style={{ height: paddingTop, padding: 0 }} colSpan={columnCount}>
+                      {'\u00a0'}
+                    </td>
+                  </tr>
+                )}
+                {renderRows.length ? (
+                  renderRows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                      data-index={row.index}
+                    >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell
                           key={cell.id}
-                          style={{
-                            ...getCommonPinningStyles({ column: cell.column })
-                          }}
+                          style={{ ...getCommonPinningStyles({ column: cell.column }) }}
                         >
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </TableCell>
@@ -81,15 +122,21 @@ export function DataTable<TData>({
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={table.getAllColumns().length} className='h-24 text-center'>
+                    <TableCell colSpan={columnCount} className='h-24 text-center'>
                       {emptyState ?? t('noResults')}
                     </TableCell>
                   </TableRow>
                 )}
+                {paddingBottom > 0 && (
+                  <tr aria-hidden>
+                    <td style={{ height: paddingBottom, padding: 0 }} colSpan={columnCount}>
+                      {'\u00a0'}
+                    </td>
+                  </tr>
+                )}
               </TableBody>
             </Table>
-            <ScrollBar orientation='horizontal' />
-          </ScrollArea>
+          </div>
         </div>
       </div>
       <div className='flex flex-col gap-2.5'>

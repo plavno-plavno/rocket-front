@@ -1,9 +1,9 @@
 {
   "nav": {
-    "locator": "Locator"
+    "locator": "Store locator"
   },
   "page": {
     "title": "Store locator",
-    "description": ""
+    "description": "Store map for your website"
   }
 }

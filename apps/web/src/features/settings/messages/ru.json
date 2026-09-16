@@ -1,13 +1,13 @@
 {
   "nav": {
-    "profile": "Profile",
-    "accounts": "Accounts",
-    "notifications": "Notifications",
-    "integrations": "Integrations",
-    "sources": "Sources"
+    "profile": "Профиль",
+    "accounts": "Настройки аккаунтов",
+    "notifications": "Уведомления",
+    "integrations": "Интеграции",
+    "sources": "Настройка источников"
   },
   "page": {
-    "title": "Settings",
+    "title": "Настройки",
     "description": ""
   }
 }

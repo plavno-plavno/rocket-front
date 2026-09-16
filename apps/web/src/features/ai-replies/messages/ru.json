@@ -1,10 +1,10 @@
 {
   "nav": {
-    "ai": "Ai"
+    "ai": "Нейросеть"
   },
   "page": {
-    "title": "Ai replies",
-    "description": ""
+    "title": "Нейросеть",
+    "description": "Профиль генерации ответов и песочница"
   },
   "button": {
     "generate": "Сгенерировать ИИ"

@@ -1,9 +1,9 @@
 {
   "nav": {
-    "reviews": "Reviews"
+    "reviews": "Виджет с отзывами"
   },
   "page": {
-    "title": "Widgets",
-    "description": ""
+    "title": "Виджет с отзывами",
+    "description": "Виджет отзывов для сайта"
   }
 }

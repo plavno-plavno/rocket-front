@@ -1,10 +1,10 @@
 {
   "nav": {
     "profile": "Profile",
-    "accounts": "Accounts",
+    "accounts": "Platform accounts",
     "notifications": "Notifications",
     "integrations": "Integrations",
-    "sources": "Sources"
+    "sources": "Source settings"
   },
   "page": {
     "title": "Settings",

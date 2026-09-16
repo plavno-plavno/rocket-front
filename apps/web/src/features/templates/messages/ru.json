@@ -1,10 +1,10 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Шаблоны ответов"
   },
   "page": {
-    "title": "Templates",
-    "description": ""
+    "title": "Шаблоны ответов",
+    "description": "Командные и приватные шаблоны с переменными"
   },
   "picker": {
     "button": "Шаблон",

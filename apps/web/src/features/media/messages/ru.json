@@ -1,9 +1,9 @@
 {
   "nav": {
-    "manager": "Manager"
+    "manager": "Менеджер фото"
   },
   "page": {
-    "title": "Media",
-    "description": ""
+    "title": "Менеджер фото",
+    "description": "Свои фото и фото пользователей на карточках"
   }
 }

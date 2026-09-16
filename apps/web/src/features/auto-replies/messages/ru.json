@@ -1,9 +1,9 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Автоответы"
   },
   "page": {
-    "title": "Auto replies",
-    "description": ""
+    "title": "Автоответы",
+    "description": "Правила автоматических ответов"
   }
 }

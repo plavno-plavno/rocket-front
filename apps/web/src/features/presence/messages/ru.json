@@ -1,13 +1,13 @@
 {
   "nav": {
-    "root": "Root",
-    "overview": "Overview",
-    "sync": "Sync",
-    "keywords": "Keywords"
+    "root": "Онлайн-присутствие",
+    "overview": "Общие показатели",
+    "sync": "Синхронизация на площадках",
+    "keywords": "Поисковые фразы"
   },
   "page": {
-    "title": "Presence",
-    "description": ""
+    "title": "Аналитика онлайн-присутствия",
+    "description": "Показы, действия и конверсия по площадкам"
   },
   "trendCard": {
     "title": "Целевые действия",

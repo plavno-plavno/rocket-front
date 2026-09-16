@@ -66,7 +66,7 @@ export default function AppSidebar() {
                     <CollapsibleContent>
                       <SidebarMenuSub>
                         {item.items?.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubItem key={subItem.url}>
                             <SidebarMenuSubButton
                               render={<Link href={subItem.url} aria-label={subItem.title} />}
                               isActive={isActivePath(pathname, subItem.url)}
@@ -82,7 +82,7 @@ export default function AppSidebar() {
                     </CollapsibleContent>
                   </Collapsible>
                 ) : (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.url}>
                     <SidebarMenuButton
                       render={<Link href={item.url} aria-label={item.title} />}
                       tooltip={item.title}

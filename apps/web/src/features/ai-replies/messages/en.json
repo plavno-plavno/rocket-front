@@ -1,10 +1,10 @@
 {
   "nav": {
-    "ai": "Ai"
+    "ai": "AI replies"
   },
   "page": {
-    "title": "Ai replies",
-    "description": ""
+    "title": "AI replies",
+    "description": "Reply generation profile and sandbox"
   },
   "button": {
     "generate": "Generate with AI"

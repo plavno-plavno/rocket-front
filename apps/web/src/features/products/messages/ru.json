@@ -1,9 +1,9 @@
 {
   "nav": {
-    "catalog": "Catalog"
+    "catalog": "Товары и цены"
   },
   "page": {
-    "title": "Products",
-    "description": ""
+    "title": "Товары и цены",
+    "description": "Каталог и выгрузка на площадки"
   }
 }

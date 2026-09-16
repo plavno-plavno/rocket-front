@@ -1,5 +1,8 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+import { useDateFnsLocale } from '@/lib/i18n/date-locale';
+
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
@@ -15,12 +18,14 @@ export function DatePickerField({
   label,
   description,
   required,
-  placeholder = 'Pick a date',
+  placeholder,
   disabledDates
 }: BaseFieldProps & {
   placeholder?: string;
   disabledDates?: (date: Date) => boolean;
 }) {
+  const t = useTranslations('ui');
+  const dateLocale = useDateFnsLocale();
   const field = useFieldContext<Date | undefined>();
   const isInvalid = useFieldInvalid();
 
@@ -46,10 +51,15 @@ export function DatePickerField({
           }
         >
           <Icons.calendar className='mr-2 h-4 w-4' />
-          {field.state.value ? format(field.state.value, 'PPP') : <span>{placeholder}</span>}
+          {field.state.value ? (
+            format(field.state.value, 'PPP', { locale: dateLocale })
+          ) : (
+            <span>{placeholder ?? t('pickDate')}</span>
+          )}
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='start'>
           <Calendar
+            locale={dateLocale}
             mode='single'
             selected={field.state.value}
             onSelect={(date) => field.handleChange(date)}
@@ -69,8 +79,10 @@ export function DateRangeField({
   label,
   description,
   required,
-  placeholder = 'Pick a date range'
+  placeholder
 }: BaseFieldProps & { placeholder?: string }) {
+  const t = useTranslations('ui');
+  const dateLocale = useDateFnsLocale();
   const field = useFieldContext<DateRange | undefined>();
   const isInvalid = useFieldInvalid();
   const range = field.state.value;
@@ -100,17 +112,19 @@ export function DateRangeField({
           {range?.from ? (
             range.to ? (
               <>
-                {format(range.from, 'LLL dd, y')} - {format(range.to, 'LLL dd, y')}
+                {format(range.from, 'd MMM y', { locale: dateLocale })} —{' '}
+                {format(range.to, 'd MMM y', { locale: dateLocale })}
               </>
             ) : (
-              format(range.from, 'LLL dd, y')
+              format(range.from, 'd MMM y', { locale: dateLocale })
             )
           ) : (
-            <span>{placeholder}</span>
+            <span>{placeholder ?? t('pickDateRange')}</span>
           )}
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='start'>
           <Calendar
+            locale={dateLocale}
             mode='range'
             selected={range}
             onSelect={field.handleChange}

@@ -1,9 +1,9 @@
 {
   "nav": {
-    "reviews": "Reviews"
+    "reviews": "Reviews widget"
   },
   "page": {
-    "title": "Widgets",
-    "description": ""
+    "title": "Reviews widget",
+    "description": "Reviews widget for your website"
   }
 }

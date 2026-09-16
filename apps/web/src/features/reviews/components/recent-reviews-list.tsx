@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter, useNow, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { PlatformIcon, RatingStars } from '@/components/lp';
 import { Empty, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
@@ -13,6 +13,7 @@ import { ReviewDrawer } from './review-drawer';
 export function RecentReviewsList({ scope, limit = 5 }: { scope: string; limit?: number }) {
   const t = useTranslations('reviews.recent');
   const format = useFormatter();
+  const now = useNow({ updateInterval: 60_000 });
   const [openId, setOpenId] = useState<string | null>(null);
   const { data, isPending } = useQuery(
     reviewsQueryOptions({ scope, limit, sort: '-published_at' })
@@ -51,7 +52,7 @@ export function RecentReviewsList({ scope, limit = 5 }: { scope: string; limit?:
                   <span className='truncate font-medium'>{r.author.name}</span>
                   <RatingStars rating={r.rating} />
                   <span className='text-muted-foreground ml-auto shrink-0 text-xs'>
-                    {format.relativeTime(new Date(r.published_at))}
+                    {format.relativeTime(new Date(r.published_at), now)}
                   </span>
                 </div>
                 <p className='text-muted-foreground truncate text-xs'>{r.location_name}</p>

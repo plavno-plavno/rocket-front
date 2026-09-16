@@ -1,13 +1,15 @@
+import { useTranslations } from 'next-intl';
 import { KBarResults, useMatches } from 'kbar';
 import ResultItem from './result-item';
 
 export default function RenderResults() {
+  const t = useTranslations('ui');
   const { results, rootActionId } = useMatches();
 
   if (!results.length) {
     return (
       <div className='text-muted-foreground flex h-full items-center justify-center px-4 text-center text-sm'>
-        No results found.
+        {t('noResults')}
       </div>
     );
   }

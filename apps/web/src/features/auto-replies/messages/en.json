@@ -1,9 +1,9 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Auto-replies"
   },
   "page": {
-    "title": "Auto replies",
-    "description": ""
+    "title": "Auto-replies",
+    "description": "Automatic reply rules"
   }
 }

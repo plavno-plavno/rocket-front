@@ -1,9 +1,9 @@
 {
   "nav": {
-    "manager": "Manager"
+    "manager": "Photo manager"
   },
   "page": {
-    "title": "Media",
-    "description": ""
+    "title": "Photo manager",
+    "description": "Own and user photos on listings"
   }
 }

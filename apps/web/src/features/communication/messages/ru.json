@@ -1,9 +1,9 @@
 {
   "nav": {
-    "inbox": "Inbox"
+    "inbox": "Коммуникация"
   },
   "page": {
-    "title": "Communication",
-    "description": ""
+    "title": "Коммуникация",
+    "description": "Переписка с клиентами на площадках"
   }
 }

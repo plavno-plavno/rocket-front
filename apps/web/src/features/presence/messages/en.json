@@ -1,13 +1,13 @@
 {
   "nav": {
-    "root": "Root",
+    "root": "Online presence",
     "overview": "Overview",
-    "sync": "Sync",
-    "keywords": "Keywords"
+    "sync": "Platform sync",
+    "keywords": "Search keywords"
   },
   "page": {
-    "title": "Presence",
-    "description": ""
+    "title": "Online presence analytics",
+    "description": "Impressions, actions and conversion by platform"
   },
   "trendCard": {
     "title": "Target actions",

@@ -1,10 +1,10 @@
 {
   "nav": {
-    "list": "List"
+    "list": "Пользователи"
   },
   "page": {
-    "title": "Users",
-    "description": ""
+    "title": "Пользователи",
+    "description": "Команда, роли и правила доступа"
   },
   "combobox": {
     "placeholder": "Ответственный",

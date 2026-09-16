@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import type { FC } from 'react';
 import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
@@ -76,6 +78,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({
   loadingActionId,
   className
 }) => {
+  const t = useTranslations('ui');
   const isUnread = status === 'unread';
 
   return (
@@ -123,7 +126,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({
                 'rounded-lg p-1.5 transition-colors',
                 'text-muted-foreground hover:bg-accent hover:text-foreground'
               )}
-              aria-label='Mark as read'
+              aria-label={t('markAsRead')}
             >
               <Icons.check size={16} />
             </button>

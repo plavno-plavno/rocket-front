@@ -1,9 +1,9 @@
 {
   "nav": {
-    "queue": "Queue"
+    "queue": "Duplicates & fakes"
   },
   "page": {
-    "title": "Duplicates",
-    "description": ""
+    "title": "Duplicates & fakes",
+    "description": "Queue of duplicate and suspicious listings"
   }
 }

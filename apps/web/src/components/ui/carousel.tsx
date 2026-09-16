@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import * as React from 'react';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
 
@@ -166,6 +168,7 @@ function CarouselPrevious({
   size = 'icon-sm',
   ...props
 }: React.ComponentProps<typeof Button>) {
+  const t = useTranslations('ui');
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -185,7 +188,7 @@ function CarouselPrevious({
       {...props}
     >
       <IconChevronLeft />
-      <span className='sr-only'>Previous slide</span>
+      <span className='sr-only'>{t('previousSlide')}</span>
     </Button>
   );
 }
@@ -196,6 +199,7 @@ function CarouselNext({
   size = 'icon-sm',
   ...props
 }: React.ComponentProps<typeof Button>) {
+  const t = useTranslations('ui');
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
@@ -215,7 +219,7 @@ function CarouselNext({
       {...props}
     >
       <IconChevronRight />
-      <span className='sr-only'>Next slide</span>
+      <span className='sr-only'>{t('nextSlide')}</span>
     </Button>
   );
 }

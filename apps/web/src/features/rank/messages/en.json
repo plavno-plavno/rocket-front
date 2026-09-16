@@ -1,9 +1,9 @@
 {
   "nav": {
-    "tracker": "Tracker"
+    "tracker": "Rank tracker"
   },
   "page": {
-    "title": "Rank",
-    "description": ""
+    "title": "Rank tracker",
+    "description": "Local rankings by keyword"
   }
 }
