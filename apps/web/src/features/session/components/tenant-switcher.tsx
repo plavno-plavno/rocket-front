@@ -7,6 +7,7 @@ import { Icons } from '@/components/icons';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -65,9 +66,11 @@ export function TenantSwitcher() {
             side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}
           >
-            <DropdownMenuLabel className='text-muted-foreground text-xs'>
-              {t('switchTenant')}
-            </DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className='text-muted-foreground text-xs'>
+                {t('switchTenant')}
+              </DropdownMenuLabel>
+            </DropdownMenuGroup>
             {me.tenants.map((tenant) => (
               <DropdownMenuItem
                 key={tenant.id}

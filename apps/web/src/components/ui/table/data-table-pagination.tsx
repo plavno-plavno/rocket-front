@@ -44,7 +44,11 @@ export function DataTablePagination<TData>({
             })}
           </>
         ) : (
-          <>{t('rowsTotal', { total: table.getFilteredRowModel().rows.length })}</>
+          <>
+            {t('rowsTotal', {
+              total: table.options.rowCount ?? table.getFilteredRowModel().rows.length
+            })}
+          </>
         )}
       </div>
       <div className='flex items-center gap-2 sm:gap-6 lg:gap-8'>

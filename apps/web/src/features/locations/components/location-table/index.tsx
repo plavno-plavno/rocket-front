@@ -73,6 +73,7 @@ export function LocationTable() {
     data: data.items,
     columns,
     pageCount,
+    rowCount: data.meta.total,
     shallow: true,
     debounceMs: 400,
     getRowId: (row) => row.id,

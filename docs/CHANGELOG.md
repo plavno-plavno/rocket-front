@@ -148,3 +148,20 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - `pnpm check` ✓.
 
 **Follow-ups (UI-F1)**: bulk actions, location form / detail page, import wizard; browser e2e arrives with T5b's Playwright setup.
+
+## T5b-1 — Playwright e2e against the mock (2026-09-17)
+
+**Done** (SDD-01 §12, SDD-01T §3.10 e2e-smoke)
+- `apps/web/playwright.config.ts`: projects `setup` (resets mock data), `desktop` (1440×900), `mobile` (390, `*.mobile.spec.ts`); `webServer` starts the mock (`MOCK_PORT`, latency/stream off) and the app — **production build by default** (`next build && next start`), `E2E_DEV=1` for `next dev`, `E2E_SKIP_BUILD=1` in CI after `pnpm build`. Ports from `WEB_PORT`/`MOCK_PORT` (3100/4100 defaults, worktree tracks use their own).
+- `e2e/support/fixtures.ts`: `signInAs()` through `/api/core` (handles 2FA), fixtures `user` / `scenario` / `authed`, `openMenu()` helper that retries a click until the popup is visible. Mock now also reads the scenario from an `x-mock-scenario` **cookie** (browsers cannot add headers to navigations).
+- `e2e/smoke.spec.ts` (13 tests): auth gate redirect with `next=`, sign-in form → requested page, wrong password error, admin 2FA flow, both routes open, sidebar shows tenant/user/nav, language switch to EN, scope selector filters the list (19 rows for brand B), sign out, observer has no add/import, `empty_tenant` empty state. `features/locations/e2e/list.spec.ts` (4 tests): KPIs/tabs/25 rows + pagination + search, KPI click toggles `syncStatus`, navigators tab changes totals, delete confirmation dialog.
+- CI: installs Chromium and runs e2e after the build; report uploaded on failure.
+
+**Bugs found and fixed by the suite**
+- Base UI `DropdownMenuLabel` must sit inside `DropdownMenuGroup` — the user menu and tenant switcher crashed on open (`MenuGroupContext is missing`).
+- Next dev-tools badge overlapped the sidebar footer button (`devIndicators: false` when `NEXT_DEV_INDICATORS=false`).
+- Auth card title was a `div`, now an `h1`.
+- Pagination «Всего строк» showed the page size; now uses TanStack `rowCount` (server total).
+- Assertions on streamed content are scoped to `#main-content` (React streaming temporarily keeps Suspense HTML in a hidden div → strict-mode duplicates).
+
+**Verified locally**: `pnpm e2e` — 17 passed, 3 consecutive runs (≈5 s each with a warm build); `pnpm check` ✓.

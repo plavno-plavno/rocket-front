@@ -15,7 +15,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@mocks/*": ["./mocks/*"]
+      "@mocks/*": ["./mocks/*"],
+      "@e2e/*": ["./e2e/*"]
     },
     "incremental": true,
     "plugins": [

@@ -119,8 +119,13 @@ export function resetDb(scenario?: Scenario) {
   else cache.clear();
 }
 
-/** Resolves the scenario for a request from the `x-mock-scenario` header. */
+/**
+ * Resolves the scenario for a request: `x-mock-scenario` header, else a cookie of the same name
+ * (browsers cannot add headers to navigations, so e2e sets the cookie once).
+ */
 export function dbFor(request: Request): MockDb {
   const header = request.headers.get('x-mock-scenario');
-  return getDb(isScenario(header) ? header : 'seed_default');
+  if (isScenario(header)) return getDb(header);
+  const cookie = /(?:^|;\s*)x-mock-scenario=([^;]+)/.exec(request.headers.get('cookie') ?? '')?.[1];
+  return getDb(isScenario(cookie) ? cookie : 'seed_default');
 }

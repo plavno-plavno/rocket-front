@@ -16,6 +16,8 @@ const baseConfig: NextConfig = {
       }
     ]
   },
+  // The dev-tools badge overlaps the sidebar footer and intercepts clicks in e2e runs.
+  devIndicators: process.env.NEXT_DEV_INDICATORS === 'false' ? false : undefined,
   transpilePackages: ['geist'],
   async rewrites() {
     // Same-origin proxy to core-api so the session cookie is first-party (SDD-01 §5.1, §5.3).

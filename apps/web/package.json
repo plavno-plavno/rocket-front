@@ -19,7 +19,10 @@
     "format": "oxfmt --write . '!**/*.md' '!**/*.mdc' '!**/*.mdx' '!**/*.yml' '!**/*.yaml'",
     "format:check": "oxfmt --check . '!**/*.md' '!**/*.mdc' '!**/*.mdx' '!**/*.yml' '!**/*.yaml'",
     "mock:api": "tsx --tsconfig tsconfig.json mocks/server.ts",
-    "mock:api:watch": "tsx watch --tsconfig tsconfig.json mocks/server.ts"
+    "mock:api:watch": "tsx watch --tsconfig tsconfig.json mocks/server.ts",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:smoke": "playwright test e2e/smoke.spec.ts"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.47",
@@ -80,6 +83,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
+    "@playwright/test": "^1.63.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "22.10.2",
