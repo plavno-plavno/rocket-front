@@ -69,13 +69,13 @@ const mockNotifications: Notification[] = [
   {
     id: '4',
     title: 'Task assigned to you',
-    body: 'You have been assigned "Update dashboard analytics" on the Kanban board.',
+    body: 'You have been assigned "Update dashboard analytics".',
     status: 'read',
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
     actions: [
       {
         id: 'open',
-        label: 'Open kanban',
+        label: 'Open',
         type: 'redirect',
         style: 'primary'
       }
