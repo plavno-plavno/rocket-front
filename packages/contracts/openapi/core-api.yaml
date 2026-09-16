@@ -596,6 +596,7 @@ components:
     LocationCore:
       type: object
       description: Canonical location fields (SDD-00 §4) shared by read and write shapes.
+      required: [name, status, address]
       properties:
         branch_code: { type: [string, 'null'] }
         name: { type: string }
@@ -616,18 +617,26 @@ components:
         media: { $ref: '#/components/schemas/LocationMedia' }
         platform_overrides:
           type: object
-          additionalProperties:
-            type: object
-            additionalProperties: true
+          description: Per-platform overrides of canonical fields, keyed by platform id.
+          additionalProperties: { $ref: '#/components/schemas/PlatformOverride' }
         field_policies:
           type: object
           additionalProperties: { $ref: '#/components/schemas/FieldPolicy' }
         timezone: { type: string }
+    PlatformOverride:
+      type: object
+      properties:
+        name: { type: [string, 'null'] }
+        description: { type: [string, 'null'] }
+        website: { type: [string, 'null'] }
+        phones: { type: array, items: { $ref: '#/components/schemas/Phone' } }
+        hours: { $ref: '#/components/schemas/Hours' }
+        categories: { $ref: '#/components/schemas/Categories' }
     Location:
       allOf:
         - $ref: '#/components/schemas/LocationCore'
         - type: object
-          required: [id, tenant_id, name, status, address, version, updated_at, created_at]
+          required: [id, tenant_id, version, group_ids, updated_at, created_at]
           properties:
             id: { $ref: '#/components/schemas/Id' }
             tenant_id: { $ref: '#/components/schemas/Id' }
@@ -653,10 +662,7 @@ components:
           items: { $ref: '#/components/schemas/ListingStatusBrief' }
         updated_at: { $ref: '#/components/schemas/Timestamp' }
     LocationCreate:
-      allOf:
-        - $ref: '#/components/schemas/LocationCore'
-        - type: object
-          required: [name, address]
+      $ref: '#/components/schemas/LocationCore'
     LocationUpdate:
       allOf:
         - $ref: '#/components/schemas/LocationCore'

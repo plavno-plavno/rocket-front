@@ -54,3 +54,22 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 
 **Verified locally**
 - `pnpm contracts:check` ✓ (lint valid, 1 warning: `ReviewStreamEvent` unused — documents the SSE payload), `pnpm --filter @lp/contracts typecheck` ✓.
+
+## T3b — core-client, mock core-api, session feature (2026-09-16)
+
+**Done** (SDD-01 §5.1, §5.3, part of §2.2)
+- `src/lib/api/core-client.ts` — `openapi-fetch` client typed by `@lp/contracts`. Server: `CORE_API_URL` + forwards session cookie and `x-request-id` from `next/headers`; browser: `/api/core` (Next rewrite in `next.config.ts`). Non-2xx → `ApiError` (RFC 9457 `code`, `detail`, `fieldErrors`); 401 in the browser → redirect to `/auth/sign-in?next=`. Starter's `lib/api-client.ts` removed.
+- `mocks/server.ts` — standalone mock core-api (express + `@mswjs/http-middleware` + MSW). `pnpm mock:api` on `MOCK_PORT` (4010). Unmocked-but-contracted routes answer **501 `not_implemented` with the operationId**; unknown routes 404. `POST /__mock/reset`, `GET /__mock/health`. `x-mock-scenario` header selects an isolated dataset: `seed_default`, `empty_tenant`, `challenge_required`, `connector_degraded`.
+- `mocks/db/*` — deterministic seed (PRNG seed 42): tenant «Спортэксперт», 5 users (roles owner/admin/2×reputation_manager/observer, admin has 2FA), 12 platforms, 11 platform accounts, 46 groups (brand/region/city/custom), **107 locations** across 22 RU cities, **1284 listings** (statuses ≈ SCR-1), **2400 reviews** (22 % edited, 9 % deleted by author, 55 % answered, median response ≈ 26 min — SCR-4), replies/notes/complaints/activity, 9 templates + 3 groups, 8 tags, 3 auto-reply rules, AI profile, 60 questions, 24 conversations, media, 12 publications, 40 products, 3 campaigns, 2 widgets, 2 rank projects, 26 duplicate cases, notifications, API key, webhook, source settings.
+- `mocks/lib/http.ts` — typed `http` (`openapi-msw`), `problem()`, `requireSession()`, `requirePermission()`, list helpers (`parseListQuery`, `sortBy`, `paginate`, `cursorPaginate`, `scopeLocationIds`).
+- `src/features/session/` — `api/{types,service,queries,mutations}.ts` (`/me`, badges, sign-in, 2FA, sign-out, password reset, invitations, switch tenant, profile) and `mocks/handlers.ts` (14 handlers). Seed credentials: any seeded email + `password`; TOTP `000000`.
+- `.env.example` rewritten (`CORE_API_URL`, `MOCK_PORT`, `MOCK_LATENCY`); `tsconfig` alias `@mocks/*`.
+- Contract fix found while seeding: `LocationCore` now requires `name/status/address`, `Location` requires `group_ids`, `platform_overrides` values typed as `PlatformOverride` (types regenerated).
+
+**Decision / gotcha**
+- MSW keeps a cookie jar and re-attaches mocked `Set-Cookie` values to later requests, which made unauthenticated `/me` succeed after one sign-in. Handlers therefore emit an internal `x-mock-session` header and `mocks/server.ts` converts it into the real `Set-Cookie` (`mocks/lib/session-cookie.ts`).
+
+**Verified locally**
+- `pnpm check` ✓ (contracts lint + drift, typecheck, lint:strict 0 warnings, format), `pnpm build` ✓.
+- Mock via curl: `/me` without cookie → 401; wrong password → 401 `invalid_credentials`; owner sign-in → `Set-Cookie lp_session`, `/me` → user/tenant/permissions; admin sign-in → `two_factor_required`; sign-out clears cookie; `GET /locations` → 501 with `list_locations`; `/nope` → 404; `empty_tenant` scenario badges all zero.
+- Through Next (`next dev` + rewrite): `POST /api/core/auth/sign-in` passes `Set-Cookie` through; `/api/core/me` returns the problem JSON.

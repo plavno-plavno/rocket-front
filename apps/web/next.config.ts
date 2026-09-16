@@ -8,12 +8,17 @@ const baseConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api.slingacademy.com',
+        hostname: 'picsum.photos',
         port: ''
       }
     ]
   },
   transpilePackages: ['geist'],
+  async rewrites() {
+    // Same-origin proxy to core-api so the session cookie is first-party (SDD-01 §5.1, §5.3).
+    const core = (process.env.CORE_API_URL ?? 'http://localhost:4010').replace(/\/$/, '');
+    return [{ source: '/api/core/:path*', destination: `${core}/:path*` }];
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'
   }

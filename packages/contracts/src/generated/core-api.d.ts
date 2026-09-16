@@ -2997,7 +2997,7 @@ export interface components {
             created_at: components["schemas"]["Timestamp"];
             /** Format: date-time */
             deleted_at?: string | null;
-            group_ids?: components["schemas"]["Id"][];
+            group_ids: components["schemas"]["Id"][];
             id: components["schemas"]["Id"];
             listing_summary?: components["schemas"]["ListingStatusCounts"];
             tenant_id: components["schemas"]["Id"];
@@ -3013,7 +3013,7 @@ export interface components {
         };
         /** @description Canonical location fields (SDD-00 §4) shared by read and write shapes. */
         LocationCore: {
-            address?: components["schemas"]["Address"];
+            address: components["schemas"]["Address"];
             attributes?: {
                 [key: string]: boolean | string | number;
             };
@@ -3028,19 +3028,18 @@ export interface components {
             geo?: components["schemas"]["Geo"];
             hours?: components["schemas"]["Hours"];
             media?: components["schemas"]["LocationMedia"];
-            name?: string;
+            name: string;
             phones?: components["schemas"]["Phone"][];
+            /** @description Per-platform overrides of canonical fields, keyed by platform id. */
             platform_overrides?: {
-                [key: string]: {
-                    [key: string]: unknown;
-                };
+                [key: string]: components["schemas"]["PlatformOverride"];
             };
             social?: components["schemas"]["SocialLink"][];
-            status?: components["schemas"]["LocationStatus"];
+            status: components["schemas"]["LocationStatus"];
             timezone?: string;
             website?: string | null;
         };
-        LocationCreate: components["schemas"]["LocationCore"] & Record<string, unknown>;
+        LocationCreate: components["schemas"]["LocationCore"];
         LocationGroup: {
             id: components["schemas"]["Id"];
             kind: components["schemas"]["LocationGroupKind"];
@@ -3275,6 +3274,14 @@ export interface components {
         PlatformAccountStatus: "ok" | "reauth_required" | "challenge_required" | "revoked";
         /** @enum {string} */
         PlatformKind: "map" | "navigator" | "catalog" | "social" | "review_site" | "delivery";
+        PlatformOverride: {
+            categories?: components["schemas"]["Categories"];
+            description?: string | null;
+            hours?: components["schemas"]["Hours"];
+            name?: string | null;
+            phones?: components["schemas"]["Phone"][];
+            website?: string | null;
+        };
         PresencePoint: {
             actions_calls?: number | null;
             actions_directions?: number | null;
@@ -4123,6 +4130,7 @@ export type PlatformAccountAuthKind = components['schemas']['PlatformAccountAuth
 export type PlatformAccountCreate = components['schemas']['PlatformAccountCreate'];
 export type PlatformAccountStatus = components['schemas']['PlatformAccountStatus'];
 export type PlatformKind = components['schemas']['PlatformKind'];
+export type PlatformOverride = components['schemas']['PlatformOverride'];
 export type PresencePoint = components['schemas']['PresencePoint'];
 export type PresenceSummary = components['schemas']['PresenceSummary'];
 export type PresenceSyncCell = components['schemas']['PresenceSyncCell'];
