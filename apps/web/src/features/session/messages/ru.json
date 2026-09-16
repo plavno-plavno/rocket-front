@@ -1,0 +1,54 @@
+{
+  "signIn": {
+    "title": "Вход",
+    "description": "Введите email и пароль, чтобы войти в аккаунт",
+    "email": "Email",
+    "password": "Пароль",
+    "remember": "Запомнить меня",
+    "submit": "Войти",
+    "forgot": "Забыли пароль?",
+    "invalidCredentials": "Неверный email или пароль",
+    "demoHint": "Демо: {email} / {password}"
+  },
+  "twoFactor": {
+    "title": "Подтверждение входа",
+    "description": "Введите 6-значный код из приложения-аутентификатора",
+    "code": "Код",
+    "submit": "Подтвердить",
+    "back": "Вернуться ко входу",
+    "invalidCode": "Неверный код",
+    "expired": "Сессия подтверждения истекла, войдите заново"
+  },
+  "reset": {
+    "title": "Восстановление пароля",
+    "description": "Укажите email — мы отправим ссылку для сброса пароля",
+    "submit": "Отправить ссылку",
+    "sent": "Если такой email зарегистрирован, письмо уже в пути",
+    "backToSignIn": "Вернуться ко входу",
+    "newPasswordTitle": "Новый пароль",
+    "newPasswordDescription": "Придумайте новый пароль для входа",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Повторите пароль",
+    "passwordsMismatch": "Пароли не совпадают",
+    "setPassword": "Сохранить пароль",
+    "done": "Пароль изменён, войдите с новым паролем",
+    "tokenExpired": "Ссылка устарела — запросите новую"
+  },
+  "invite": {
+    "title": "Приглашение в {tenant}",
+    "description": "Вы приглашены с ролью «{role}». Создайте аккаунт, чтобы продолжить.",
+    "name": "Имя и фамилия",
+    "password": "Пароль",
+    "submit": "Создать аккаунт",
+    "expired": "Приглашение истекло. Попросите администратора отправить новое.",
+    "invalid": "Приглашение не найдено"
+  },
+  "validation": {
+    "emailRequired": "Введите email",
+    "emailInvalid": "Некорректный email",
+    "passwordRequired": "Введите пароль",
+    "passwordMin": "Минимум {min} символов",
+    "nameRequired": "Введите имя",
+    "codeLength": "Код состоит из 6 цифр"
+  }
+}

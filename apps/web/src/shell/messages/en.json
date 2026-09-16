@@ -1,0 +1,111 @@
+{
+  "app": {
+    "name": "Local Presence",
+    "tagline": "Online presence management for chains"
+  },
+  "common": {
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "add": "Add",
+    "search": "Search",
+    "clear": "Clear",
+    "apply": "Apply",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "none": "None",
+    "more": "More",
+    "retry": "Retry",
+    "export": "Export",
+    "import": "Import",
+    "actions": "Actions",
+    "openMenu": "Open menu",
+    "comingSoon": "Soon",
+    "new": "New",
+    "beta": "Beta",
+    "unknownError": "Something went wrong",
+    "notFound": "Nothing found",
+    "noAccess": "You do not have access to this page.",
+    "skipToContent": "Skip to content",
+    "of": "of",
+    "selected": "Selected: {count}"
+  },
+  "layout": {
+    "toggleSidebar": "Toggle sidebar",
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "language": "Language",
+    "help": "Help",
+    "search": "Search…",
+    "searchShortcut": "Search (⌘K)",
+    "notifications": "Notifications",
+    "scope": "All locations",
+    "scopeSelected": "Locations: {count}",
+    "userMenu": "User menu",
+    "profile": "Profile",
+    "signOut": "Sign out",
+    "switchTenant": "Switch account",
+    "currentTenant": "Current account",
+    "pageNotFound": "Page not found",
+    "pageNotFoundDescription": "The page you are looking for does not exist or has been moved.",
+    "goHome": "Go home",
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Try again"
+  },
+  "nav": {
+    "groups": {
+      "work": "Work",
+      "reviews": "Reviews",
+      "analytics": "Analytics",
+      "content": "Content",
+      "tools": "Tools",
+      "settings": "Settings",
+      "help": "Help"
+    }
+  },
+  "locales": {
+    "ru": "Русский",
+    "en": "English"
+  },
+  "roles": {
+    "owner": "Owner",
+    "admin": "Administrator",
+    "reputation_manager": "Reputation manager",
+    "observer": "Observer"
+  },
+  "status": {
+    "synced": "Synced",
+    "sent": "Sent",
+    "action_required": "Action required",
+    "not_connected": "Not connected",
+    "unsupported": "Unsupported",
+    "error": "Error"
+  },
+  "table": {
+    "noResults": "No results",
+    "rowsPerPage": "Rows per page",
+    "page": "Page {page} of {total}",
+    "selectedRows": "{selected} of {total} selected",
+    "firstPage": "First page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page",
+    "view": "View",
+    "toggleColumns": "Columns",
+    "resetFilters": "Reset",
+    "sortAsc": "Ascending",
+    "sortDesc": "Descending",
+    "hideColumn": "Hide",
+    "clearFilter": "Clear filter",
+    "search": "Search…"
+  }
+}

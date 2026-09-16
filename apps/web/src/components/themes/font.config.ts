@@ -1,15 +1,16 @@
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 
 import { cn } from '@/lib/utils';
 
-const fontSans = Geist({
-  subsets: ['latin'],
-  variable: '--font-sans'
+// Cyrillic subset is mandatory (SDD-01 §3.1); Geist (starter) has no Cyrillic glyphs.
+const fontSans = Inter({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-inter'
 });
 
-const fontMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono'
+const fontMono = JetBrains_Mono({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-jetbrains-mono'
 });
 
 export const fontVariables = cn(fontSans.variable, fontMono.variable);

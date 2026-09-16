@@ -1,0 +1,54 @@
+{
+  "signIn": {
+    "title": "Sign in",
+    "description": "Enter your email and password to sign in",
+    "email": "Email",
+    "password": "Password",
+    "remember": "Remember me",
+    "submit": "Sign in",
+    "forgot": "Forgot password?",
+    "invalidCredentials": "Invalid email or password",
+    "demoHint": "Demo: {email} / {password}"
+  },
+  "twoFactor": {
+    "title": "Verify sign-in",
+    "description": "Enter the 6-digit code from your authenticator app",
+    "code": "Code",
+    "submit": "Verify",
+    "back": "Back to sign in",
+    "invalidCode": "Invalid code",
+    "expired": "The verification session expired, sign in again"
+  },
+  "reset": {
+    "title": "Reset password",
+    "description": "Enter your email and we will send a reset link",
+    "submit": "Send link",
+    "sent": "If that email is registered, the message is on its way",
+    "backToSignIn": "Back to sign in",
+    "newPasswordTitle": "New password",
+    "newPasswordDescription": "Choose a new password",
+    "newPassword": "New password",
+    "confirmPassword": "Repeat password",
+    "passwordsMismatch": "Passwords do not match",
+    "setPassword": "Save password",
+    "done": "Password changed, sign in with the new one",
+    "tokenExpired": "The link expired — request a new one"
+  },
+  "invite": {
+    "title": "Invitation to {tenant}",
+    "description": "You are invited as “{role}”. Create an account to continue.",
+    "name": "Full name",
+    "password": "Password",
+    "submit": "Create account",
+    "expired": "The invitation expired. Ask an administrator to send a new one.",
+    "invalid": "Invitation not found"
+  },
+  "validation": {
+    "emailRequired": "Enter your email",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Enter your password",
+    "passwordMin": "At least {min} characters",
+    "nameRequired": "Enter your name",
+    "codeLength": "The code has 6 digits"
+  }
+}

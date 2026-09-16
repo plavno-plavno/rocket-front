@@ -73,3 +73,21 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - `pnpm check` ✓ (contracts lint + drift, typecheck, lint:strict 0 warnings, format), `pnpm build` ✓.
 - Mock via curl: `/me` without cookie → 401; wrong password → 401 `invalid_credentials`; owner sign-in → `Set-Cookie lp_session`, `/me` → user/tenant/permissions; admin sign-in → `two_factor_required`; sign-out clears cookie; `GET /locations` → 501 with `list_locations`; `/nope` → 404; `empty_tenant` scenario badges all zero.
 - Through Next (`next dev` + rewrite): `POST /api/core/auth/sign-in` passes `Set-Cookie` through; `/api/core/me` returns the problem JSON.
+
+## T4 — Theme `lp`, semantic tokens, Cyrillic fonts, i18n (2026-09-16)
+
+**Done** (SDD-01 §3)
+- `src/styles/themes/lp.css` — product theme (light + dark) with own palette (deep blue-teal primary, cool neutrals). Semantic tokens `--status-{synced,sent,action,error,neutral}` (+ `-bg`), `--rating-{positive,negative,none,star}`, `--platform-{google,yandex,2gis}` exposed to Tailwind as `color-status-*`, `color-rating-*`, `color-platform-*`. `lp` is the default theme; `vercel` kept as donor/comparison.
+- Fonts: Geist → **Inter** + **JetBrains Mono** with `subsets: ['latin', 'cyrillic']` (`font.config.ts`, CSS vars `--font-inter`, `--font-jetbrains-mono`).
+- **next-intl** (no URL prefix): `src/lib/i18n/{config,request,actions,global.d.ts}`. Locale from `NEXT_LOCALE` cookie → `Accept-Language` → `ru`; timezone from `lp_tz` cookie (mirrors `tenant.timezone`, default `Europe/Moscow`); shared date/number formats (`short`, `medium`, `long`, `time`, `percent`, `rating`). Server actions `setLocaleAction` / `setTimeZoneAction`. Typed messages via `AppConfig` augmentation.
+- Messages live inside features: `src/shell/messages/{ru,en}.json` (namespaces `app`, `common`, `layout`, `nav`, `locales`, `roles`, `status`, `table`) and `src/features/session/messages/{ru,en}.json` (auth screens).
+- **Generator** `scripts/gen/` (`pnpm gen`, `pnpm gen --check`): builds `src/generated/messages.ts` (static imports → precise types; validates ru/en key parity and namespace collisions) and `src/generated/mock-registry.ts` (replaces the hand-written `mocks/registry.ts`). Runs in `predev`, `prebuild`, `pretypecheck`, `prelint`; `src/generated/` is gitignored; CI runs `gen:check`.
+- Root layout: `NextIntlClientProvider`, `<html lang>` from locale, `generateMetadata` from `app.name` / `app.tagline`. `PageContainer` no-access text and page skeleton label, dashboard skip-link → i18n.
+
+**Verified locally**
+- `next dev`: default → `<html lang="ru" data-theme="lp">`, «Перейти к содержимому»; `NEXT_LOCALE=en` cookie → `lang="en"`, "Skip to content"; `Accept-Language: en-US` → `en`; body carries Inter + JetBrains Mono variables.
+- `pnpm gen` output as expected; `pnpm check` ✓; `pnpm build` ✓.
+
+**Notes**
+- Starter data-table strings (pagination, empty state, view options) are translated in T3c together with the locations table; sidebar / user-nav / kbar strings in T2/T5 when those components are rewritten.
+- `next/font/google` downloads fonts at build time (network needed in CI); self-hosting the font files is a follow-up if CI is offline.

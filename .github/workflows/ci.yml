@@ -36,6 +36,9 @@ jobs:
       - name: Contracts (lint + generated types drift)
         run: pnpm contracts:check
 
+      - name: Generated registries (gen --check)
+        run: pnpm --filter @lp/web gen:check
+
       - name: Typecheck
         run: pnpm typecheck
 

@@ -14,7 +14,7 @@ import { createMiddleware } from '@mswjs/http-middleware';
 import cors from 'cors';
 import express from 'express';
 import { loadOpenApiDocument } from '@lp/contracts/openapi';
-import { featureHandlers } from './registry';
+import { featureHandlers } from '@/generated/mock-registry';
 import { isScenario, resetDb, SCENARIOS } from './db';
 import { serializeSessionCookie, SESSION_HEADER } from './lib/session-cookie';
 
