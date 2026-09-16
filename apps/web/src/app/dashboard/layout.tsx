@@ -15,7 +15,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // `/me` once per request: gates the segment (401 → sign-in) and hydrates useMe() on the client.
   const { queryClient } = await prefetchMe();
   const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
+  // Open by default; the cookie only remembers an explicit collapse.
+  const defaultOpen = cookieStore.get('sidebar_state')?.value !== 'false';
   const t = await getTranslations('common');
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -53,8 +53,8 @@ export default defineConfig({
       // made dev-mode runs flaky). E2E_DEV=1 uses `next dev` for quick local iteration.
       // E2E_SKIP_BUILD=1 (CI) starts the already built app.
       command: process.env.E2E_DEV
-        ? `CORE_API_URL=http://localhost:${MOCK_PORT} PORT=${WEB_PORT} NEXT_PUBLIC_SENTRY_DISABLED=true NEXT_DEV_INDICATORS=false pnpm exec next dev`
-        : `${process.env.E2E_SKIP_BUILD ? '' : `CORE_API_URL=http://localhost:${MOCK_PORT} NEXT_PUBLIC_SENTRY_DISABLED=true pnpm exec next build && `}CORE_API_URL=http://localhost:${MOCK_PORT} PORT=${WEB_PORT} pnpm exec next start -p ${WEB_PORT}`,
+        ? `CORE_API_URL=http://localhost:${MOCK_PORT} PORT=${WEB_PORT} NEXT_PUBLIC_SENTRY_DISABLED=true NEXT_DEV_INDICATORS=false NEXT_PUBLIC_SHOW_DEV_PAGES=true pnpm exec next dev`
+        : `${process.env.E2E_SKIP_BUILD ? '' : `CORE_API_URL=http://localhost:${MOCK_PORT} NEXT_PUBLIC_SENTRY_DISABLED=true NEXT_PUBLIC_SHOW_DEV_PAGES=true pnpm exec next build && `}CORE_API_URL=http://localhost:${MOCK_PORT} PORT=${WEB_PORT} pnpm exec next start -p ${WEB_PORT}`,
       url: `${BASE_URL}/auth/sign-in`,
       reuseExistingServer: !process.env.CI,
       timeout: 240_000

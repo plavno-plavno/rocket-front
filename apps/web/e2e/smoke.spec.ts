@@ -74,7 +74,9 @@ test.describe('shell', () => {
     await authed.goto('/dashboard/overview');
     await openMenu(authed, authed.getByRole('button', { name: 'Меню пользователя' }));
     await authed.getByRole('menuitem', { name: 'Язык' }).hover();
-    await authed.getByRole('menuitem', { name: /English/ }).click();
+    const english = authed.getByRole('menuitem', { name: /English/ });
+    await expect(english).toBeVisible();
+    await english.click({ force: true }); // submenu slide-in animation keeps the item "unstable" for Playwright
     await expect(authed.getByRole('link', { name: 'Locations' })).toBeVisible();
     await expect(authed.locator('html')).toHaveAttribute('lang', 'en');
   });

@@ -24,6 +24,17 @@
 5. Переводы — `messages/{ru,en}.json`; `pnpm gen --check` должен быть зелёным.
 6. e2e — `e2e/*.spec.ts` в фиче (`pnpm e2e`), визуальные эталоны через `toHaveScreenshot`.
 
+## Статус (2026-09-17): готово в объёме волны 1
+- `/dashboard/dev/components` — витрина всех `components/lp` (14 секций) + примитивы; в production доступна только с `NEXT_PUBLIC_SHOW_DEV_PAGES=true`.
+- `DataTable`: sticky header, плотность `compact`, виртуализация > 200 строк (`@tanstack/react-virtual`).
+- `PeriodPicker`: календарь на два месяца (ru-локаль), пресеты, гранулярность, сравнение.
+- `TemplateBodyEditor`: автокомплит по `{{`, клавиатура, предпросмотр.
+- `RegionChoropleth`: d3-geo + TopoJSON субъектов РФ (Natural Earth, public domain; `pnpm geo:build`), клавиатурно доступные регионы.
+- `RankHeatmap`: MapLibre GL при `NEXT_PUBLIC_MAP_STYLE_URL` (воркер отдаётся из `/public/vendor`, копируется `pnpm gen`), иначе сетка. Провайдер тайлов — по SDD-06.
+- Тема: `pnpm check:contrast` (WCAG AA для всех пар токенов, в CI), сайдбар открыт по умолчанию.
+- Визуальные эталоны: `VISUAL=1 pnpm e2e e2e/visual` (components / locations / overview × light / dark, 1440px), обновление `--update-snapshots`.
+- Не сделано: брендовые SVG площадок (используются нейтральные буквенные марки в фирменных цветах — решение по товарным знакам за заказчиком), инбокс на 390px (после UI-F2).
+
 ## Definition of Done (SDD-01T §8)
 - [ ] Все экраны трека используют шаблоны страниц и работают против mock core-api.
 - [ ] Публичный API реализован полностью, props изменены только аддитивно.

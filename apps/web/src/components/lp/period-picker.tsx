@@ -1,7 +1,11 @@
 'use client';
 
 import { useFormatter, useTranslations } from 'next-intl';
+import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useDateFnsLocale } from '@/lib/i18n/date-locale';
 import {
   Select,
   SelectContent,
@@ -78,7 +82,6 @@ export function previousPeriod(from: string, to: string): { from: string; to: st
 
 /**
  * Period control (SCR-6, SDD-01 §4.1): presets, explicit range, granularity, compare toggle.
- * Foundation version uses native date inputs; UI-DS replaces them with the calendar popover.
  */
 export function PeriodPicker({
   value,
@@ -89,6 +92,7 @@ export function PeriodPicker({
 }: PeriodPickerProps) {
   const t = useTranslations('period');
   const format = useFormatter();
+  const dateLocale = useDateFnsLocale();
   const activePreset = PRESETS.find((p) => {
     const r = presetRange(p);
     return r.from === value.from && r.to === value.to;
@@ -117,32 +121,49 @@ export function PeriodPicker({
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-      <div className='text-muted-foreground flex items-center gap-1 text-xs'>
-        <input
-          type='date'
-          aria-label={t('from')}
-          value={value.from}
-          max={value.to}
-          onChange={(e) => onChange({ ...value, from: e.target.value })}
-          className='bg-background h-8 rounded-md border px-2 text-xs'
-        />
-        —
-        <input
-          type='date'
-          aria-label={t('to')}
-          value={value.to}
-          min={value.from}
-          onChange={(e) => onChange({ ...value, to: e.target.value })}
-          className='bg-background h-8 rounded-md border px-2 text-xs'
-        />
-      </div>
+      <Popover>
+        <PopoverTrigger
+          render={
+            <Button
+              variant='outline'
+              size='sm'
+              className='h-8 gap-2 text-xs font-normal'
+              aria-label={t('range')}
+            />
+          }
+        >
+          <Icons.calendar className='size-3.5' />
+          {format.dateTime(new Date(value.from), 'medium')} —{' '}
+          {format.dateTime(new Date(value.to), 'medium')}
+        </PopoverTrigger>
+        <PopoverContent className='w-auto p-0' align='start'>
+          <Calendar
+            mode='range'
+            locale={dateLocale}
+            numberOfMonths={2}
+            selected={{ from: new Date(value.from), to: new Date(value.to) }}
+            disabled={{ after: new Date() }}
+            onSelect={(range) => {
+              if (!range?.from) return;
+              const from = iso(range.from);
+              const to = iso(range.to ?? range.from);
+              onChange({
+                ...value,
+                from,
+                to,
+                compare: value.compare ? previousPeriod(from, to) : value.compare
+              });
+            }}
+          />
+        </PopoverContent>
+      </Popover>
       {withGranularity && (
         <Select
           value={value.granularity}
           onValueChange={(g) => onChange({ ...value, granularity: g as Granularity })}
         >
           <SelectTrigger size='sm' className='h-8 w-36 text-xs' aria-label={t('granularityLabel')}>
-            <SelectValue />
+            <SelectValue>{(g: Granularity) => t(`granularity.${g}`)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             {(['day', 'week', 'month'] as const).map((g) => (

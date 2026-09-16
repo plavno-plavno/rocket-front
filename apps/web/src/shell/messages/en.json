@@ -168,7 +168,8 @@
       "month": "By month"
     },
     "compare": "Compare periods",
-    "granularityLabel": "Granularity"
+    "granularityLabel": "Granularity",
+    "range": "Date range"
   },
   "reviewDiff": {
     "edited": "Edited",
@@ -176,7 +177,7 @@
   },
   "templateEditor": {
     "variables": "Variables",
-    "hint": "Click a variable to insert it at the cursor",
+    "hint": "Click a variable or type '{{' for suggestions",
     "unknown": "Unknown variables: {vars}",
     "preview": "Preview"
   },

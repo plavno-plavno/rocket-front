@@ -60,20 +60,21 @@
   --spacing: 0.25rem;
 
   /* semantic: sync statuses (SDD-00 §5.1) */
-  --status-synced: oklch(0.6 0.16 150);
-  --status-synced-bg: oklch(0.95 0.04 150);
-  --status-sent: oklch(0.58 0.15 250);
-  --status-sent-bg: oklch(0.95 0.03 250);
-  --status-action: oklch(0.7 0.16 70);
-  --status-action-bg: oklch(0.96 0.05 80);
-  --status-error: oklch(0.58 0.2 25);
-  --status-error-bg: oklch(0.95 0.03 25);
-  --status-neutral: oklch(0.6 0.01 250);
-  --status-neutral-bg: oklch(0.95 0.005 250);
+  /* Foreground status colours pass AA (≥ 4.5:1) on their -bg and ≥ 3:1 on card — checked by pnpm check:contrast. */
+  --status-synced: oklch(0.47 0.14 150);
+  --status-synced-bg: oklch(0.955 0.04 150);
+  --status-sent: oklch(0.47 0.15 250);
+  --status-sent-bg: oklch(0.955 0.03 250);
+  --status-action: oklch(0.5 0.13 65);
+  --status-action-bg: oklch(0.965 0.05 80);
+  --status-error: oklch(0.5 0.19 25);
+  --status-error-bg: oklch(0.955 0.03 25);
+  --status-neutral: oklch(0.45 0.01 250);
+  --status-neutral-bg: oklch(0.955 0.005 250);
   /* semantic: ratings */
-  --rating-positive: oklch(0.6 0.16 150);
-  --rating-negative: oklch(0.58 0.2 25);
-  --rating-none: oklch(0.6 0.01 250);
+  --rating-positive: oklch(0.47 0.14 150);
+  --rating-negative: oklch(0.5 0.19 25);
+  --rating-none: oklch(0.45 0.01 250);
   --rating-star: oklch(0.8 0.16 80);
   /* semantic: platforms (brand hues, used only for icons/accents) */
   --platform-google: oklch(0.62 0.19 255);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
@@ -48,9 +48,19 @@ export function unknownVariables(body: string): string[] {
   return [...out];
 }
 
+/** Finds an unclosed `{{` right before the caret and returns the typed prefix. */
+function openToken(text: string, caret: number): { start: number; query: string } | null {
+  const before = text.slice(0, caret);
+  const open = before.lastIndexOf('{{');
+  if (open < 0) return null;
+  const after = before.slice(open + 2);
+  if (after.includes('}}') || /[^a-z_]/.test(after)) return null;
+  return { start: open, query: after };
+}
+
 /**
- * Template body editor (SDD-01 §4.1): textarea + variable chips that insert at the caret + live
- * preview and unknown-variable warning. UI-DS may replace the chips with a `{{` autocomplete popover.
+ * Template body editor (SDD-01 §4.1): variable chips insert at the caret; typing `{{` opens an
+ * inline autocomplete (↑/↓, Enter/Tab, Esc); live preview and unknown-variable warning.
  */
 export function TemplateBodyEditor({
   value,
@@ -64,20 +74,65 @@ export function TemplateBodyEditor({
   const t = useTranslations('templateEditor');
   const ref = useRef<HTMLTextAreaElement>(null);
   const unknown = unknownVariables(value);
+  const [token, setToken] = useState<{ start: number; query: string } | null>(null);
+  const [active, setActive] = useState(0);
+  const suggestions = useMemo(
+    () => (token ? TEMPLATE_VARIABLES.filter((v) => v.startsWith(token.query)) : []),
+    [token]
+  );
 
-  const insert = (name: TemplateVariable) => {
+  const refreshToken = useCallback(() => {
     const el = ref.current;
-    const token = `{{${name}}}`;
-    if (!el) return onChange(value + token);
-    const start = el.selectionStart ?? value.length;
-    const end = el.selectionEnd ?? start;
-    const next = value.slice(0, start) + token + value.slice(end);
+    if (!el) return setToken(null);
+    setToken(openToken(el.value, el.selectionStart ?? el.value.length));
+    setActive(0);
+  }, []);
+
+  const insertAt = (start: number, end: number, name: TemplateVariable) => {
+    const el = ref.current;
+    const tokenText = `{{${name}}}`;
+    const next = value.slice(0, start) + tokenText + value.slice(end);
     onChange(next);
+    setToken(null);
     requestAnimationFrame(() => {
-      el.focus();
-      el.setSelectionRange(start + token.length, start + token.length);
+      el?.focus();
+      el?.setSelectionRange(start + tokenText.length, start + tokenText.length);
     });
   };
+
+  const insertChip = (name: TemplateVariable) => {
+    const el = ref.current;
+    const start = el?.selectionStart ?? value.length;
+    const end = el?.selectionEnd ?? start;
+    insertAt(start, end, name);
+  };
+
+  const completeSuggestion = (name: TemplateVariable) => {
+    if (!token || !ref.current) return;
+    insertAt(token.start, ref.current.selectionStart ?? value.length, name);
+  };
+
+  useEffect(() => {
+    if (!token) setActive(0);
+  }, [token]);
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (!token || !suggestions.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive((a) => (a + 1) % suggestions.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive((a) => (a - 1 + suggestions.length) % suggestions.length);
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      completeSuggestion(suggestions[active]);
+    } else if (e.key === 'Escape') {
+      setToken(null);
+    }
+  };
+
+  const listId = `${id ?? 'template-body'}-suggestions`;
 
   return (
     <div className={cn('flex flex-col gap-2', className)}>
@@ -87,7 +142,7 @@ export function TemplateBodyEditor({
             key={v}
             type='button'
             disabled={disabled}
-            onClick={() => insert(v)}
+            onClick={() => insertChip(v)}
             className='focus-visible:ring-ring rounded-md focus-visible:ring-2 focus-visible:outline-none'
           >
             <Badge variant='secondary' className='cursor-pointer font-mono text-[11px]'>
@@ -96,16 +151,51 @@ export function TemplateBodyEditor({
           </button>
         ))}
       </div>
-      <Textarea
-        ref={ref}
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        rows={6}
-        maxLength={maxLength}
-        disabled={disabled}
-        aria-invalid={unknown.length > 0}
-      />
+      <div className='relative'>
+        <Textarea
+          ref={ref}
+          id={id}
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value);
+            requestAnimationFrame(refreshToken);
+          }}
+          onKeyDown={onKeyDown}
+          onClick={refreshToken}
+          onBlur={() => setTimeout(() => setToken(null), 150)}
+          rows={6}
+          maxLength={maxLength}
+          disabled={disabled}
+          aria-invalid={unknown.length > 0}
+          aria-autocomplete='list'
+          aria-controls={token ? listId : undefined}
+          aria-expanded={!!token && suggestions.length > 0}
+        />
+        {token && suggestions.length > 0 && (
+          <div
+            id={listId}
+            role='listbox'
+            className='bg-popover text-popover-foreground absolute bottom-2 left-2 z-20 w-56 rounded-md border p-1 shadow-md'
+            aria-label={t('variables')}
+          >
+            {suggestions.map((v, i) => (
+              <div key={v} role='option' aria-selected={i === active}>
+                <button
+                  type='button'
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => completeSuggestion(v)}
+                  className={cn(
+                    'w-full rounded-sm px-2 py-1 text-left font-mono text-xs',
+                    i === active && 'bg-accent text-accent-foreground'
+                  )}
+                >
+                  {`{{${v}}}`}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       <div className='text-muted-foreground flex justify-between text-xs'>
         <span className={cn(unknown.length && 'text-status-error')}>
           {unknown.length

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { Icons } from '@/components/icons';
 import {
@@ -107,6 +107,16 @@ export function DesignSystemShowcase() {
     '{{author_name}}, спасибо за отзыв о {{location_name}}!'
   );
   const [region, setRegion] = useState<string | null>(null);
+  const heatmapCells = useMemo(
+    () =>
+      Array.from({ length: 25 }, (_, i) => ({
+        lat: 55.7 + Math.floor(i / 5) * 0.03,
+        lng: 37.5 + (i % 5) * 0.05,
+        rank: i % 7 === 0 ? null : ((i * 7) % 15) + 1
+      })),
+    []
+  );
+  const heatmapCenter = useMemo(() => ({ lat: 55.7558, lng: 37.6173 }), []);
   const [rows, setRows] = useState([
     { id: 'a', name: 'Спасибо за оценку', group: 'Благодарность' },
     { id: 'b', name: 'Извинения + контакт', group: 'Извинения' },
@@ -385,15 +395,7 @@ export function DesignSystemShowcase() {
         title='RankHeatmap'
         description='Сетка 5×5 позиций; с NEXT_PUBLIC_MAP_STYLE_URL рендерится поверх карты (MapLibre).'
       >
-        <RankHeatmap
-          size={5}
-          center={{ lat: 55.7558, lng: 37.6173 }}
-          cells={Array.from({ length: 25 }, (_, i) => ({
-            lat: 55.7 + Math.floor(i / 5) * 0.03,
-            lng: 37.5 + (i % 5) * 0.05,
-            rank: i % 7 === 0 ? null : ((i * 7) % 15) + 1
-          }))}
-        />
+        <RankHeatmap size={5} center={heatmapCenter} cells={heatmapCells} />
       </Section>
 
       <Section

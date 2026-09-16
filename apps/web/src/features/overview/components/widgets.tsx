@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { LinkButton } from '@/components/ui/link-button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ActionRequiredList } from '@/features/locations';
 import { PresenceTrendCard } from '@/features/presence';
 import { ReviewsTrendCard } from '@/features/review-analytics';
@@ -24,11 +24,13 @@ export function RecentReviewsWidget() {
   const [scope] = useScope();
   return (
     <Card>
-      <CardHeader className='flex-row items-center justify-between'>
+      <CardHeader>
         <CardTitle>{t('recentReviews')}</CardTitle>
-        <LinkButton variant='ghost' size='sm' href='/dashboard/reviews'>
-          {t('all')}
-        </LinkButton>
+        <CardAction>
+          <LinkButton variant='ghost' size='sm' href='/dashboard/reviews'>
+            {t('all')}
+          </LinkButton>
+        </CardAction>
       </CardHeader>
       <CardContent>
         <RecentReviewsList scope={scope} limit={5} />

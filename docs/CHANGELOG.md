@@ -226,3 +226,21 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - [x] e2e-smoke: all routes open, navigation filtered by role (owner / admin / observer)
 
 Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) may start.
+
+## UI-DS — Design System (2026-09-17)
+
+**Done** (branch `ui/UI-DS/design-system`, merged to main)
+- `/dashboard/dev/components` — showcase of every `components/lp` primitive (14 sections) and shadcn primitives; production hides it unless `NEXT_PUBLIC_SHOW_DEV_PAGES=true` (e2e builds set it).
+- **Russian everywhere**: proper RU/EN nav titles for all 28 features, RU is the only default (browser `Accept-Language` no longer switches to EN — English only via the user menu), starter strings localized (sidebar toggle, info panel, pagination, uploader, combobox, date pickers, kbar, toasts, carousel), `useDateFnsLocale()` for calendars and `date-fns` formats.
+- `DataTable`: windowing above 200 rows (`@tanstack/react-virtual`, SSR renders the first window), sticky header kept; sidebar keys by URL (duplicate-key warnings gone).
+- `PeriodPicker`: two-month range `Calendar` popover (ru locale), labelled select values.
+- `TemplateBodyEditor`: `{{` inline autocomplete (↑/↓, Enter/Tab, Esc), a11y listbox.
+- `RegionChoropleth`: real map — d3-geo conic projection over `public/geo/ru-regions.topo.json` (85 federal subjects, 193 KB, built by `pnpm geo:build` from Natural Earth 50m admin-1, **public domain**), keyboard-accessible regions, legend, tile fallback while loading.
+- `RankHeatmap`: MapLibre GL (dynamic import) when `NEXT_PUBLIC_MAP_STYLE_URL` is set — worker + shared chunk are copied to `/public/vendor` by `pnpm gen` because the bundler cannot resolve MapLibre's sibling worker; sRGB colours (MapLibre cannot parse oklch); grid fallback otherwise.
+- Theme: `pnpm check:contrast` (culori, WCAG AA on 24 token pairs, light + dark; in CI) — light status/rating foregrounds darkened to pass 4.5:1 on their backgrounds.
+- Stable dnd-kit ids (`useId`) — no hydration mismatch; `useNow` for relative times; overview cards use `CardAction`; sidebar open by default.
+- e2e: `e2e/ds.spec.ts` (sections, windowing, choropleth click, autocomplete, ru calendar); visual regression `e2e/visual/visual.spec.ts` with committed baselines (components / locations / overview × light / dark, `VISUAL=1`).
+
+**Verified locally**: `pnpm check` ✓, `depcruise` ✓, `check:contrast` ✓, `pnpm e2e` 24/24 incl. visual, 0 browser console errors on the showcase / overview / locations.
+
+**Open**: brand SVG marks for platforms (trademark decision), 390px inbox baseline (after UI-F2).

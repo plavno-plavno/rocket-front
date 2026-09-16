@@ -21,3 +21,4 @@ next-env.d.ts
 # generated registries (SDD-01T §3.2)
 /src/generated/
 /src/components/icons/index.ts
+/public/vendor/
