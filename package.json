@@ -15,8 +15,10 @@
     "lint:strict": "pnpm -r lint:strict",
     "format": "pnpm -r format",
     "format:check": "pnpm -r format:check",
-    "check": "pnpm typecheck && pnpm lint:strict && pnpm format:check",
-    "prepare": "husky"
+    "check": "pnpm contracts:check && pnpm typecheck && pnpm lint:strict && pnpm format:check",
+    "prepare": "husky",
+    "contracts:gen": "pnpm --filter @lp/contracts gen",
+    "contracts:check": "pnpm --filter @lp/contracts lint && pnpm --filter @lp/contracts gen:check"
   },
   "devDependencies": {
     "husky": "^9.1.7"
