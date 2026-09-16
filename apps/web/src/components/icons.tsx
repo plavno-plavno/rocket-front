@@ -1,5 +1,17 @@
 import {
+  IconPlatform2gis,
+  IconPlatformGeneric,
+  IconPlatformGoogle,
+  IconPlatformVk,
+  IconPlatformYandex
+} from './icons/platform-marks';
+import {
   IconBuildingStore,
+  IconDownload,
+  IconMapPin,
+  IconEye,
+  IconPlugConnected,
+  IconCircleDashed,
   IconWorld,
   IconAdjustmentsHorizontal,
   IconAlertCircle,
@@ -165,6 +177,8 @@ export const Icons = {
   // Actions
   add: IconPlus,
   edit: IconEdit,
+  download: IconDownload,
+  eye: IconEye,
   upload: IconUpload,
   share: IconShare,
   login: IconLogin,
@@ -173,6 +187,7 @@ export const Icons = {
 
   // Shapes / Indicators
   circle: IconCircle,
+  circleDashed: IconCircleDashed,
   circleX: IconCircleX,
   plusCircle: IconCirclePlus,
   xCircle: IconCircleX,
@@ -180,7 +195,14 @@ export const Icons = {
 
   // Theme
   globe: IconWorld,
+  platformGoogle: IconPlatformGoogle,
+  platformYandex: IconPlatformYandex,
+  platform2gis: IconPlatform2gis,
+  platformVk: IconPlatformVk,
+  platformGeneric: IconPlatformGeneric,
   locations: IconBuildingStore,
+  mapPin: IconMapPin,
+  sources: IconPlugConnected,
   sun: IconSun,
   moon: IconMoon,
   brightness: IconBrightness,

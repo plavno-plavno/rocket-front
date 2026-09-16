@@ -35,7 +35,10 @@
     "noAccess": "You do not have access to this page.",
     "skipToContent": "Skip to content",
     "of": "of",
-    "selected": "Selected: {count}"
+    "selected": "Selected: {count}",
+    "confirmTitle": "Are you sure?",
+    "confirmDescription": "This action cannot be undone.",
+    "continue": "Continue"
   },
   "layout": {
     "toggleSidebar": "Toggle sidebar",
@@ -127,6 +130,15 @@
     "sortDesc": "Descending",
     "hideColumn": "Hide",
     "clearFilter": "Clear filter",
-    "search": "Search…"
+    "search": "Search…",
+    "filter": "Filter",
+    "searchColumns": "Search columns…",
+    "noColumns": "No columns found",
+    "rowsTotal": "{total} rows total",
+    "selectDate": "Select date",
+    "selectDateRange": "Select date range",
+    "density": "Density",
+    "selectAll": "Select all",
+    "selectRow": "Select row"
   }
 }

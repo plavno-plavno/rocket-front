@@ -15,7 +15,7 @@ import cors from 'cors';
 import express from 'express';
 import { loadOpenApiDocument } from '@lp/contracts/openapi';
 import { featureHandlers } from '@/generated/mock-registry';
-import { dbFor, isScenario, resetDb, SCENARIOS } from './db';
+import { dbFor, getDb, isScenario, resetDb, SCENARIOS } from './db';
 import { reviewStream } from './lib/review-stream';
 import { serializeSessionCookie, SESSION_HEADER } from './lib/session-cookie';
 
@@ -40,6 +40,25 @@ app.use((_req, res, next) => {
     return append(name, value);
   };
   next();
+});
+
+// Fake OAuth provider page: flips the account to `ok` and returns to the app.
+app.get('/__mock/oauth/:accountId', (req, res) => {
+  for (const db of [
+    'seed_default',
+    'challenge_required',
+    'connector_degraded',
+    'empty_tenant'
+  ] as const) {
+    const account = getDb(db).platformAccounts.find((a) => a.id === req.params.accountId);
+    if (account) {
+      account.status = 'ok';
+      account.last_checked_at = new Date().toISOString();
+    }
+  }
+  res.redirect(
+    `${process.env.WEB_URL ?? 'http://localhost:3000'}/dashboard/settings/accounts?oauth=ok`
+  );
 });
 
 // SSE lives outside MSW (long-lived streaming response).

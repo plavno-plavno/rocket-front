@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import type { Table } from '@tanstack/react-table';
 import { Icons } from '@/components/icons';
 
@@ -21,6 +23,7 @@ interface DataTableViewOptionsProps<TData> {
 }
 
 export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
+  const t = useTranslations('table');
   const columns = React.useMemo(
     () =>
       table
@@ -34,7 +37,7 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
       <PopoverTrigger
         render={
           <Button
-            aria-label='Toggle columns'
+            aria-label={t('toggleColumns')}
             variant='outline'
             size='sm'
             className='ml-auto hidden h-8 lg:flex'
@@ -42,14 +45,14 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
         }
       >
         <Icons.adjustments />
-        View
+        {t('view')}
         <Icons.chevronsUpDown className='ml-auto opacity-50' />
       </PopoverTrigger>
       <PopoverContent align='end' className='w-44 p-0'>
         <Command>
-          <CommandInput placeholder='Search columns...' />
+          <CommandInput placeholder={t('searchColumns')} />
           <CommandList>
-            <CommandEmpty>No columns found.</CommandEmpty>
+            <CommandEmpty>{t('noColumns')}</CommandEmpty>
             <CommandGroup>
               {columns.map((column) => (
                 <CommandItem

@@ -1,4 +1,8 @@
+'use client';
+
 import { type Table as TanstackTable, flexRender } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
+import { cn } from '@/lib/utils';
 import type * as React from 'react';
 
 import { DataTablePagination } from '@/components/ui/table/data-table-pagination';
@@ -16,16 +20,30 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 interface DataTableProps<TData> extends React.ComponentProps<'div'> {
   table: TanstackTable<TData>;
   actionBar?: React.ReactNode;
+  /** `compact` = 36px rows, text-sm (default for locations, reviews, duplicates — SDD-01 §3.2). */
+  density?: 'comfortable' | 'compact';
+  /** Custom empty state (defaults to a localized "No results"). */
+  emptyState?: React.ReactNode;
 }
 
-export function DataTable<TData>({ table, actionBar, children }: DataTableProps<TData>) {
+export function DataTable<TData>({
+  table,
+  actionBar,
+  children,
+  density = 'comfortable',
+  emptyState
+}: DataTableProps<TData>) {
+  const t = useTranslations('table');
   return (
     <div className='flex flex-1 flex-col space-y-4'>
       {children}
       <div className='relative flex flex-1'>
         <div className='absolute inset-0 flex overflow-hidden rounded-lg border'>
           <ScrollArea className='h-full w-full'>
-            <Table>
+            <Table
+              className={cn(density === 'compact' && 'text-sm [&_td]:py-1.5 [&_th]:h-9 [&_tr]:h-9')}
+              data-density={density}
+            >
               <TableHeader className='bg-muted sticky top-0 z-10'>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
@@ -64,7 +82,7 @@ export function DataTable<TData>({ table, actionBar, children }: DataTableProps<
                 ) : (
                   <TableRow>
                     <TableCell colSpan={table.getAllColumns().length} className='h-24 text-center'>
-                      No results.
+                      {emptyState ?? t('noResults')}
                     </TableCell>
                   </TableRow>
                 )}

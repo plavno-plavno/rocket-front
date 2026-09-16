@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import type { Column } from '@tanstack/react-table';
 import { Icons } from '@/components/icons';
 
@@ -26,6 +28,7 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
   ...props
 }: DataTableColumnHeaderProps<TData, TValue>) {
+  const t = useTranslations('table');
   if (!column.getCanSort() && !column.getCanHide()) {
     return <div className={cn(className)}>{title}</div>;
   }
@@ -59,7 +62,7 @@ export function DataTableColumnHeader<TData, TValue>({
               onClick={() => column.toggleSorting(false)}
             >
               <Icons.chevronUp />
-              Asc
+              {t('sortAsc')}
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               closeOnClick
@@ -68,7 +71,7 @@ export function DataTableColumnHeader<TData, TValue>({
               onClick={() => column.toggleSorting(true)}
             >
               <Icons.chevronDown />
-              Desc
+              {t('sortDesc')}
             </DropdownMenuCheckboxItem>
             {column.getIsSorted() && (
               <DropdownMenuItem
@@ -76,7 +79,7 @@ export function DataTableColumnHeader<TData, TValue>({
                 onClick={() => column.clearSorting()}
               >
                 <Icons.close />
-                Reset
+                {t('resetFilters')}
               </DropdownMenuItem>
             )}
           </DropdownMenuGroup>
@@ -89,7 +92,7 @@ export function DataTableColumnHeader<TData, TValue>({
             onClick={() => column.toggleVisibility(false)}
           >
             <Icons.eyeOff />
-            Hide
+            {t('hideColumn')}
           </DropdownMenuCheckboxItem>
         )}
       </DropdownMenuContent>

@@ -1,0 +1,16 @@
+{
+  "nav": { "list": "Sources" },
+  "page": {
+    "title": "Sources",
+    "description": "Platforms, accounts and listing coverage",
+    "accounts": "Accounts",
+    "coverage": "Coverage",
+    "health": { "ok": "Healthy", "degraded": "Degraded", "down": "Down" },
+    "accountStatus": {
+      "ok": "Connected",
+      "reauth_required": "Reauthorization required",
+      "challenge_required": "Verification required",
+      "revoked": "Revoked"
+    }
+  }
+}

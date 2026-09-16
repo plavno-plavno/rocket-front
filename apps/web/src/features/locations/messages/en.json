@@ -57,7 +57,9 @@
       "open": "Open",
       "edit": "Edit",
       "listings": "Listings",
-      "delete": "Delete"
+      "delete": "Delete",
+      "deleted": "Location “{name}” deleted",
+      "deleteConfirm": "The location will be marked permanently closed on all platforms; listings stay archived."
     },
     "info": {
       "title": "Source freshness",

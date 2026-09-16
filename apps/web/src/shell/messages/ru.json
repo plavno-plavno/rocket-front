@@ -35,7 +35,10 @@
     "noAccess": "У вас нет доступа к этой странице.",
     "skipToContent": "Перейти к содержимому",
     "of": "из",
-    "selected": "Выбрано: {count}"
+    "selected": "Выбрано: {count}",
+    "confirmTitle": "Вы уверены?",
+    "confirmDescription": "Это действие нельзя отменить.",
+    "continue": "Продолжить"
   },
   "layout": {
     "toggleSidebar": "Переключить меню",
@@ -127,6 +130,15 @@
     "sortDesc": "По убыванию",
     "hideColumn": "Скрыть",
     "clearFilter": "Очистить фильтр",
-    "search": "Поиск…"
+    "search": "Поиск…",
+    "filter": "Фильтр",
+    "searchColumns": "Найти колонку…",
+    "noColumns": "Колонки не найдены",
+    "rowsTotal": "Всего строк: {total}",
+    "selectDate": "Выберите дату",
+    "selectDateRange": "Выберите период",
+    "density": "Плотность",
+    "selectAll": "Выбрать все",
+    "selectRow": "Выбрать строку"
   }
 }

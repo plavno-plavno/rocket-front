@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { LoadingButton } from '@/components/ui/loading-button';
@@ -19,10 +20,11 @@ export function AlertModal({
   onClose,
   onConfirm,
   loading,
-  title = 'Are you sure?',
-  description = 'This action cannot be undone.',
-  confirmLabel = 'Continue'
+  title,
+  description,
+  confirmLabel
 }: AlertModalProps) {
+  const t = useTranslations('common');
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -34,13 +36,18 @@ export function AlertModal({
   }
 
   return (
-    <Modal title={title} description={description} isOpen={isOpen} onClose={onClose}>
+    <Modal
+      title={title ?? t('confirmTitle')}
+      description={description ?? t('confirmDescription')}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <div className='flex w-full items-center justify-end space-x-2 pt-6'>
         <Button variant='outline' onClick={onClose}>
-          Cancel
+          {t('cancel')}
         </Button>
         <LoadingButton loading={loading} type='button' variant='destructive' onClick={onConfirm}>
-          {confirmLabel}
+          {confirmLabel ?? t('continue')}
         </LoadingButton>
       </div>
     </Modal>

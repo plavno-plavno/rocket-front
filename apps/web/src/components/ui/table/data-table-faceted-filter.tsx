@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import type { Option } from '@/types/data-table';
 import type { Column } from '@tanstack/react-table';
 import { Icons } from '@/components/icons';
@@ -34,6 +36,7 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
   multiple
 }: DataTableFacetedFilterProps<TData, TValue>) {
+  const t = useTranslations('table');
   const [open, setOpen] = React.useState(false);
 
   const columnFilterValue = column?.getFilterValue();
@@ -112,7 +115,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Command>
           <CommandInput placeholder={title} />
           <CommandList className='max-h-full'>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>{t('noResults')}</CommandEmpty>
             <CommandGroup className='max-h-[18.75rem] overflow-x-hidden overflow-y-auto'>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
@@ -141,7 +144,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                 <CommandSeparator />
                 <CommandGroup>
                   <CommandItem onSelect={() => onReset()} className='justify-center text-center'>
-                    Clear filters
+                    {t('clearFilter')}
                   </CommandItem>
                 </CommandGroup>
               </>

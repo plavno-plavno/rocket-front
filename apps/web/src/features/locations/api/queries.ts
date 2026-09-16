@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 import {
+  getListingsSummary,
   getLocation,
   getSyncBatch,
   listLocationGroups,
@@ -21,6 +22,8 @@ export const locationKeys = {
   versions: (id: string) => [...locationKeys.detail(id), 'versions'] as const,
   listings: (id: string) => [...locationKeys.detail(id), 'listings'] as const,
   groups: (kind?: string) => [...locationKeys.all, 'groups', kind ?? 'all'] as const,
+  summary: (scope: string, platformKind?: string) =>
+    [...locationKeys.all, 'summary', scope, platformKind ?? 'all'] as const,
   batch: (id: string) => [...locationKeys.all, 'batch', id] as const,
   batchItems: (id: string, page: number) => [...locationKeys.batch(id), 'items', page] as const
 };
@@ -62,4 +65,11 @@ export const syncBatchItemsQueryOptions = (id: string, page = 1) =>
   queryOptions({
     queryKey: locationKeys.batchItems(id, page),
     queryFn: () => listSyncBatchItems(id, page)
+  });
+
+export const listingsSummaryQueryOptions = (scope: string, platformKind?: 'map' | 'navigator') =>
+  queryOptions({
+    queryKey: locationKeys.summary(scope, platformKind),
+    queryFn: () => getListingsSummary(scope, platformKind),
+    staleTime: 30 * 1000
   });

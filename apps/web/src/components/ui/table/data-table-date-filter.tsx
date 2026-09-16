@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import type { Column } from '@tanstack/react-table';
 import { Icons } from '@/components/icons';
 import { DataTableFilterClear } from '@/components/ui/table/data-table-filter-clear';
@@ -57,6 +59,7 @@ export function DataTableDateFilter<TData>({
   title,
   multiple
 }: DataTableDateFilterProps<TData>) {
+  const t = useTranslations('table');
   const columnFilterValue = column.getFilterValue();
 
   const selectedDates = React.useMemo<DateSelection>(() => {
@@ -125,7 +128,7 @@ export function DataTableDateFilter<TData>({
       if (!getIsDateRange(selectedDates)) return null;
 
       const hasSelectedDates = selectedDates.from || selectedDates.to;
-      const dateText = hasSelectedDates ? formatDateRange(selectedDates) : 'Select date range';
+      const dateText = hasSelectedDates ? formatDateRange(selectedDates) : t('selectDateRange');
 
       return (
         <span className='flex items-center gap-2'>
@@ -146,7 +149,7 @@ export function DataTableDateFilter<TData>({
     if (getIsDateRange(selectedDates)) return null;
 
     const hasSelectedDate = selectedDates.length > 0;
-    const dateText = hasSelectedDate ? formatDate(selectedDates[0]) : 'Select date';
+    const dateText = hasSelectedDate ? formatDate(selectedDates[0]) : t('selectDate');
 
     return (
       <span className='flex items-center gap-2'>
@@ -159,7 +162,7 @@ export function DataTableDateFilter<TData>({
         )}
       </span>
     );
-  }, [selectedDates, multiple, formatDateRange, title]);
+  }, [selectedDates, multiple, formatDateRange, title, t]);
 
   return (
     <Popover>

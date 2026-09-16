@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import type { Column, Table } from '@tanstack/react-table';
 import * as React from 'react';
 
@@ -22,6 +24,7 @@ export function DataTableToolbar<TData>({
   className,
   ...props
 }: DataTableToolbarProps<TData>) {
+  const t = useTranslations('table');
   const isFiltered = table.getState().columnFilters.length > 0;
 
   const columns = React.useMemo(
@@ -46,14 +49,14 @@ export function DataTableToolbar<TData>({
         ))}
         {isFiltered && (
           <Button
-            aria-label='Reset filters'
+            aria-label={t('resetFilters')}
             variant='outline'
             size='sm'
             className='border-dashed'
             onClick={onReset}
           >
             <Icons.close />
-            Reset
+            {t('resetFilters')}
           </Button>
         )}
       </div>
@@ -69,6 +72,7 @@ interface DataTableToolbarFilterProps<TData> {
 }
 
 function DataTableToolbarFilter<TData>({ column }: DataTableToolbarFilterProps<TData>) {
+  const tf = useTranslations('table');
   {
     const columnMeta = column.columnDef.meta;
 
@@ -80,7 +84,7 @@ function DataTableToolbarFilter<TData>({ column }: DataTableToolbarFilterProps<T
           return (
             <Input
               placeholder={columnMeta.placeholder ?? columnMeta.label}
-              aria-label={columnMeta.label ?? 'Filter'}
+              aria-label={columnMeta.label ?? tf('filter')}
               value={(column.getFilterValue() as string) ?? ''}
               onChange={(event) => column.setFilterValue(event.target.value)}
               className='h-8 w-40 lg:w-56'
@@ -94,7 +98,7 @@ function DataTableToolbarFilter<TData>({ column }: DataTableToolbarFilterProps<T
                 type='number'
                 inputMode='numeric'
                 placeholder={columnMeta.placeholder ?? columnMeta.label}
-                aria-label={columnMeta.label ?? 'Filter'}
+                aria-label={columnMeta.label ?? tf('filter')}
                 value={(column.getFilterValue() as string) ?? ''}
                 onChange={(event) => column.setFilterValue(event.target.value)}
                 className={cn('h-8 w-[120px]', columnMeta.unit && 'pr-8')}
@@ -134,7 +138,7 @@ function DataTableToolbarFilter<TData>({ column }: DataTableToolbarFilterProps<T
         default:
           return null;
       }
-    }, [column, columnMeta]);
+    }, [column, columnMeta, tf]);
 
     return onFilterRender();
   }

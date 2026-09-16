@@ -196,11 +196,9 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 
     return Object.entries(filterValues).reduce<ColumnFiltersState>((filters, [key, value]) => {
       if (value !== null) {
-        const processedValue = Array.isArray(value)
-          ? value
-          : typeof value === 'string' && /[^a-zA-Z0-9]/.test(value)
-            ? value.split(/[^a-zA-Z0-9]+/).filter(Boolean)
-            : [value];
+        // Starter split text values on non-ASCII characters, which broke Cyrillic search.
+        // Array (option) filters come pre-split from the parser; text filters stay as one value.
+        const processedValue = Array.isArray(value) ? value : [value];
 
         filters.push({
           id: key,

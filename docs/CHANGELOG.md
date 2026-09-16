@@ -132,3 +132,19 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - SSE through `/api/core/reviews/stream` delivers `review.ingested` events; unauthenticated → 401.
 - Mock locations: 107 rows paged, filters, scope (brand B → 19), summary counts, navigators kind, 422 on empty name/city, 403 for observer, 409 on stale version, bulk 202 with progress.
 - `pnpm check` ✓ (gen --check incl. validator).
+
+## T3c — «Мои компании» through the whole layer (2026-09-17)
+
+**Done** (SDD-01 §2 T3 criterion: one feature end-to-end; S-LOC-01 baseline for track UI-F1)
+- `components/lp/`: `StatusStatCard` (icon, value, «из N» + progress, clickable filter, `active`), `SyncStatusBadge` / `SyncStatusDot` (icon + text, semantic tokens), `PlatformIcon` (neutral letter-marks `platformGoogle|Yandex|2gis|Vk|Generic`; brand SVGs come from UI-DS), template `ListPage` (header actions, tabs, KPI row, table).
+- Table kit: all strings localized (`table.*`), `DataTable` gets `density='compact'` and `emptyState`, `use-data-table` no longer splits text filter values on non-ASCII (Cyrillic search was broken in the starter).
+- `features/locations`: `searchparams.ts` (URL ↔ `GET /locations` query mapping, JSON table sort → `-name`), `LocationListing` (RSC prefetch + `HydrationBoundary` + Suspense skeleton), `LocationTable` (`useSuspenseQuery`, nuqs `shallow`, faceted filters city / group / sync status / platform / status, pinned select+name / actions, compact density, empty states), `columns.tsx` (name link + status badge, address, branch code, city, `ListingStatusStack` with hover-card details, updated at, `CellAction` open/edit/listings/delete with confirm), `LocationKpis` (3 cards from `GET /listings/summary`, click = `syncStatus` filter), `LocationTabs` (`?tab=maps|navigators` → `filter[platform_kind]`), `LocationHeaderActions` (export → toast, import/add links gated by `locations.edit`), bulk bar placeholder. Page `app/dashboard/locations/page.tsx` + `loading.tsx`, `requireAccess({ permission: 'locations.read' })`.
+- `features/sources` (registry of platforms/accounts/overview/settings): feature.ts (`planned`), api layer, 13 mock handlers incl. fake OAuth page `/__mock/oauth/:id`; public API `platformsQueryOptions`.
+- `AlertModal` localized; icons `eye`, `download`, `mapPin`, `sources`, `circleDashed`, platform marks.
+
+**Verified locally**
+- `/dashboard/locations` SSR: title, tabs, KPI labels, info panel, 25 seeded rows; `?city=Сочи&tab=navigators` renders Sochi rows; owner sees add/import links, observer does not (`href` grep).
+- Cyrillic `filter[city]` works when percent-encoded (browsers do this; curl needs `-g` + encoding).
+- `pnpm check` ✓.
+
+**Follow-ups (UI-F1)**: bulk actions, location form / detail page, import wizard; browser e2e arrives with T5b's Playwright setup.
