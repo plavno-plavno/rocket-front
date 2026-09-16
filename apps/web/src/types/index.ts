@@ -1,11 +1,23 @@
+import type { Schema } from '@lp/contracts';
 import { Icons } from '@/components/icons';
 
+export type Role = Schema<'Role'>;
+export type Action = Schema<'Action'>;
+export type PlanFeature = Schema<'PlanFeature'>;
+
+/**
+ * Access check for navigation items and pages (SDD-01 §2.2). All present conditions must hold.
+ * UX only — core-api enforces authorization.
+ */
 export interface PermissionCheck {
-  permission?: string;
-  plan?: string;
-  feature?: string;
-  role?: string;
-  requireOrg?: boolean;
+  /** Requires an active tenant (always true for a signed-in user; kept for parity with the starter). */
+  requireTenant?: boolean;
+  /** Requires a permission action from `Me.permissions`. */
+  permission?: Action;
+  /** Requires one of the roles. */
+  role?: Role | Role[];
+  /** Requires a plan feature from `Me.tenant.plan.features`. */
+  feature?: PlanFeature;
 }
 
 export interface NavItem {
@@ -33,15 +45,6 @@ export interface NavItemWithChildren extends NavItem {
 
 export interface NavItemWithOptionalChildren extends NavItem {
   items?: NavItemWithChildren[];
-}
-
-export interface FooterItem {
-  title: string;
-  items: {
-    title: string;
-    href: string;
-    external?: boolean;
-  }[];
 }
 
 export type MainNavItem = NavItemWithOptionalChildren;

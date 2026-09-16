@@ -1,4 +1,5 @@
 import {
+  IconWorld,
   IconAdjustmentsHorizontal,
   IconAlertCircle,
   IconAlertTriangle,
@@ -177,6 +178,7 @@ export const Icons = {
   minus: IconMinus,
 
   // Theme
+  globe: IconWorld,
   sun: IconSun,
   moon: IconMoon,
   brightness: IconBrightness,

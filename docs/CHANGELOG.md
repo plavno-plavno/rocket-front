@@ -91,3 +91,26 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 **Notes**
 - Starter data-table strings (pagination, empty state, view options) are translated in T3c together with the locations table; sidebar / user-nav / kbar strings in T2/T5 when those components are rewritten.
 - `next/font/google` downloads fonts at build time (network needed in CI); self-hosting the font files is a follow-up if CI is offline.
+
+## T2 — Auth pages, session gate, RBAC navigation, tenant switcher (2026-09-16)
+
+**Done** (SDD-01 §2.2)
+- Auth screens on `useAppForm` + Zod (messages via next-intl): `/auth/sign-in` (email, password, remember; 401 → «Неверный email или пароль»; `two_factor_required` → `/auth/2fa`), `/auth/2fa` (OTP field, challenge token kept in `sessionStorage`), `/auth/reset` + `/auth/reset/[token]`, `/auth/invite/[token]` (loads `InvitationPublic`, expired → alert). Shared `AuthCard`, auth layout with product name, `LanguageSwitcher`, theme toggle. Dev-only demo hint on the sign-in form.
+- `src/proxy.ts`: `/dashboard/**` without `lp_session` cookie → `/auth/sign-in?next=…`; `/auth/sign-in` with cookie → overview; sets `x-pathname` for server helpers.
+- `features/session/server.ts`: `getMeServer()` (per-request `cache`, 401 → redirect), `prefetchMe()` (seeds the query client so `useMe()` hydrates), `requireAccess(check)` for pages.
+- `features/session/hooks/use-me.ts`: `useMe()` (suspense), `useCan`, `useHasFeature`, `useAccess`. `lib/permissions.ts`: pure `checkAccess(me, check)`, `can`, `hasFeature`.
+- `src/types/index.ts` `PermissionCheck` → `requireTenant`, `permission: Action`, `role: Role | Role[]`, `feature: PlanFeature` (typed from `@lp/contracts`). `hooks/use-nav.ts` filters nav groups/items by the session; groups with no visible items disappear.
+- Sidebar: header `TenantSwitcher` (memberships from `Me.tenants`, `POST /me/switch-tenant`, clears the query cache), footer `UserNav` (profile, notifications, language submenu, theme submenu light/dark/system, sign out). Starter `nav-user.tsx`, `nav-main.tsx`, `nav-projects.tsx`, `user-nav.tsx` removed.
+- `app/dashboard/layout.tsx`: `prefetchMe()` + `HydrationBoundary` + `SessionProvider` (mirrors `tenant.timezone` into the `lp_tz` cookie).
+- `features/session/index.ts` — public API (`useMe`, `TenantSwitcher`, `UserNav`, `LanguageSwitcher`, `SessionProvider`, query options, types). Icon `globe` added to the registry.
+
+**Verified locally** (mock on :4010, `next dev` on :3998, curl with cookie jar)
+- `/dashboard/overview` without cookie → 307 `/auth/sign-in?next=%2Fdashboard%2Foverview`; with a bogus cookie → same redirect (401 from `/me`).
+- Sign-in through `/api/core/auth/sign-in` → cookie; `/dashboard/overview` → 200 with «Спортэксперт», «Ирина Соколова», «Владелец», «Выйти»; with `NEXT_LOCALE=en` → "Owner", "Sign out".
+- `/auth/sign-in` with a session → 307 to overview. All auth routes render 200 (`/auth`, `/auth/2fa`, `/auth/reset`, `/auth/reset/[token]`, `/auth/invite/[token]`).
+- `pnpm check` ✓.
+
+**Notes / follow-ups**
+- `nav-config.ts` still holds the starter's English demo items; T5 replaces it with the generated feature registry + i18n keys.
+- `NextIntlClientProvider` currently ships all messages to the client; per-route namespace slicing is a later optimisation.
+- Browser-level e2e (Playwright) of the sign-in form arrives with T5b's e2e-smoke.
