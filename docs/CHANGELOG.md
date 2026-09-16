@@ -114,3 +114,21 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - `nav-config.ts` still holds the starter's English demo items; T5 replaces it with the generated feature registry + i18n keys.
 - `NextIntlClientProvider` currently ships all messages to the client; per-route namespace slicing is a later optimisation.
 - Browser-level e2e (Playwright) of the sign-in form arrives with T5b's e2e-smoke.
+
+## T5 — Shell: feature registry, navigation, ⌘K, ScopeSelector, badges, SSE (2026-09-16)
+
+**Done** (SDD-01 §7, SDD-01T §3.1–3.2)
+- `src/shell/feature.ts` — `defineFeature({ id, track, status, nav, kbar, routes, screens })`; `src/config/nav-groups.ts` (work/reviews/analytics/content/tools/settings/help) and `src/config/tracks.ts`.
+- Generator: `scripts/gen/feature-registry.mjs` → `src/generated/feature-registry.ts`; `pnpm gen --check` now also runs `scripts/gen/validate.ts` under tsx: unique ids/urls/shortcuts/kbar ids, known groups/tracks, i18n keys present in **both** locales (negative test done: a missing key fails with exit 1).
+- `src/shell/nav.ts` `buildNavGroups()` (pure): access filtering via `checkAccess`, `order` sort, dynamic badges from `GET /me/badges`, `planned` features hidden in production / «Скоро» in dev. `useNavGroups()` feeds the sidebar and kbar; `useRouteTitles()` feeds registry-driven breadcrumbs. Starter `nav-config.ts` and `use-nav.ts` consumers removed.
+- kbar: nav actions + feature `kbar` actions (`navigate` → router, `dialog` → `lp:kbar-action` DOM event) + localized theme actions; search input, theme toggle, footer hints localized.
+- `lib/searchparams.ts` (isomorphic: `scope`, `page`, `page_size`, `sort`, `q`, period parsers, server cache) + `hooks/use-scope.ts` (`useScope`, `useCommonSearchParams`).
+- `shell/components/scope-selector.tsx` — «Все компании» popover: group tree by kind (brands / regions / cities / custom) with search, multi-select checkboxes, counts, reset; state in `?scope=` (comma-separated group ids). In the header next to ⌘K, `HelpButton` (knowledge base link, `NEXT_PUBLIC_HELP_URL`).
+- `shell/components/realtime-provider.tsx` — `EventSource('/api/core/reviews/stream?scope=')`, debounced invalidation of badges / `['reviews','summary']` / `['notifications']`, `useRealtime()` exposes pending events for the inbox «N новых» banner. Mock: `GET /reviews/stream` implemented in express (`mocks/lib/review-stream.ts`): heartbeat + a synthetic review every 20 s (`MOCK_STREAM_INTERVAL_MS`, `MOCK_STREAM=0` to disable), negative ones also create a notification.
+- Locations feature groundwork (T3c part 1): `features/locations/{feature.ts,index.ts,api/*,mocks/handlers.ts,messages/*}` — nav item «Мои компании» (`d l`), kbar actions, full API layer, 28 mock handlers (list with `q`/`sort`/`scope`/`filter[city|group_id|status|sync_status|platform_id|platform_kind]`, CRUD with optimistic-locking 409 and 422 validation, versions + rollback, preview-sync, bulk with simulated batch progress, export, import wizard, groups CRUD, sync-batches, listings list/summary/actions/link).
+
+**Verified locally**
+- Overview HTML contains group «Работа», item «Мои компании», scope selector, kbar action «Найти компанию»; observer sees the item (has `locations.read`).
+- SSE through `/api/core/reviews/stream` delivers `review.ingested` events; unauthenticated → 401.
+- Mock locations: 107 rows paged, filters, scope (brand B → 19), summary counts, navigators kind, 422 on empty name/city, 403 for observer, 409 on stale version, bulk 202 with progress.
+- `pnpm check` ✓ (gen --check incl. validator).

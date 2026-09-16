@@ -9,6 +9,7 @@ import { InfobarProvider } from '@/components/ui/infobar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { SessionProvider } from '@/features/session';
 import { prefetchMe } from '@/features/session/server';
+import { RealtimeProvider } from '@/shell/components/realtime-provider';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   // `/me` once per request: gates the segment (401 → sign-in) and hydrates useMe() on the client.
@@ -19,24 +20,26 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <SessionProvider>
-        <KBar>
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <a
-              href='#main-content'
-              className='bg-background ring-ring sr-only rounded-md px-3 py-2 text-sm font-medium shadow focus:not-sr-only focus:absolute focus:top-2 focus:start-2 focus:z-50 focus:ring-2'
-            >
-              {t('skipToContent')}
-            </a>
-            <AppSidebar />
-            <SidebarInset id='main-content' tabIndex={-1} className='scroll-mt-16'>
-              <Header />
-              <InfobarProvider defaultOpen={false}>
-                {children}
-                <InfoSidebar side='right' />
-              </InfobarProvider>
-            </SidebarInset>
-          </SidebarProvider>
-        </KBar>
+        <RealtimeProvider>
+          <KBar>
+            <SidebarProvider defaultOpen={defaultOpen}>
+              <a
+                href='#main-content'
+                className='bg-background ring-ring sr-only rounded-md px-3 py-2 text-sm font-medium shadow focus:not-sr-only focus:absolute focus:top-2 focus:start-2 focus:z-50 focus:ring-2'
+              >
+                {t('skipToContent')}
+              </a>
+              <AppSidebar />
+              <SidebarInset id='main-content' tabIndex={-1} className='scroll-mt-16'>
+                <Header />
+                <InfobarProvider defaultOpen={false}>
+                  {children}
+                  <InfoSidebar side='right' />
+                </InfobarProvider>
+              </SidebarInset>
+            </SidebarProvider>
+          </KBar>
+        </RealtimeProvider>
       </SessionProvider>
     </HydrationBoundary>
   );

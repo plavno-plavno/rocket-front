@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "list": "Locations"
+  },
+  "kbar": {
+    "find": "Find location",
+    "create": "Add location",
+    "import": "Import locations"
+  },
+  "list": {
+    "title": "Locations",
+    "titleWithCount": "Locations ({count})",
+    "description": "Master data of your branches and the status of their listings",
+    "add": "Add location",
+    "import": "Import XLSX",
+    "export": "Export",
+    "exportQueued": "Export started — the link will appear in notifications",
+    "tabs": {
+      "maps": "Maps, social, directories",
+      "navigators": "Navigators"
+    },
+    "kpi": {
+      "synced": "Synced",
+      "sent": "Sent",
+      "action_required": "Action required",
+      "ofTotal": "of {total} listings"
+    },
+    "columns": {
+      "name": "Name",
+      "address": "Address",
+      "branchCode": "Branch code",
+      "city": "City",
+      "platforms": "Platform statuses",
+      "status": "Status",
+      "updatedAt": "Updated"
+    },
+    "filters": {
+      "search": "Search by name, address, code",
+      "city": "City",
+      "group": "Group",
+      "syncStatus": "Sync status",
+      "platform": "Platform",
+      "status": "Location status"
+    },
+    "bulk": {
+      "edit": "Bulk edit",
+      "assignGroups": "Assign groups",
+      "close": "Temporarily close",
+      "export": "Export selected"
+    },
+    "empty": {
+      "title": "No locations yet",
+      "description": "Add the first location manually or import a list from XLSX.",
+      "filtered": "Nothing matches your filters"
+    },
+    "actions": {
+      "open": "Open",
+      "edit": "Edit",
+      "listings": "Listings",
+      "delete": "Delete"
+    },
+    "info": {
+      "title": "Source freshness",
+      "body": "Listing statuses refresh as platforms are polled: Google and Yandex every few minutes, directories daily. “Sent” means the change reached the platform and is awaiting moderation."
+    }
+  },
+  "status": {
+    "open": "Open",
+    "temporarily_closed": "Temporarily closed",
+    "permanently_closed": "Permanently closed",
+    "coming_soon": "Opening soon"
+  },
+  "listingHover": {
+    "title": "{platform}",
+    "lastCheck": "Checked {date}",
+    "open": "Open listing",
+    "notConnected": "Platform not connected"
+  }
+}

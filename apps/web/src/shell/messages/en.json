@@ -59,7 +59,28 @@
     "pageNotFoundDescription": "The page you are looking for does not exist or has been moved.",
     "goHome": "Go home",
     "somethingWentWrong": "Something went wrong",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "kbar": {
+      "placeholder": "Command or page…",
+      "navigate": "navigate",
+      "open": "open",
+      "close": "close",
+      "switchTheme": "Switch theme",
+      "themeSection": "Theme"
+    },
+    "actions": "Actions",
+    "scopeSearch": "Find a group…",
+    "scopeLoading": "Loading…",
+    "scopeEmpty": "No groups found",
+    "scopeReset": "Reset: all locations",
+    "scopeKinds": {
+      "brand": "Brands",
+      "region": "Regions",
+      "city": "Cities",
+      "custom": "Custom groups"
+    },
+    "realtimeNew": "New reviews: {count}",
+    "home": "Home"
   },
   "nav": {
     "groups": {

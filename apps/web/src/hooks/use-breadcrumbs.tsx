@@ -1,38 +1,38 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
+import { useRouteTitles } from '@/shell/hooks/use-nav-groups';
 
 type BreadcrumbItem = {
   title: string;
   link: string;
 };
 
-// This allows to add custom title as well
-const routeMapping: Record<string, BreadcrumbItem[]> = {
-  '/dashboard': [{ title: 'Dashboard', link: '/dashboard' }]
-  // Add more custom mappings as needed
-};
-
-export function useBreadcrumbs() {
+/**
+ * Breadcrumbs from the feature registry: every path prefix that matches a registered route gets
+ * its i18n title; unknown segments (ids, sub-pages) fall back to the raw segment.
+ */
+export function useBreadcrumbs(): BreadcrumbItem[] {
   const pathname = usePathname();
+  const titles = useRouteTitles();
+  const t = useTranslations('layout');
 
-  const breadcrumbs = useMemo(() => {
-    // Check if we have a custom mapping for this exact path
-    if (routeMapping[pathname]) {
-      return routeMapping[pathname];
-    }
-
-    // If no exact match, fall back to generating breadcrumbs from the path
+  return useMemo(() => {
     const segments = pathname.split('/').filter(Boolean);
-    return segments.map((segment, index) => {
-      const path = `/${segments.slice(0, index + 1).join('/')}`;
-      return {
-        title: segment.charAt(0).toUpperCase() + segment.slice(1),
-        link: path
-      };
-    });
-  }, [pathname]);
-
-  return breadcrumbs;
+    const crumbs: BreadcrumbItem[] = [];
+    for (let i = 0; i < segments.length; i++) {
+      const path = `/${segments.slice(0, i + 1).join('/')}`;
+      if (path === '/dashboard') {
+        crumbs.push({ title: t('home'), link: '/dashboard/overview' });
+        continue;
+      }
+      const known = titles.get(path);
+      if (known) crumbs.push({ title: known, link: path });
+      else if (i === segments.length - 1)
+        crumbs.push({ title: decodeURIComponent(segments[i]), link: path });
+    }
+    return crumbs;
+  }, [pathname, titles, t]);
 }

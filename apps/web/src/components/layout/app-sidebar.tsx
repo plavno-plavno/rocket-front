@@ -16,8 +16,7 @@ import {
   SidebarMenuSubItem,
   SidebarRail
 } from '@/components/ui/sidebar';
-import { navGroups } from '@/config/nav-config';
-import { useFilteredNavGroups } from '@/hooks/use-nav';
+import { useNavGroups } from '@/shell/hooks/use-nav-groups';
 import { TenantSwitcher, UserNav } from '@/features/session';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -29,7 +28,7 @@ function isActivePath(pathname: string, url: string) {
 
 export default function AppSidebar() {
   const pathname = usePathname();
-  const filteredGroups = useFilteredNavGroups(navGroups);
+  const filteredGroups = useNavGroups();
 
   return (
     <Sidebar collapsible='icon'>

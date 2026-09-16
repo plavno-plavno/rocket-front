@@ -15,7 +15,8 @@ import cors from 'cors';
 import express from 'express';
 import { loadOpenApiDocument } from '@lp/contracts/openapi';
 import { featureHandlers } from '@/generated/mock-registry';
-import { isScenario, resetDb, SCENARIOS } from './db';
+import { dbFor, isScenario, resetDb, SCENARIOS } from './db';
+import { reviewStream } from './lib/review-stream';
 import { serializeSessionCookie, SESSION_HEADER } from './lib/session-cookie';
 
 const PORT = Number(process.env.MOCK_PORT ?? 4010);
@@ -40,6 +41,15 @@ app.use((_req, res, next) => {
   };
   next();
 });
+
+// SSE lives outside MSW (long-lived streaming response).
+app.get('/reviews/stream', (req, res) =>
+  reviewStream(
+    req,
+    res,
+    dbFor(new Request(`http://localhost${req.url}`, { headers: req.headers as HeadersInit }))
+  )
+);
 
 app.use(createMiddleware(...featureHandlers));
 

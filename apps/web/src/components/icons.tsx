@@ -1,4 +1,5 @@
 import {
+  IconBuildingStore,
   IconWorld,
   IconAdjustmentsHorizontal,
   IconAlertCircle,
@@ -179,6 +180,7 @@ export const Icons = {
 
   // Theme
   globe: IconWorld,
+  locations: IconBuildingStore,
   sun: IconSun,
   moon: IconMoon,
   brightness: IconBrightness,
