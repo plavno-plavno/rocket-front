@@ -39,6 +39,9 @@ jobs:
       - name: Generated registries (gen --check)
         run: pnpm --filter @lp/web gen:check
 
+      - name: Page templates (check:templates)
+        run: pnpm --filter @lp/web check:templates
+
       - name: Typecheck
         run: pnpm typecheck
 

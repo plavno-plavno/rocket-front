@@ -38,7 +38,11 @@
     "selected": "Выбрано: {count}",
     "confirmTitle": "Вы уверены?",
     "confirmDescription": "Это действие нельзя отменить.",
-    "continue": "Продолжить"
+    "continue": "Продолжить",
+    "noRating": "Без оценки",
+    "ratingOf": "Оценка {rating} из 5",
+    "regions": "Регионы",
+    "rankGrid": "Сетка позиций"
   },
   "layout": {
     "toggleSidebar": "Переключить меню",
@@ -83,7 +87,12 @@
       "custom": "Свои группы"
     },
     "realtimeNew": "Новых отзывов: {count}",
-    "home": "Главная"
+    "home": "Главная",
+    "planned": {
+      "title": "В разработке",
+      "heading": "Экран в разработке",
+      "description": "Раздел появится после завершения работы соответствующего трека."
+    }
   },
   "nav": {
     "groups": {
@@ -139,6 +148,36 @@
     "selectDateRange": "Выберите период",
     "density": "Плотность",
     "selectAll": "Выбрать все",
-    "selectRow": "Выбрать строку"
+    "selectRow": "Выбрать строку",
+    "dragHandle": "Перетащить"
+  },
+  "period": {
+    "presets": "Период",
+    "preset": {
+      "day": "День",
+      "week": "Неделя",
+      "30d": "30 дней",
+      "month": "Месяц",
+      "quarter": "Квартал"
+    },
+    "from": "С",
+    "to": "По",
+    "granularity": {
+      "day": "По дням",
+      "week": "По неделям",
+      "month": "По месяцам"
+    },
+    "compare": "Сравнить периоды",
+    "granularityLabel": "Гранулярность"
+  },
+  "reviewDiff": {
+    "edited": "Изменён",
+    "rating": "Оценка"
+  },
+  "templateEditor": {
+    "variables": "Переменные",
+    "hint": "Нажмите на переменную, чтобы вставить её в текст",
+    "unknown": "Неизвестные переменные: {vars}",
+    "preview": "Предпросмотр"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "root": "Root",
+    "panel": "Panel",
+    "locations": "Locations",
+    "cities": "Cities",
+    "tags": "Tags",
+    "phrases": "Phrases",
+    "staff": "Staff",
+    "topics": "Topics",
+    "concordance": "Concordance"
+  },
+  "page": {
+    "title": "Review analytics",
+    "description": ""
+  },
+  "trendCard": {
+    "title": "Отзывы за период",
+    "description": "{from} — {to}, по дням",
+    "positive": "Положительные",
+    "negative": "Отрицательные"
+  }
+}

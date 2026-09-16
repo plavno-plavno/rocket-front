@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "root": "Root",
+    "campaigns": "Campaigns",
+    "qr": "Qr",
+    "analytics": "Analytics"
+  },
+  "page": {
+    "title": "Review generation",
+    "description": ""
+  }
+}

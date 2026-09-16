@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "overview": "Overview"
+  },
+  "page": {
+    "title": "Обзор",
+    "description": "Состояние карточек, отзывы и активность за последние 30 дней"
+  },
+  "kpi": {
+    "ofListings": "из {total} карточек",
+    "unanswered": "Отзывы без ответа"
+  },
+  "widgets": {
+    "recentReviews": "Последние отзывы",
+    "actionRequired": "Требуется действие",
+    "all": "Все"
+  },
+  "actions": {
+    "addLocation": "Добавить компанию",
+    "import": "Импорт"
+  }
+}

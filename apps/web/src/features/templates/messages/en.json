@@ -1,0 +1,15 @@
+{
+  "nav": {
+    "list": "List"
+  },
+  "page": {
+    "title": "Templates",
+    "description": ""
+  },
+  "picker": {
+    "button": "Template",
+    "search": "Find a template…",
+    "empty": "No templates",
+    "ungrouped": "No group"
+  }
+}

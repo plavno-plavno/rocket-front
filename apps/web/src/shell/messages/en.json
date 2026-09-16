@@ -38,7 +38,11 @@
     "selected": "Selected: {count}",
     "confirmTitle": "Are you sure?",
     "confirmDescription": "This action cannot be undone.",
-    "continue": "Continue"
+    "continue": "Continue",
+    "noRating": "No rating",
+    "ratingOf": "Rating {rating} of 5",
+    "regions": "Regions",
+    "rankGrid": "Rank grid"
   },
   "layout": {
     "toggleSidebar": "Toggle sidebar",
@@ -83,7 +87,12 @@
       "custom": "Custom groups"
     },
     "realtimeNew": "New reviews: {count}",
-    "home": "Home"
+    "home": "Home",
+    "planned": {
+      "title": "In development",
+      "heading": "Screen in development",
+      "description": "This section appears when its track ships the screen."
+    }
   },
   "nav": {
     "groups": {
@@ -139,6 +148,36 @@
     "selectDateRange": "Select date range",
     "density": "Density",
     "selectAll": "Select all",
-    "selectRow": "Select row"
+    "selectRow": "Select row",
+    "dragHandle": "Drag to reorder"
+  },
+  "period": {
+    "presets": "Period",
+    "preset": {
+      "day": "Day",
+      "week": "Week",
+      "30d": "30 days",
+      "month": "Month",
+      "quarter": "Quarter"
+    },
+    "from": "From",
+    "to": "To",
+    "granularity": {
+      "day": "By day",
+      "week": "By week",
+      "month": "By month"
+    },
+    "compare": "Compare periods",
+    "granularityLabel": "Granularity"
+  },
+  "reviewDiff": {
+    "edited": "Edited",
+    "rating": "Rating"
+  },
+  "templateEditor": {
+    "variables": "Variables",
+    "hint": "Click a variable to insert it at the cursor",
+    "unknown": "Unknown variables: {vars}",
+    "preview": "Preview"
   }
 }

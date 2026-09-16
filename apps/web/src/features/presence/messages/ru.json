@@ -1,0 +1,20 @@
+{
+  "nav": {
+    "root": "Root",
+    "overview": "Overview",
+    "sync": "Sync",
+    "keywords": "Keywords"
+  },
+  "page": {
+    "title": "Presence",
+    "description": ""
+  },
+  "trendCard": {
+    "title": "Целевые действия",
+    "description": "Звонки, переходы, маршруты и другие действия по дням",
+    "calls": "Звонки",
+    "website": "Переходы на сайт",
+    "directions": "Маршруты",
+    "other": "Другие"
+  }
+}

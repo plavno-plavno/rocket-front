@@ -4,7 +4,7 @@ import { Separator } from '../ui/separator';
 import { Breadcrumbs } from '../breadcrumbs';
 import SearchInput from '../search-input';
 import { ThemeModeToggle } from '../themes/theme-mode-toggle';
-import { NotificationCenter } from '@/features/notifications/components/notification-center';
+import { NotificationBell } from '@/features/notifications';
 import { ScopeSelector } from '@/shell/components/scope-selector';
 import { HelpButton } from './help-button';
 
@@ -25,7 +25,7 @@ export default function Header() {
         </div>
         <HelpButton />
         <ThemeModeToggle />
-        <NotificationCenter />
+        <NotificationBell />
       </div>
     </header>
   );

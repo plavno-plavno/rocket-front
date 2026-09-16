@@ -35,7 +35,8 @@ for (const f of features) {
   if (!(TRACKS as readonly string[]).includes(f.track)) errors.push(`${f.id}: unknown track "${f.track}"`);
   for (const item of f.nav ?? []) {
     if (!NAV_GROUPS.some((g) => g.id === item.group)) errors.push(`${f.id}: unknown nav group "${item.group}"`);
-    unique('url', item.url, f.id);
+    // A parent pointing at its first child (collapsible section) is not a duplicate.
+    if (!item.children?.some((c) => c.url === item.url)) unique('url', item.url, f.id);
     checkKey(f.id, item.titleKey);
     if (item.shortcut) unique('shortcut', item.shortcut.join(' '), f.id);
     for (const child of item.children ?? []) {

@@ -10,6 +10,7 @@ import { GenReport } from './lib.mjs';
 import { generateMessages } from './messages.mjs';
 import { generateMockRegistry } from './mock-registry.mjs';
 import { generateFeatureRegistry } from './feature-registry.mjs';
+import { generateIcons } from './icons.mjs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -20,11 +21,13 @@ const report = new GenReport();
 const messages = generateMessages(report);
 const mocks = generateMockRegistry(report);
 const feats = generateFeatureRegistry(report);
+const iconSets = generateIcons(report);
 
 if (!quiet) {
   console.log(`[gen] messages: shell + ${messages.length} feature namespace(s) (${messages.join(', ') || '—'})`);
   console.log(`[gen] mock registry: ${mocks.length} feature(s) (${mocks.join(', ') || '—'})`);
   console.log(`[gen] feature registry: ${feats.length} feature(s) (${feats.join(', ') || '—'})`);
+  console.log(`[gen] icons: ${iconSets.length} set(s) (${iconSets.join(', ') || '—'})`);
   for (const o of report.outputs) console.log(`[gen] ${o.changed ? 'wrote' : 'unchanged'} ${o.path}`);
 }
 for (const w of report.warnings) console.warn(`[gen] warning: ${w}`);

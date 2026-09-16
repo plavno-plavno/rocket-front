@@ -1,0 +1,9 @@
+{
+  "nav": {
+    "locator": "Locator"
+  },
+  "page": {
+    "title": "Store locator",
+    "description": ""
+  }
+}

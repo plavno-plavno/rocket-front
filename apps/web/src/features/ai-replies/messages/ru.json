@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "ai": "Ai"
+  },
+  "page": {
+    "title": "Ai replies",
+    "description": ""
+  },
+  "button": {
+    "generate": "Сгенерировать ИИ"
+  }
+}

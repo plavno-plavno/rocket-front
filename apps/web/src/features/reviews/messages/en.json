@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "inbox": "Inbox"
+  },
+  "kbar": {
+    "openById": "OpenById"
+  },
+  "page": {
+    "title": "Reviews",
+    "description": ""
+  },
+  "drawer": {
+    "title": "Review",
+    "noText": "No text",
+    "replies": "Replies ({count})",
+    "openInInbox": "Open in inbox",
+    "replyState": {
+      "draft": "Draft",
+      "requested": "Sending",
+      "published": "Published",
+      "failed": "Failed",
+      "deleted": "Deleted"
+    }
+  },
+  "recent": {
+    "empty": "No reviews yet"
+  },
+  "workflow": {
+    "new": "New",
+    "in_progress": "In progress",
+    "resolved": "Resolved",
+    "no_reply_needed": "No reply needed",
+    "escalated": "Escalated"
+  }
+}

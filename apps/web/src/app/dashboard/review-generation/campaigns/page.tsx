@@ -1,0 +1,6 @@
+import { PlannedPage } from '@/components/lp/planned-page';
+
+/** S-GEN-01 — owned by UI-F6. Replace PlannedPage with the real screen (must render a components/lp template). */
+export default function Page() {
+  return <PlannedPage feature='review-generation' screen='S-GEN-01' track='UI-F6' />;
+}

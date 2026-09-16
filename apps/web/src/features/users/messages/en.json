@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "list": "List"
+  },
+  "page": {
+    "title": "Users",
+    "description": ""
+  },
+  "combobox": {
+    "placeholder": "Assignee",
+    "none": "Unassigned"
+  }
+}

@@ -1,18 +1,24 @@
 /**
  * Public API of the locations feature (SDD-01T §3.5). Other features import only from here.
- * Stubs (LocationPicker, LocationStatusStack, ActionRequiredList) are filled in by track UI-F1.
  */
 export {
   locationKeys,
   locationsQueryOptions,
   locationQueryOptions,
-  locationGroupsQueryOptions
+  locationGroupsQueryOptions,
+  listingsSummaryQueryOptions
 } from './api/queries';
+export { listingsQueryOptions } from './api/listings-queries';
 export type {
   Location,
   LocationListItem,
   LocationGroup,
   LocationStatus,
   SyncStatus,
-  ListingStatusBrief
+  ListingStatusBrief,
+  ListingStatusCounts
 } from './api/types';
+export { LocationPicker } from './components/location-picker';
+export type { LocationPickerProps, LocationPickerValue } from './components/location-picker';
+export { LocationStatusStack } from './components/location-status-stack';
+export { ActionRequiredList } from './components/action-required-list';

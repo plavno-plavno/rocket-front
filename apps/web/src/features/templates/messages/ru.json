@@ -1,0 +1,15 @@
+{
+  "nav": {
+    "list": "List"
+  },
+  "page": {
+    "title": "Templates",
+    "description": ""
+  },
+  "picker": {
+    "button": "Шаблон",
+    "search": "Найти шаблон…",
+    "empty": "Шаблоны не найдены",
+    "ungrouped": "Без группы"
+  }
+}

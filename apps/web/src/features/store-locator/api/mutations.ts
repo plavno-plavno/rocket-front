@@ -1,0 +1,32 @@
+import { mutationOptions, type QueryClient } from '@tanstack/react-query';
+import { storeLocatorKeys } from './queries';
+import { createWidget, updateWidget, deleteWidget, rotateWidgetKey } from './service';
+
+export const createWidgetMutation = (qc: QueryClient) =>
+  mutationOptions({
+    mutationKey: [...storeLocatorKeys.all, 'create_widget'],
+    mutationFn: ({ body }: { body: Parameters<typeof createWidget>[0] }) => createWidget(body),
+    onSuccess: () => qc.invalidateQueries({ queryKey: storeLocatorKeys.all })
+  });
+
+export const updateWidgetMutation = (qc: QueryClient) =>
+  mutationOptions({
+    mutationKey: [...storeLocatorKeys.all, 'update_widget'],
+    mutationFn: ({ id, body }: { id: string; body: Parameters<typeof updateWidget>[1] }) =>
+      updateWidget(id, body),
+    onSuccess: () => qc.invalidateQueries({ queryKey: storeLocatorKeys.all })
+  });
+
+export const deleteWidgetMutation = (qc: QueryClient) =>
+  mutationOptions({
+    mutationKey: [...storeLocatorKeys.all, 'delete_widget'],
+    mutationFn: ({ id }: { id: string }) => deleteWidget(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: storeLocatorKeys.all })
+  });
+
+export const rotateWidgetKeyMutation = (qc: QueryClient) =>
+  mutationOptions({
+    mutationKey: [...storeLocatorKeys.all, 'rotate_widget_key'],
+    mutationFn: ({ id }: { id: string }) => rotateWidgetKey(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: storeLocatorKeys.all })
+  });

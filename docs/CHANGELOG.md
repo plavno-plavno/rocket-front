@@ -165,3 +165,25 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - Assertions on streamed content are scoped to `#main-content` (React streaming temporarily keeps Suspense HTML in a hidden div → strict-mode duplicates).
 
 **Verified locally**: `pnpm e2e` — 17 passed, 3 consecutive runs (≈5 s each with a warm build); `pnpm check` ✓.
+
+## T5b-2 — Scaffolding for parallel tracks (2026-09-17)
+
+**Done** (SDD-01T §3.3–3.7)
+- **`pnpm scaffold:api <feature> --tags a,b [--paths /x]`** — generates `api/{types,service,queries,mutations}.ts` from the OpenAPI operations of the given tags: typed service functions (`openapi-fetch`), query-key factory with feature prefix and `scope`, `queryOptions` for GETs, `mutationOptions` for writes; skips SSE ops; multipart handled. Verified by generating all tags into a scratch feature and type-checking (0 errors).
+- **`pnpm scaffold:feature <id> | --all`** driven by `scripts/scaffold/features.json` (single source of truth: track, tags, nav, kbar, routes, screens): `feature.ts`, `index.ts`, `messages/{ru,en}.json` (nav keys pre-filled so `gen --check` passes), `mocks/{handlers,fixtures,scenarios}.ts`, `searchparams.ts`, `components/`, `e2e/`, then `scaffold:api`. Ran for all 28 features.
+- **`pnpm scaffold:routes`** — every SDD-01 §6 route now has `page.tsx` (`PlannedPage` with feature / screen / track badges), `loading.tsx`, `error.tsx` (`RouteError` with request id + retry). 44 routes.
+- **`pnpm check:templates`** (CI) — every `app/dashboard/**/page.tsx` renders a `components/lp` template, `PageContainer` or `PlannedPage` (slot pages, redirect pages and template-rendering layouts are recognised).
+- **Page templates**: `ListPage`, `DetailPage`, `AnalyticsPage`, `InboxPage` (resizable list | detail | filters), `SettingsPage`, `WizardPage` (stepper) + `PlannedPage`.
+- **`components/lp` with final props**: `StatusStatCard`, `DistributionCard`, `PeriodPicker` (presets / range / granularity / compare, `presetRange`, `previousPeriod`), `RatingStars`, `PlatformIcon`, `SyncStatusBadge/Dot`, `ReviewVersionDiff` (word diff), `TemplateBodyEditor` (variable chips, unknown-variable check, preview), `SortableTable` (dnd-kit, keyboard), `KwicTable`, `RegionChoropleth` (tile-map stub, same props as the future d3-geo map), `RankHeatmap` (grid stub for MapLibre).
+- **Public inter-feature stubs (§3.5), all working against the mock**: `LocationPicker`, `LocationStatusStack`, `ActionRequiredList` (locations); `UserCombobox` (users); `TemplatePicker` (templates); `TagPicker` (tags); `AiReplyButton` (ai-replies, word-by-word "stream" over the JSON variant); `ReviewDrawer`, `RecentReviewsList` (reviews); `ReviewsTrendCard` (review-analytics); `PresenceTrendCard` (presence); `NotificationBell` (notifications, replaces the starter's zustand demo).
+- **Mock handlers** (now 127): users + invitations, reply-templates (+ groups, bulk, reorder, render with variable validation), tags, ai-reply-profiles + generate, reviews inbox (all SCR-3 filters, summary, replies with simulated publication, notes, complaints with capability 409, activity, versions, manual review, export), review analytics (summary with compare period, trend by granularity, regions, rankings, staff, concordance), presence (deterministic synthetic metrics, sync matrix, per-platform, keywords), notifications (+ settings).
+- **Overview (S-OVR-01)** rebuilt on SDD slots `@kpi`, `@reviews_trend`, `@presence_trend`, `@recent_reviews`, `@action_required` with per-slot loading/error; starter demo slots and graphs removed; `chat` / `ai-chat` demo routes removed, their features moved to `features/_reference/`.
+- **Icons**: `components/icons.tsx` → `components/icons/sets/{common,nav,platforms}.ts` merged by `pnpm gen` into the generated `components/icons/index.ts` (import path unchanged; duplicate keys fail generation).
+- Deps: `diff`, `@tanstack/react-virtual`, `@playwright/test`. `LinkButton` (Link styled as button — the `render={<Link/>}` form trips a11y lint).
+
+**Verified locally**
+- `pnpm check` ✓ (gen --check validates 28 features), `check:templates` ✓, `pnpm build` ✓, `pnpm e2e` 17/17.
+- Production smoke with curl: all 44 dashboard routes → 200 for the owner; sidebar in production lists only non-planned features (overview, locations); observer sees no add/import links.
+- Gotcha recorded: `rewrites()` bake `CORE_API_URL` at **build** time — `next start` must point at the same mock instance the build used (or rebuild).
+
+**Not in this step**: `tracks.json` / `check:ownership` / dependency-cruiser / worktree scripts / docs per track / AGENTS.md rules — T5b-3.

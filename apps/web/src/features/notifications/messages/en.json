@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "center": "Center"
+  },
+  "page": {
+    "title": "Notifications",
+    "description": "Negative reviews, listings needing action, finished operations",
+    "markAll": "Mark all read",
+    "all": "All",
+    "unread": "Unread",
+    "empty": "No notifications",
+    "open": "Open",
+    "markRead": "Mark as read"
+  },
+  "bell": {
+    "label": "Notifications, {count} unread",
+    "title": "Notifications",
+    "markAll": "Mark all read",
+    "empty": "No notifications",
+    "all": "All notifications"
+  }
+}

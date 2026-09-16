@@ -77,5 +77,21 @@
     "lastCheck": "Checked {date}",
     "open": "Open listing",
     "notConnected": "Platform not connected"
+  },
+  "picker": {
+    "choose": "Choose locations",
+    "title": "Choose locations",
+    "search": "Search by name or city",
+    "empty": "Nothing found",
+    "groups": "Groups",
+    "locations": "Locations",
+    "selected": "Selected: {count}",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  },
+  "actionRequired": {
+    "empty": "Nothing to do",
+    "emptyDescription": "All listings are synced or awaiting moderation.",
+    "open": "Open"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "profile": "Profile",
+    "accounts": "Accounts",
+    "notifications": "Notifications",
+    "integrations": "Integrations",
+    "sources": "Sources"
+  },
+  "page": {
+    "title": "Settings",
+    "description": ""
+  }
+}

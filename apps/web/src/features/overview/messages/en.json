@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "overview": "Overview"
+  },
+  "page": {
+    "title": "Overview",
+    "description": "Listing health, reviews and activity for the last 30 days"
+  },
+  "kpi": {
+    "ofListings": "of {total} listings",
+    "unanswered": "Unanswered reviews"
+  },
+  "widgets": {
+    "recentReviews": "Recent reviews",
+    "actionRequired": "Action required",
+    "all": "All"
+  },
+  "actions": {
+    "addLocation": "Add location",
+    "import": "Import"
+  }
+}

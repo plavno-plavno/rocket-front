@@ -1,0 +1,15 @@
+{
+  "nav": {
+    "list": "List"
+  },
+  "page": {
+    "title": "Tags",
+    "description": ""
+  },
+  "picker": {
+    "add": "Тег",
+    "search": "Найти тег…",
+    "empty": "Теги не найдены",
+    "remove": "Убрать тег {name}"
+  }
+}

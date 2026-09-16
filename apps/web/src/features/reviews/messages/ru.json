@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "inbox": "Inbox"
+  },
+  "kbar": {
+    "openById": "OpenById"
+  },
+  "page": {
+    "title": "Reviews",
+    "description": ""
+  },
+  "drawer": {
+    "title": "Отзыв",
+    "noText": "Без текста",
+    "replies": "Ответы ({count})",
+    "openInInbox": "Открыть в инбоксе",
+    "replyState": {
+      "draft": "Черновик",
+      "requested": "Отправляется",
+      "published": "Опубликован",
+      "failed": "Ошибка",
+      "deleted": "Удалён"
+    }
+  },
+  "recent": {
+    "empty": "Отзывов пока нет"
+  },
+  "workflow": {
+    "new": "Не обработан",
+    "in_progress": "В работе",
+    "resolved": "Обработан",
+    "no_reply_needed": "Ответ не нужен",
+    "escalated": "Эскалирован"
+  }
+}

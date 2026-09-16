@@ -1,0 +1,20 @@
+{
+  "nav": {
+    "root": "Root",
+    "overview": "Overview",
+    "sync": "Sync",
+    "keywords": "Keywords"
+  },
+  "page": {
+    "title": "Presence",
+    "description": ""
+  },
+  "trendCard": {
+    "title": "Target actions",
+    "description": "Calls, website visits, directions and other actions per day",
+    "calls": "Calls",
+    "website": "Website",
+    "directions": "Directions",
+    "other": "Other"
+  }
+}
