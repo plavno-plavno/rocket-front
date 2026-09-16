@@ -1,0 +1,22 @@
+# next.js
+/.next/
+/out/
+/build
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# local env files
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# misc
+.DS_Store
+*.pem
+
+# generated registries (SDD-01T §3.2)
+/src/generated/

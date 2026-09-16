@@ -1,0 +1,35 @@
+{
+  "name": "rocket-front",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @lp/web dev",
+    "build": "pnpm --filter @lp/web build",
+    "start": "pnpm --filter @lp/web start",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "lint:strict": "pnpm -r lint:strict",
+    "format": "pnpm -r format",
+    "format:check": "pnpm -r format:check",
+    "check": "pnpm typecheck && pnpm lint:strict && pnpm format:check",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.2.14",
+      "@types/react-dom": "19.2.3",
+      "postcss": "8.5.25",
+      "sharp": "^0.35.3"
+    },
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
+  }
+}
