@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
         with:
@@ -41,6 +43,14 @@ jobs:
 
       - name: Page templates (check:templates)
         run: pnpm --filter @lp/web check:templates
+
+      - name: Import boundaries (dependency-cruiser)
+        run: pnpm --filter @lp/web depcruise
+
+      - name: Track ownership
+        run: pnpm --filter @lp/web check:ownership
+        env:
+          CROSS_TRACK: ${{ contains(github.event.pull_request.labels.*.name, 'cross-track') && '1' || '0' }}
 
       - name: Typecheck
         run: pnpm typecheck

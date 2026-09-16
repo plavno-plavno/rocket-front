@@ -187,3 +187,16 @@ Every significant implementation step (SDD-01 §2, SDD-01T §3) gets an entry: w
 - Gotcha recorded: `rewrites()` bake `CORE_API_URL` at **build** time — `next start` must point at the same mock instance the build used (or rebuild).
 
 **Not in this step**: `tracks.json` / `check:ownership` / dependency-cruiser / worktree scripts / docs per track / AGENTS.md rules — T5b-3.
+
+## T5b-3 — Ownership, boundaries, worktree tooling, track docs, agent rules (2026-09-17)
+
+**Done** (SDD-01T §3.8–3.10, §5–6; SDD-01 §11)
+- `apps/web/tracks.json` — globs per track (UI-0, UI-DS, F1…F8) + shared paths (`docs/requests`, `docs/tracks`). `pnpm check:ownership` (CI): on branches `ui/<track>/…` changed files outside the track's globs fail unless the PR has the `cross-track` label (CI passes `CROSS_TRACK=1` from the label). Skipped on non-track branches.
+- `.dependency-cruiser.cjs` + `pnpm depcruise` (CI): feature→feature only via `index.ts`, no feature cycles, `components/{ui,lp}` never import features, features never import `app/`, generated registries only from shell/i18n/kbar/icons/mocks, no direct `@tabler/icons-react`, `core-client` only from `api/*`. Negative tests confirmed both the feature-boundary and tabler rules fire.
+- `.github/CODEOWNERS` generated from `tracks.json` (team handles are placeholders).
+- Worktree tools: `pnpm wt:new <track> [slug]` (sibling worktree `../lp-ui-<track>`, branch `ui/<track>/<slug>`, install, `.env.local` with `WEB_PORT=3100+n`, `MOCK_PORT=4100+n`), `pnpm wt:dev` (mock + next dev on those ports), `pnpm wt:list`, `pnpm wt:prune` (merged branches).
+- `docs/tracks/<track>.md` for all 10 tracks: scope, public API, consumers, features/paths, how to start, DoD checklist. `docs/requests/README.md` (request template + SLA). `docs/UX_WRITING.md` (tone, glossary, formats, states, "never colour alone").
+- `AGENTS.md` → section «Project rules (LP)» (where things live, data rules, UI rules, parallel-track protocol, commands, seed credentials); `CLAUDE.md` shortened to an ordered reading list; app `README.md` replaced.
+- CI: `fetch-depth: 0`, depcruise + ownership steps.
+
+**Verified locally**: `pnpm check` ✓, `depcruise` ✓ (0 violations on 840 modules), `check:ownership` skips on `main`.

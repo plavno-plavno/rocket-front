@@ -1,0 +1,164 @@
+{
+  "$comment": "UI tracks and the paths they own (SDD-01T §4). `pnpm check:ownership` fails a branch ui/<track>/… that touches paths outside its globs unless the PR carries the cross-track label. Globs are relative to apps/web.",
+  "tracks": {
+    "UI-0": {
+      "name": "Foundation / Platform",
+      "wave": 0,
+      "paths": [
+        "src/shell/**",
+        "src/app/layout.tsx",
+        "src/app/global-error.tsx",
+        "src/app/not-found.tsx",
+        "src/app/page.tsx",
+        "src/app/auth/**",
+        "src/app/dashboard/layout.tsx",
+        "src/app/dashboard/page.tsx",
+        "src/app/dashboard/help/**",
+        "src/config/**",
+        "src/lib/**",
+        "src/hooks/**",
+        "src/types/**",
+        "src/components/layout/**",
+        "src/components/kbar/**",
+        "src/components/forms/**",
+        "src/components/themes/**",
+        "src/components/icons/sets/nav.ts",
+        "src/features/session/**",
+        "src/features/exports/**",
+        "src/features/help/**",
+        "src/features/_reference/**",
+        "src/generated/**",
+        "mocks/**",
+        "e2e/**",
+        "scripts/**",
+        "*.json",
+        "*.ts",
+        "*.js",
+        "*.mjs",
+        "*.md",
+        ".*",
+        "Dockerfile",
+        "public/**"
+      ]
+    },
+    "UI-DS": {
+      "name": "Design System",
+      "wave": 1,
+      "paths": [
+        "src/components/ui/**",
+        "src/components/lp/**",
+        "src/styles/**",
+        "src/components/icons/sets/common.ts",
+        "src/components/icons/sets/platforms.ts",
+        "src/components/icons/platform-marks.tsx",
+        "src/app/dashboard/dev/**"
+      ]
+    },
+    "UI-F1": {
+      "name": "Locations & Sources",
+      "wave": 1,
+      "paths": [
+        "src/features/locations/**",
+        "src/features/listings/**",
+        "src/features/sources/**",
+        "src/app/dashboard/locations/**",
+        "src/app/dashboard/sources/**",
+        "src/components/icons/sets/locations.ts"
+      ]
+    },
+    "UI-F2": {
+      "name": "Reviews Inbox",
+      "wave": 1,
+      "paths": [
+        "src/features/reviews/**",
+        "src/features/questions/**",
+        "src/app/dashboard/reviews/page.tsx",
+        "src/app/dashboard/reviews/loading.tsx",
+        "src/app/dashboard/reviews/error.tsx",
+        "src/app/dashboard/questions/**",
+        "src/components/icons/sets/reviews.ts"
+      ]
+    },
+    "UI-F3": {
+      "name": "Reply Tooling",
+      "wave": 1,
+      "paths": [
+        "src/features/templates/**",
+        "src/features/tags/**",
+        "src/features/auto-replies/**",
+        "src/features/ai-replies/**",
+        "src/app/dashboard/reviews/templates/**",
+        "src/app/dashboard/reviews/tags/**",
+        "src/app/dashboard/reviews/auto-replies/**",
+        "src/app/dashboard/reviews/ai/**",
+        "src/components/icons/sets/reply-tooling.ts"
+      ]
+    },
+    "UI-F7": {
+      "name": "Admin & Settings",
+      "wave": 1,
+      "paths": [
+        "src/features/users/**",
+        "src/features/settings/**",
+        "src/features/notifications/**",
+        "src/features/onboarding/**",
+        "src/app/dashboard/settings/**",
+        "src/app/dashboard/notifications/**",
+        "src/app/dashboard/onboarding/**",
+        "src/components/icons/sets/admin.ts"
+      ]
+    },
+    "UI-F4": {
+      "name": "Analytics",
+      "wave": 2,
+      "paths": [
+        "src/features/review-analytics/**",
+        "src/features/presence/**",
+        "src/features/rank/**",
+        "src/app/dashboard/analytics/**",
+        "src/app/dashboard/presence/**",
+        "src/app/dashboard/rank/**",
+        "src/components/icons/sets/analytics.ts"
+      ]
+    },
+    "UI-F5": {
+      "name": "Content",
+      "wave": 2,
+      "paths": [
+        "src/features/publications/**",
+        "src/features/media/**",
+        "src/features/products/**",
+        "src/features/duplicates/**",
+        "src/app/dashboard/publications/**",
+        "src/app/dashboard/media/**",
+        "src/app/dashboard/products/**",
+        "src/app/dashboard/duplicates/**",
+        "src/components/icons/sets/content.ts"
+      ]
+    },
+    "UI-F8": {
+      "name": "Overview",
+      "wave": 2,
+      "paths": ["src/features/overview/**", "src/app/dashboard/overview/**"]
+    },
+    "UI-F6": {
+      "name": "Engagement",
+      "wave": 3,
+      "paths": [
+        "src/features/review-generation/**",
+        "src/features/widgets/**",
+        "src/features/store-locator/**",
+        "src/features/communication/**",
+        "src/app/dashboard/review-generation/**",
+        "src/app/dashboard/widgets/**",
+        "src/app/dashboard/store-locator/**",
+        "src/app/dashboard/communication/**",
+        "src/components/icons/sets/engagement.ts"
+      ]
+    }
+  },
+  "shared": {
+    "$comment": "Paths any track may add files to without a cross-track label (one file per request / doc).",
+    "paths": ["docs/requests/**", "docs/tracks/**"]
+  }
+}

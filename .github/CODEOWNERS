@@ -1,0 +1,122 @@
+# Generated from apps/web/tracks.json (SDD-01T §3.8). Replace @plavno-plavno/<team> handles with real teams.
+
+# UI-0 — Foundation / Platform
+/apps/web/src/shell/ @plavno-plavno/ui-0
+/apps/web/src/app/layout.tsx @plavno-plavno/ui-0
+/apps/web/src/app/global-error.tsx @plavno-plavno/ui-0
+/apps/web/src/app/not-found.tsx @plavno-plavno/ui-0
+/apps/web/src/app/page.tsx @plavno-plavno/ui-0
+/apps/web/src/app/auth/ @plavno-plavno/ui-0
+/apps/web/src/app/dashboard/layout.tsx @plavno-plavno/ui-0
+/apps/web/src/app/dashboard/page.tsx @plavno-plavno/ui-0
+/apps/web/src/app/dashboard/help/ @plavno-plavno/ui-0
+/apps/web/src/config/ @plavno-plavno/ui-0
+/apps/web/src/lib/ @plavno-plavno/ui-0
+/apps/web/src/hooks/ @plavno-plavno/ui-0
+/apps/web/src/types/ @plavno-plavno/ui-0
+/apps/web/src/components/layout/ @plavno-plavno/ui-0
+/apps/web/src/components/kbar/ @plavno-plavno/ui-0
+/apps/web/src/components/forms/ @plavno-plavno/ui-0
+/apps/web/src/components/themes/ @plavno-plavno/ui-0
+/apps/web/src/components/icons/sets/nav.ts @plavno-plavno/ui-0
+/apps/web/src/features/session/ @plavno-plavno/ui-0
+/apps/web/src/features/exports/ @plavno-plavno/ui-0
+/apps/web/src/features/help/ @plavno-plavno/ui-0
+/apps/web/src/features/_reference/ @plavno-plavno/ui-0
+/apps/web/src/generated/ @plavno-plavno/ui-0
+/apps/web/mocks/ @plavno-plavno/ui-0
+/apps/web/e2e/ @plavno-plavno/ui-0
+/apps/web/scripts/ @plavno-plavno/ui-0
+/apps/web/*.json @plavno-plavno/ui-0
+/apps/web/*.ts @plavno-plavno/ui-0
+/apps/web/*.js @plavno-plavno/ui-0
+/apps/web/*.mjs @plavno-plavno/ui-0
+/apps/web/*.md @plavno-plavno/ui-0
+/apps/web/.* @plavno-plavno/ui-0
+/apps/web/Dockerfile @plavno-plavno/ui-0
+/apps/web/public/ @plavno-plavno/ui-0
+
+# UI-DS — Design System
+/apps/web/src/components/ui/ @plavno-plavno/ui-ds
+/apps/web/src/components/lp/ @plavno-plavno/ui-ds
+/apps/web/src/styles/ @plavno-plavno/ui-ds
+/apps/web/src/components/icons/sets/common.ts @plavno-plavno/ui-ds
+/apps/web/src/components/icons/sets/platforms.ts @plavno-plavno/ui-ds
+/apps/web/src/components/icons/platform-marks.tsx @plavno-plavno/ui-ds
+/apps/web/src/app/dashboard/dev/ @plavno-plavno/ui-ds
+
+# UI-F1 — Locations & Sources
+/apps/web/src/features/locations/ @plavno-plavno/ui-f1
+/apps/web/src/features/listings/ @plavno-plavno/ui-f1
+/apps/web/src/features/sources/ @plavno-plavno/ui-f1
+/apps/web/src/app/dashboard/locations/ @plavno-plavno/ui-f1
+/apps/web/src/app/dashboard/sources/ @plavno-plavno/ui-f1
+/apps/web/src/components/icons/sets/locations.ts @plavno-plavno/ui-f1
+
+# UI-F2 — Reviews Inbox
+/apps/web/src/features/reviews/ @plavno-plavno/ui-f2
+/apps/web/src/features/questions/ @plavno-plavno/ui-f2
+/apps/web/src/app/dashboard/reviews/page.tsx @plavno-plavno/ui-f2
+/apps/web/src/app/dashboard/reviews/loading.tsx @plavno-plavno/ui-f2
+/apps/web/src/app/dashboard/reviews/error.tsx @plavno-plavno/ui-f2
+/apps/web/src/app/dashboard/questions/ @plavno-plavno/ui-f2
+/apps/web/src/components/icons/sets/reviews.ts @plavno-plavno/ui-f2
+
+# UI-F3 — Reply Tooling
+/apps/web/src/features/templates/ @plavno-plavno/ui-f3
+/apps/web/src/features/tags/ @plavno-plavno/ui-f3
+/apps/web/src/features/auto-replies/ @plavno-plavno/ui-f3
+/apps/web/src/features/ai-replies/ @plavno-plavno/ui-f3
+/apps/web/src/app/dashboard/reviews/templates/ @plavno-plavno/ui-f3
+/apps/web/src/app/dashboard/reviews/tags/ @plavno-plavno/ui-f3
+/apps/web/src/app/dashboard/reviews/auto-replies/ @plavno-plavno/ui-f3
+/apps/web/src/app/dashboard/reviews/ai/ @plavno-plavno/ui-f3
+/apps/web/src/components/icons/sets/reply-tooling.ts @plavno-plavno/ui-f3
+
+# UI-F7 — Admin & Settings
+/apps/web/src/features/users/ @plavno-plavno/ui-f7
+/apps/web/src/features/settings/ @plavno-plavno/ui-f7
+/apps/web/src/features/notifications/ @plavno-plavno/ui-f7
+/apps/web/src/features/onboarding/ @plavno-plavno/ui-f7
+/apps/web/src/app/dashboard/settings/ @plavno-plavno/ui-f7
+/apps/web/src/app/dashboard/notifications/ @plavno-plavno/ui-f7
+/apps/web/src/app/dashboard/onboarding/ @plavno-plavno/ui-f7
+/apps/web/src/components/icons/sets/admin.ts @plavno-plavno/ui-f7
+
+# UI-F4 — Analytics
+/apps/web/src/features/review-analytics/ @plavno-plavno/ui-f4
+/apps/web/src/features/presence/ @plavno-plavno/ui-f4
+/apps/web/src/features/rank/ @plavno-plavno/ui-f4
+/apps/web/src/app/dashboard/analytics/ @plavno-plavno/ui-f4
+/apps/web/src/app/dashboard/presence/ @plavno-plavno/ui-f4
+/apps/web/src/app/dashboard/rank/ @plavno-plavno/ui-f4
+/apps/web/src/components/icons/sets/analytics.ts @plavno-plavno/ui-f4
+
+# UI-F5 — Content
+/apps/web/src/features/publications/ @plavno-plavno/ui-f5
+/apps/web/src/features/media/ @plavno-plavno/ui-f5
+/apps/web/src/features/products/ @plavno-plavno/ui-f5
+/apps/web/src/features/duplicates/ @plavno-plavno/ui-f5
+/apps/web/src/app/dashboard/publications/ @plavno-plavno/ui-f5
+/apps/web/src/app/dashboard/media/ @plavno-plavno/ui-f5
+/apps/web/src/app/dashboard/products/ @plavno-plavno/ui-f5
+/apps/web/src/app/dashboard/duplicates/ @plavno-plavno/ui-f5
+/apps/web/src/components/icons/sets/content.ts @plavno-plavno/ui-f5
+
+# UI-F8 — Overview
+/apps/web/src/features/overview/ @plavno-plavno/ui-f8
+/apps/web/src/app/dashboard/overview/ @plavno-plavno/ui-f8
+
+# UI-F6 — Engagement
+/apps/web/src/features/review-generation/ @plavno-plavno/ui-f6
+/apps/web/src/features/widgets/ @plavno-plavno/ui-f6
+/apps/web/src/features/store-locator/ @plavno-plavno/ui-f6
+/apps/web/src/features/communication/ @plavno-plavno/ui-f6
+/apps/web/src/app/dashboard/review-generation/ @plavno-plavno/ui-f6
+/apps/web/src/app/dashboard/widgets/ @plavno-plavno/ui-f6
+/apps/web/src/app/dashboard/store-locator/ @plavno-plavno/ui-f6
+/apps/web/src/app/dashboard/communication/ @plavno-plavno/ui-f6
+/apps/web/src/components/icons/sets/engagement.ts @plavno-plavno/ui-f6
+
+# Contracts (SDD-00) — reviewed by the core-api owner
+/packages/contracts/ @plavno-plavno/contracts
