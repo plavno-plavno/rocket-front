@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/nextjs';
+import { isInlineCoreApiEnabled, registerInlineCoreApi } from '@/lib/api/inline-core-api';
 
 const sentryOptions: Sentry.NodeOptions | Sentry.EdgeOptions = {
   // Sentry DSN
@@ -18,6 +19,12 @@ const sentryOptions: Sentry.NodeOptions | Sentry.EdgeOptions = {
 };
 
 export async function register() {
+  if (process.env.NEXT_RUNTIME === 'nodejs' && isInlineCoreApiEnabled()) {
+    // Vercel demo without core-api: serve the mock in-process (src/lib/api/inline-core-api.ts).
+    const { inlineCoreApiFetch } = await import('@mocks/inline');
+    registerInlineCoreApi(inlineCoreApiFetch);
+  }
+
   if (!process.env.NEXT_PUBLIC_SENTRY_DISABLED) {
     if (process.env.NEXT_RUNTIME === 'nodejs') {
       // Node.js Sentry configuration

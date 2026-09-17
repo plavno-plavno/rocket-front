@@ -1,6 +1,7 @@
 import createClient, { type Middleware } from 'openapi-fetch';
 import type { paths } from '@lp/contracts';
 import { ApiError, type Problem } from './errors';
+import { INLINE_CORE_API_URL, inlineCoreApi } from './inline-core-api';
 
 /**
  * Typed HTTP client for core-api (SDD-01 §5.1).
@@ -9,6 +10,8 @@ import { ApiError, type Problem } from './errors';
  *   directly and forwards the session cookie + `x-request-id` of the incoming request.
  * - In the browser it talks to `/api/core` — a Next.js rewrite to core-api — so the
  *   session cookie is same-origin.
+ * - With `MOCK_API_INLINE=true` (Vercel demo) the server side calls the in-process mock instead,
+ *   see `inline-core-api.ts`.
  * - Every non-2xx response becomes an `ApiError`; a 401 in the browser redirects to sign-in.
  *
  * Only `features/<f>/api/service.ts` files may import this module.
@@ -19,6 +22,7 @@ const isServer = typeof window === 'undefined';
 const BROWSER_BASE_URL = '/api/core';
 
 function serverBaseUrl(): string {
+  if (inlineCoreApi()) return INLINE_CORE_API_URL;
   const url = process.env.CORE_API_URL;
   if (!url) throw new Error('CORE_API_URL is not set (server-side core-client)');
   return url.replace(/\/$/, '');
@@ -73,6 +77,7 @@ function redirectToSignIn() {
 function createCoreClient() {
   const client = createClient<paths>({
     baseUrl: isServer ? serverBaseUrl() : BROWSER_BASE_URL,
+    fetch: isServer ? inlineCoreApi() : undefined,
     credentials: 'include',
     headers: { accept: 'application/json' }
   });

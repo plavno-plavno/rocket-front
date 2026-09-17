@@ -1,0 +1,126 @@
+/**
+ * Mock core-api as a plain `(Request) => Response` function, for deployments without a separate
+ * mock server (Vercel demo, `MOCK_API_INLINE=true`). Registered by `src/instrumentation.ts`, see
+ * `src/lib/api/inline-core-api.ts`. Local development keeps using `pnpm mock:api` (server.ts).
+ *
+ * Differences from server.ts:
+ * - State lives in the memory of one serverless instance: it resets on a cold start and is not
+ *   shared between instances. The session cookie therefore also carries the user and tenant ids
+ *   so that an instance that never saw the sign-in restores the session (demo data only).
+ * - `/reviews/stream` closes itself after STREAM_MAX_MS (function time limit); EventSource
+ *   reconnects on its own.
+ * - Unknown routes answer 404 without the OpenAPI lookup; `/__mock/*` endpoints are not served.
+ */
+import { getResponse } from 'msw';
+import { featureHandlers } from '@/generated/mock-registry';
+import { dbFor, type MockDb } from './db';
+import { currentSession, nowIso, problem, readCookie, unauthenticated } from './lib/http';
+import { ingestSyntheticReview } from './lib/review-stream';
+import { serializeSessionCookie, SESSION_COOKIE, SESSION_HEADER } from './lib/session-cookie';
+
+const STREAM_MAX_MS = 50_000;
+
+export async function inlineCoreApiFetch(request: Request): Promise<Response> {
+  const url = new URL(request.url);
+  const db = dbFor(request);
+  restoreSession(request, db);
+  try {
+    if (request.method === 'GET' && url.pathname === '/reviews/stream') {
+      return reviewStream(request, db);
+    }
+    const response = await getResponse(featureHandlers, request, { baseUrl: url.origin });
+    if (!response) {
+      return problem(404, 'not_found', 'Not found', `${request.method} ${url.pathname}`);
+    }
+    return withSessionCookie(db, response);
+  } catch (error) {
+    return problem(500, 'internal', 'Mock handler failed', String(error));
+  }
+}
+
+/** Session token as issued by the handlers → `token~userId~tenantId` (see header comment). */
+function portableToken(db: MockDb, token: string): string {
+  const session = token ? db.sessions.get(token) : undefined;
+  if (!session) return token;
+  const portable = [token, session.userId, session.tenantId].join('~');
+  db.sessions.delete(token);
+  db.sessions.set(portable, { ...session, token: portable });
+  return portable;
+}
+
+function restoreSession(request: Request, db: MockDb) {
+  const token = readCookie(request, SESSION_COOKIE);
+  if (!token || db.sessions.has(token)) return;
+  const [, userId, tenantId] = token.split('~');
+  if (!userId || !tenantId || !db.users.some((u) => u.id === userId)) return;
+  db.sessions.set(token, { token, userId, tenantId, createdAt: nowIso() });
+}
+
+/** Same translation as the express layer in server.ts: SESSION_HEADER → Set-Cookie. */
+function withSessionCookie(db: MockDb, response: Response): Response {
+  const token = response.headers.get(SESSION_HEADER);
+  if (token === null) return response;
+  const headers = new Headers(response.headers);
+  headers.delete(SESSION_HEADER);
+  headers.append('set-cookie', serializeSessionCookie(portableToken(db, token)));
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
+}
+
+/** Web-stream variant of lib/review-stream.ts. */
+function reviewStream(request: Request, db: MockDb): Response {
+  if (!currentSession(request, db)) return unauthenticated();
+  const encoder = new TextEncoder();
+  let stop: (() => void) | undefined;
+  const body = new ReadableStream<Uint8Array>({
+    start(controller) {
+      const send = (chunk: string) => {
+        try {
+          controller.enqueue(encoder.encode(chunk));
+        } catch {
+          stop?.();
+        }
+      };
+      const heartbeat = setInterval(() => send(': ping\n\n'), 25_000);
+      const producer =
+        process.env.MOCK_STREAM === '0'
+          ? undefined
+          : setInterval(
+              () => {
+                const event = ingestSyntheticReview(db);
+                if (event) send(`event: ${event.type}\ndata: ${JSON.stringify(event)}\n\n`);
+              },
+              Number(process.env.MOCK_STREAM_INTERVAL_MS ?? 20_000)
+            );
+      const deadline = setTimeout(() => stop?.(), STREAM_MAX_MS);
+      const onAbort = () => stop?.();
+      stop = () => {
+        stop = undefined;
+        clearInterval(heartbeat);
+        clearInterval(producer);
+        clearTimeout(deadline);
+        request.signal.removeEventListener('abort', onAbort);
+        try {
+          controller.close();
+        } catch {
+          // already closed or cancelled
+        }
+      };
+      request.signal.addEventListener('abort', onAbort);
+      send(': connected\n\n');
+    },
+    cancel() {
+      stop?.();
+    }
+  });
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/event-stream',
+      'cache-control': 'no-cache, no-transform',
+      'x-accel-buffering': 'no'
+    }
+  });
+}

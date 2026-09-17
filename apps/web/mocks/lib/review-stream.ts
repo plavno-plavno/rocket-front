@@ -47,7 +47,7 @@ export function reviewStream(req: Request, res: Response, db: MockDb) {
   });
 }
 
-function ingestSyntheticReview(db: MockDb): Schema<'ReviewStreamEvent'> | null {
+export function ingestSyntheticReview(db: MockDb): Schema<'ReviewStreamEvent'> | null {
   const listings = db.listings.filter(
     (l) =>
       ['plt_google', 'plt_yandex', 'plt_2gis'].includes(l.platform_id) &&

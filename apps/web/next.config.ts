@@ -29,6 +29,8 @@ const baseConfig: NextConfig = {
   devIndicators: process.env.NEXT_DEV_INDICATORS === 'false' ? false : undefined,
   transpilePackages: ['geist'],
   async rewrites() {
+    // MOCK_API_INLINE (Vercel demo): /api/core/* is served by src/app/api/core/[...path]/route.ts.
+    if (process.env.MOCK_API_INLINE === 'true') return [];
     // Same-origin proxy to core-api so the session cookie is first-party (SDD-01 §5.1, §5.3).
     const core = (process.env.CORE_API_URL ?? 'http://localhost:4010').replace(/\/$/, '');
     return [{ source: '/api/core/:path*', destination: `${core}/:path*` }];
