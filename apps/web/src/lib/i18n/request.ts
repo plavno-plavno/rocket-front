@@ -20,6 +20,9 @@ export default getRequestConfig(async () => {
   return {
     locale,
     timeZone,
+    // One `now` for the server render and the first client render: relative times («2 минуты назад») of items that
+    // arrive live from the platforms would otherwise differ between SSR and hydration (React #418).
+    now: new Date(),
     messages: messages[locale],
     formats: {
       dateTime: {

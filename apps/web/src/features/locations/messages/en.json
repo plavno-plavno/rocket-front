@@ -416,7 +416,8 @@
       "progress": "{done} of {total}",
       "done": "Done",
       "partial": "Done with errors",
-      "failed": "Failed to apply"
+      "failed": "Failed to apply",
+      "syncing": "Syncing with platforms: {done} of {total}"
     },
     "report": {
       "title": "Import finished",
@@ -467,7 +468,8 @@
       "progress": "{done} of {total}",
       "failed": "errors: {failed}",
       "retry": "Retry failed",
-      "close": "Close"
+      "close": "Close",
+      "background": "The operation continues in the background — listing statuses update in the list"
     }
   }
 }

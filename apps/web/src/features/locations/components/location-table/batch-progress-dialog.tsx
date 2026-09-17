@@ -40,7 +40,7 @@ export function BatchProgressDialog({
   const pct = batch ? Math.round((processed / Math.max(1, batch.progress.total)) * 100) : 0;
 
   return (
-    <Dialog open={!!batchId} onOpenChange={(o) => !o && finished && onClose()}>
+    <Dialog open={!!batchId} onOpenChange={(o) => !o && onClose()}>
       <DialogContent showCloseButton={false} data-testid='batch-progress'>
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -50,6 +50,11 @@ export function BatchProgressDialog({
           </DialogDescription>
         </DialogHeader>
         <Progress value={pct} aria-label={t('title')} />
+        {!finished && batch && (
+          <p className='text-muted-foreground text-sm' data-testid='batch-background'>
+            {t('background')}
+          </p>
+        )}
         {finished && batch && (
           <Badge
             variant='outline'
@@ -75,9 +80,7 @@ export function BatchProgressDialog({
               {t('retry')}
             </Button>
           ) : null}
-          <Button onClick={onClose} disabled={!finished}>
-            {t('close')}
-          </Button>
+          <Button onClick={onClose}>{t('close')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

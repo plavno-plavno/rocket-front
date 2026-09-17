@@ -16,10 +16,10 @@ test.describe('locations bulk actions (S-LOC-01)', () => {
     await sheet.getByRole('button', { name: 'Применить' }).click();
     const progress = authed.getByTestId('batch-progress');
     await expect(progress).toBeVisible();
-    await expect(progress.getByRole('button', { name: 'Закрыть' })).toBeEnabled({
-      timeout: 20_000
-    });
-    await expect(progress).toContainText('Готово');
+    // progress arrives from the platforms (mock: seconds; real chain: moderation takes minutes) — the dialog can be
+    // closed at any time, the batch keeps running in the background
+    await expect(progress).toContainText(/[1-9]\d* из \d+/, { timeout: 30_000 });
+    await expect(progress).toContainText(/Готово|в фоне/);
     await progress.getByRole('button', { name: 'Закрыть' }).click();
     await expect(bar).toBeHidden();
   });

@@ -402,3 +402,15 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 - Seed: `manager2` (access rule `groups`) now belongs to the Moscow city group — the real API enforces the rule on every list, the mock does not; an empty group meant an empty inbox.
 - **Contract 0.2.0-draft**: all eleven UI change requests accepted (taxonomy endpoints, `LocationPatch`, 2FA enrol / confirm / disable, e-mail change, `filter[type]`, publication drafts, batch kinds, `MediaUpload`, `WidgetConfig`) — see `packages/contracts/CHANGELOG.md`; the UI still ships its provisional fallbacks and adopts the new operations in follow-up tracks.
 - **Verified**: full e2e against the live core-api — 72 passed / 0 failed (visual specs skipped without `VISUAL=1`); the same suite on the mock — 72 passed; `typecheck` ✓, `lint:strict` ✓, `gen:check` ✓, contract lint ✓.
+
+## Real platform chain behind the core-api (2026-09-17)
+
+- The e2e suite now also runs against the full M1 chain (core-api on NATS → sync-engine → connector-runtime → platform
+  simulator, `docs/platform.md` in p.nova): **72 passed**. Three things the real chain surfaced, fixed here:
+  - Hydration (React #418) on the overview: `@kpi` prefetches are awaited before `dehydrate` — with real latency the
+    streamed pending queries resolved on the client before hydration and the client rendered numbers over server
+    skeletons; `now` is set in the next-intl request config so relative times of live-ingested reviews match SSR.
+  - Bulk edit / import: platform moderation takes minutes (feed platforms hours), so the batch dialog can be closed while
+    the batch keeps running («Операция продолжается в фоне»), and the import report opens as soon as the rows are applied
+    with a live «Синхронизация с площадками: X из Y» badge. Specs assert progress, not completion.
+- Contract 0.2.1-draft: `listing.create` job, `platform_account.deleted` event.

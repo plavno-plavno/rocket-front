@@ -158,8 +158,8 @@ export function ImportWizard() {
       fail(e);
     }
   };
-  const finished = batch && ['done', 'partially_failed', 'failed'].includes(batch.state);
-  if (step === 'apply' && finished) setStep('report');
+  // Rows are applied in the core as soon as the batch exists; the platforms keep syncing in the background.
+  if (step === 'apply' && batch) setStep('report');
 
   return (
     <WizardPage
@@ -458,7 +458,12 @@ export function ImportWizard() {
               ? t('apply.done')
               : batch.state === 'failed'
                 ? t('apply.failed')
-                : t('apply.partial')}
+                : batch.state === 'partially_failed'
+                  ? t('apply.partial')
+                  : t('apply.syncing', {
+                      done: batch.progress.done + batch.progress.failed,
+                      total: batch.progress.total
+                    })}
           </Badge>
         </div>
       )}
