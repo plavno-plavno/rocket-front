@@ -1,4 +1,4 @@
-export const LOCALES = ['ru', 'en'] as const;
+export const LOCALES = ['ru', 'be', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'ru';
 export const DEFAULT_TIMEZONE = 'Europe/Moscow';

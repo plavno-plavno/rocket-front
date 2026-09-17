@@ -11,7 +11,7 @@ import {
 import { messages } from '@/generated/messages';
 
 export default getRequestConfig(async () => {
-  // Russian is the product language; English only when the user picked it (cookie) — no browser negotiation.
+  // Russian is the product language; Belarusian / English only when the user picked it (cookie) — no browser negotiation.
   const cookieStore = await cookies();
   const fromCookie = cookieStore.get(LOCALE_COOKIE)?.value;
   const locale: Locale = isLocale(fromCookie) ? fromCookie : DEFAULT_LOCALE;

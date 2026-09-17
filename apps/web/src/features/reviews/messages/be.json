@@ -1,0 +1,234 @@
+{
+  "nav": {
+    "inbox": "Водгукі"
+  },
+  "kbar": {
+    "openById": "Адкрыць водгук"
+  },
+  "page": {
+    "title": "Апрацоўка водгукаў",
+    "description": "Інбокс водгукаў з усіх пляцовак",
+    "info": {
+      "title": "Як працаваць з інбоксам",
+      "body": "Злева — спіс водгукаў па фільтрах, у цэнтры — дэталі і адказ, справа — фільтры. Гарачыя клавішы: J/K — наступны/папярэдні водгук, R — адказаць, T — тэгі, A — адказны."
+    }
+  },
+  "drawer": {
+    "title": "Водгук",
+    "noText": "Без тэксту",
+    "replies": "Адказы ({count})",
+    "openInInbox": "Адкрыць у інбоксе",
+    "replyState": {
+      "draft": "Чарнавік",
+      "requested": "Адпраўляецца",
+      "published": "Апублікаваны",
+      "failed": "Памылка",
+      "deleted": "Выдалены"
+    }
+  },
+  "recent": {
+    "empty": "Водгукаў пакуль няма"
+  },
+  "workflow": {
+    "new": "Не апрацаваны",
+    "in_progress": "У працы",
+    "resolved": "Апрацаваны",
+    "no_reply_needed": "Адказ не патрэбны",
+    "escalated": "Эскаляваны"
+  },
+  "kpi": {
+    "total": "Усяго",
+    "positive": "Станоўчыя",
+    "negative": "Адмоўныя",
+    "withoutRating": "Без ацэнкі",
+    "averageRating": "Сярэдні рэйтынг",
+    "unanswered": "Без адказу"
+  },
+  "actions": {
+    "manual": "Дадаць водгук",
+    "export": "Экспарт",
+    "exportStarted": "Экспарт водгукаў запушчаны",
+    "exportReady": "Экспарт гатовы",
+    "filters": "Фільтры",
+    "view": "Выгляд",
+    "sort": "Сартаванне"
+  },
+  "sort": {
+    "-published_at": "Спачатку новыя",
+    "published_at": "Спачатку старыя",
+    "-rating": "Спачатку высокія ацэнкі",
+    "rating": "Спачатку нізкія ацэнкі"
+  },
+  "list": {
+    "search": "Пошук па тэксце, аўтары, кампаніі",
+    "empty": "Водгукаў па гэтых умовах няма",
+    "emptyHint": "Змяніце фільтры або перыяд",
+    "loadMore": "Загрузіць яшчэ",
+    "loading": "Загружаем…",
+    "newCount": "{count, plural, one {# новы водгук} few {# новыя водгукі} other {# новых водгукаў}}",
+    "show": "Паказаць",
+    "noText": "Без тэксту",
+    "unassigned": "Не прызначаны",
+    "edited": "Зменены",
+    "deleted": "Выдалены",
+    "removed": "Схаваны пляцоўкай",
+    "selectHint": "Выберыце водгук у спісе",
+    "count": "{count, plural, one {# водгук} few {# водгукі} other {# водгукаў}}"
+  },
+  "detail": {
+    "openOnPlatform": "Адкрыць на пляцоўцы",
+    "copyLink": "Скапіяваць спасылку",
+    "copied": "Спасылка скапіявана",
+    "copyText": "Скапіяваць тэкст",
+    "textCopied": "Тэкст скапіяваны",
+    "edited": "Зменены",
+    "deletedByAuthor": "Выдалены аўтарам",
+    "removedByPlatform": "Схаваны пляцоўкай",
+    "assignee": "Адказны",
+    "unassigned": "Не прызначаны",
+    "tags": "Тэгі",
+    "addTag": "+ Тэг",
+    "status": "Статус",
+    "sentiment": {
+      "positive": "Пазітыўны",
+      "neutral": "Нейтральны",
+      "negative": "Негатыўны"
+    },
+    "aspects": "Тэмы",
+    "tabs": {
+      "replies": "Адказы ({count})",
+      "notes": "Нататкі ({count})",
+      "history": "Гісторыя"
+    },
+    "responseTime": "Час адказу: {time}",
+    "replyBy": "{name} · {origin}",
+    "origin": {
+      "manual": "уручную",
+      "template": "па шаблоне",
+      "auto": "аўтаадказ",
+      "ai": "нейрасетка",
+      "platform_imported": "з пляцоўкі"
+    },
+    "editReply": "Рэдагаваць",
+    "deleteReply": "Выдаліць",
+    "deleteReplyConfirm": "Выдаліць адказ з пляцоўкі?",
+    "replyDeleted": "Адказ выдалены",
+    "replyUpdated": "Адказ абноўлены",
+    "noReplies": "Адказаў яшчэ няма",
+    "noNotes": "Нататак няма",
+    "noteHint": "Нататкі бачныя толькі вашай камандзе",
+    "addNote": "Дадаць нататку",
+    "notePlaceholder": "Нататка для каманды…",
+    "noteAdded": "Нататка дададзена",
+    "deleteNote": "Выдаліць нататку",
+    "complain": "Паскардзіцца",
+    "complaint": {
+      "title": "Скарга на водгук",
+      "description": "Пляцоўка разгледзіць скаргу і можа схаваць водгук. Пакажыце прычыну.",
+      "reason": "Прычына",
+      "text": "Каментарый",
+      "submit": "Адправіць скаргу",
+      "sent": "Скарга адпраўлена",
+      "state": {
+        "requested": "Скарга адпраўляецца",
+        "submitted": "Скарга пададзена",
+        "accepted": "Скарга прынята",
+        "rejected": "Скарга адхілена",
+        "unknown": "Статус скаргі невядомы"
+      }
+    },
+    "history": {
+      "ingested": "Водгук атрыманы",
+      "edited": "Водгук зменены аўтарам",
+      "deleted": "Водгук выдалены аўтарам",
+      "reply_requested": "Адказ адпраўлены на публікацыю",
+      "reply_published": "Адказ апублікаваны",
+      "reply_failed": "Адказ не апублікаваны",
+      "reply_deleted": "Адказ выдалены",
+      "note_added": "Дададзена нататка",
+      "status_changed": "Статус зменены",
+      "assigned": "Прызначаны адказны",
+      "tagged": "Зменены тэгі",
+      "complaint_requested": "Адпраўлена скарга",
+      "complaint_changed": "Статус скаргі зменены",
+      "system": "Сістэма",
+      "platform": "Пляцоўка",
+      "author": "Аўтар"
+    },
+    "statusUpdated": "Статус абноўлены",
+    "assigneeUpdated": "Адказны абноўлены",
+    "tagsUpdated": "Тэгі абноўлены"
+  },
+  "composer": {
+    "placeholder": "Напішыце адказ кліенту…",
+    "template": "Шаблон",
+    "ai": "Згенераваць ШІ",
+    "preview": "Папярэдні прагляд",
+    "publish": "Апублікаваць",
+    "draft": "Захаваць чарнавік",
+    "cancelEdit": "Адмяніць",
+    "saveEdit": "Захаваць",
+    "published": "Адказ адпраўлены на публікацыю",
+    "draftSaved": "Чарнавік захаваны",
+    "noReplySupport": "Пляцоўка не падтрымлівае адказы на водгукі",
+    "charCount": "{count} / {max}",
+    "variables": "Пераменныя будуць падстаўлены пры публікацыі",
+    "stateHint": {
+      "requested": "Адпраўляецца на пляцоўку…",
+      "published": "Апублікаваны",
+      "failed": "Не ўдалося апублікаваць"
+    },
+    "retry": "Паўтарыць",
+    "replying": "Адказаць"
+  },
+  "filters": {
+    "title": "Фільтры",
+    "clear": "Ачысціць фільтр",
+    "apply": "Ужыць",
+    "platform": "Крыніца",
+    "rating": "Ацэнка",
+    "period": "Перыяд",
+    "assignee": "Адказны",
+    "repliedBy": "Хто адказаў",
+    "hasReply": "Ёсць адказ",
+    "hasReplyYes": "З адказам",
+    "hasReplyNo": "Без адказу",
+    "status": "Статус",
+    "tags": "Тэгі",
+    "hasText": "Ёсць тэкст",
+    "hasTextYes": "З тэкстам",
+    "hasTextNo": "Без тэксту",
+    "state": "Стан",
+    "sentiment": "Танальнасць",
+    "location": "Кампаніі",
+    "any": "Любы",
+    "ratingNone": "Без ацэнкі",
+    "stars": "{count, plural, one {# зорка} few {# зоркі} other {# зорак}}",
+    "state_visible": "Бачныя",
+    "state_edited": "Змененыя",
+    "state_deleted_by_author": "Выдаленыя аўтарам",
+    "state_removed_by_platform": "Схаваныя пляцоўкай",
+    "active": "Фільтраў: {count}"
+  },
+  "manual": {
+    "title": "Дадаць водгук уручную",
+    "description": "Для пляцовак без API або водгукаў, атрыманых асабіста. Водгук трапіць у аналітыку.",
+    "location": "Кампанія",
+    "platform": "Пляцоўка",
+    "rating": "Ацэнка",
+    "author": "Імя аўтара",
+    "text": "Тэкст",
+    "date": "Дата",
+    "submit": "Дадаць",
+    "added": "Водгук дададзены",
+    "chooseLocation": "Выберыце кампанію"
+  },
+  "hotkeys": {
+    "title": "Гарачыя клавішы",
+    "next": "Наступны",
+    "prev": "Папярэдні",
+    "reply": "Адказаць",
+    "tags": "Тэгі",
+    "assign": "Адказны"
+  }
+}

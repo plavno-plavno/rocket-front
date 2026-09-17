@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { flattenKeys, HEADER, importPath, listFeatures, readJson, SRC, writeGenerated } from './lib.mjs';
 
-const LOCALES = ['ru', 'en'];
+const LOCALES = ['ru', 'be', 'en'];
 
 /**
  * Builds src/generated/messages.ts from src/shell/messages/*.json (top-level namespaces)

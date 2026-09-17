@@ -366,3 +366,10 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 ---
 
 **All 28 features are `ready`** (waves 1–3 complete): Foundation, UI-DS, F1, F2, F3, F7, F4, F5, F8, F6. Remaining product work lives in `packages/contracts/CHANGE_REQUESTS.md` (contract gaps) and `docs/requests/` (cross-track notes).
+
+## i18n — Беларуская мова (2026-09-17)
+
+- Third interface locale `be` (Belarusian, official orthography): `LOCALES = ['ru', 'be', 'en']`, `date-fns/locale/be` for calendars, ICU plural rules `one / few / other` as in Russian; `pnpm gen --check` now validates key parity across all three locales.
+- 2 163 interface strings translated by hand in `src/shell/messages/be.json` and every `features/*/messages/be.json`; placeholders and ICU plural forms verified against RU; mock data (companies, reviews, names) intentionally stays Russian.
+- Language is offered in the user menu, on the auth pages and in the profile («Мова інтэрфейсу»); Russian remains the default, no browser negotiation.
+- e2e: `features/session/e2e/locale.spec.ts` — switch to Belarusian in the profile → sidebar and headings in Belarusian while mock content stays Russian → switch back.
