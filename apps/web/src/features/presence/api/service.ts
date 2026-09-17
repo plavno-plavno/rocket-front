@@ -60,3 +60,9 @@ export async function exportPresence(
   });
   return data!;
 }
+
+/** GET /exports/{id} — poll an async report until `done` (see `waitForExport`). */
+export async function getExport(id: string) {
+  const { data } = await coreClient().GET('/exports/{id}', { params: { path: { id } } });
+  return data!;
+}

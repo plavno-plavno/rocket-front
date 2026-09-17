@@ -27,9 +27,12 @@ DS, F3 (`TagPicker`), F7 (`UserCombobox`), F2 (`ReviewDrawer`)
 6. e2e — `e2e/*.spec.ts` в фиче (`pnpm e2e`), визуальные эталоны через `toHaveScreenshot`.
 
 ## Definition of Done (SDD-01T §8)
-- [ ] Все экраны трека используют шаблоны страниц и работают против mock core-api.
-- [ ] Публичный API реализован полностью, props изменены только аддитивно.
-- [ ] Переводы RU/EN, `gen --check` без ошибок и без provisional.
-- [ ] e2e трека и визуальные эталоны (1440px светлая/тёмная, 390px для инбокса).
-- [ ] Нет `_local`-компонентов и открытых блокирующих запросов.
-- [ ] `feature.ts` → `status: 'ready'`.
+- [x] Все экраны трека используют шаблоны страниц и работают против mock core-api.
+- [x] Публичный API реализован полностью, props изменены только аддитивно.
+- [x] Переводы RU/EN, `gen --check` без ошибок и без provisional.
+- [x] e2e трека и визуальные эталоны (1440px светлая/тёмная, 390px для инбокса).
+- [x] Нет `_local`-компонентов и открытых блокирующих запросов.
+- [x] `feature.ts` → `status: 'ready'`.
+
+## Статус (2026-09-17)
+Готово, ветка `ui/UI-F4/analytics`, влита в main. Подробности — `docs/CHANGELOG.md` («UI-F4 — Analytics»), cross-track — `docs/requests/20260917-UI-F4-cross-track-fixes.md`. Тепловая карта позиций рендерится сеткой; MapLibre-режим включается `NEXT_PUBLIC_MAP_STYLE_URL` (UI-DS).

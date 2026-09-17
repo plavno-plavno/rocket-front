@@ -1,7 +1,13 @@
 import { createSearchParamsCache } from 'nuqs/server';
-import { commonSearchParams } from '@/lib/searchparams';
+import { parseAsArrayOf, parseAsString } from 'nuqs';
+import { commonSearchParams, periodSearchParams } from '@/lib/searchparams';
 
-/** URL state of the presence screens — spreads the shared parsers (scope, page, sort, q). */
-export const presenceSearchParams = { ...commonSearchParams };
+/** URL state of the presence screens: shared parsers + period + platform filter + keywords month. */
+export const presenceSearchParams = {
+  ...commonSearchParams,
+  ...periodSearchParams,
+  platform: parseAsArrayOf(parseAsString).withDefault([]),
+  month: parseAsString.withDefault('')
+};
 
 export const presenceSearchParamsCache = createSearchParamsCache(presenceSearchParams);

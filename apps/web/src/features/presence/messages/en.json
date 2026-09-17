@@ -9,11 +9,91 @@
     "title": "Online presence analytics",
     "description": "Impressions, actions and conversion by platform"
   },
+  "screens": {
+    "overview": {
+      "title": "Online presence analytics",
+      "description": "Impressions, target actions and conversion of listings on the platforms",
+      "info": "Impressions — how many times listings were seen in maps and search; target actions — calls, website visits, directions. Not every platform reports statistics: those are marked separately, not as zeros."
+    },
+    "sync": {
+      "title": "Platform sync",
+      "description": "Listing states per platform in the current scope",
+      "info": "A «platform × status» matrix. «Action required» listings wait for your decision — see «Sources»."
+    },
+    "keywords": {
+      "title": "Search keywords",
+      "description": "Queries that lead to your listings — monthly",
+      "info": "Platforms report keyword impressions once a month. The trend is against the previous month."
+    },
+    "platform": {
+      "title": "Platform",
+      "description": "Online presence metrics on one platform",
+      "info": "The same impressions and actions, for the selected platform only."
+    }
+  },
+  "actions": {
+    "export": "Download data",
+    "exportStarted": "Preparing the export…"
+  },
+  "filters": {
+    "platform": "Platform",
+    "allPlatforms": "All platforms"
+  },
+  "kpi": {
+    "impressions": "Impressions",
+    "actions": "Target actions",
+    "actionsHint": "Calls {calls} · website {website} · directions {directions}",
+    "conversion": "Conversion"
+  },
+  "impressions": {
+    "title": "Impressions",
+    "description": "In maps and in search",
+    "maps": "Maps",
+    "search": "Search",
+    "noData": "Platforms do not report impression statistics for the period"
+  },
+  "platforms": {
+    "title": "By platform",
+    "description": "Open a platform to see its metrics on their own",
+    "noStatsTitle": "Not every platform reports statistics",
+    "noStats": "No data: {platforms}. The metrics above are computed from the other platforms.",
+    "noStatsShort": "no statistics",
+    "noStatsOne": "{platform} does not report impression and action statistics",
+    "back": "All platforms"
+  },
+  "sync": {
+    "platform": "Platform",
+    "status": {
+      "synced": "Synced",
+      "sent": "Sent",
+      "action_required": "Action",
+      "error": "Error",
+      "not_connected": "Not conn.",
+      "unsupported": "Unsupported"
+    },
+    "total": "Total",
+    "coverage": "Synced",
+    "allPlatforms": "All platforms",
+    "toSources": "Go to «Sources»"
+  },
+  "keywords": {
+    "search": "Search by keyword",
+    "month": "Month",
+    "count": "{count, plural, one {# keyword} other {# keywords}}",
+    "keyword": "Keyword",
+    "platform": "Platform",
+    "impressions": "Impressions",
+    "trend": "vs previous month",
+    "empty": "No data for the selected month",
+    "page": "Page {page} of {pages}",
+    "prev": "Previous page",
+    "next": "Next page"
+  },
   "trendCard": {
     "title": "Target actions",
-    "description": "Calls, website visits, directions and other actions per day",
+    "description": "Calls, website visits, directions and other actions",
     "calls": "Calls",
-    "website": "Website",
+    "website": "Website visits",
     "directions": "Directions",
     "other": "Other"
   }

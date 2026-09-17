@@ -1,6 +1,15 @@
-import { PlannedPage } from '@/components/lp/planned-page';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { RankTracker } from '@/features/rank/components/rank-tracker';
+import { requireAccess } from '@/features/session/server';
 
-/** S-RNK-01 — owned by UI-F4. Replace PlannedPage with the real screen (must render a components/lp template). */
-export default function Page() {
-  return <PlannedPage feature='rank' screen='S-RNK-01' track='UI-F4' />;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('rank.page');
+  return { title: t('title') };
+}
+
+/** S-RNK-01 «Трекер позиций» — owned by UI-F4 (renders `AnalyticsPage`). */
+export default async function Page() {
+  const access = await requireAccess({ permission: 'analytics.read', feature: 'rank_tracker' });
+  return <RankTracker access={access} />;
 }

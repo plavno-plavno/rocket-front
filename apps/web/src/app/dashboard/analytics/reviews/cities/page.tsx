@@ -1,6 +1,20 @@
-import { PlannedPage } from '@/components/lp/planned-page';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { AnalyticsScreen } from '@/features/review-analytics/components/analytics-screen';
+import { RankingTable } from '@/features/review-analytics/components/ranking-table';
+import { requireAccess } from '@/features/session/server';
 
-/** S-ANL-03 — owned by UI-F4. Replace PlannedPage with the real screen (must render a components/lp template). */
-export default function Page() {
-  return <PlannedPage feature='review-analytics' screen='S-ANL-03' track='UI-F4' />;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('review-analytics.screens');
+  return { title: t('cities.title') };
+}
+
+/** S-ANL-03 — owned by UI-F4 (renders `AnalyticsPage` via AnalyticsScreen). */
+export default async function Page() {
+  const access = await requireAccess({ permission: 'analytics.read' });
+  return (
+    <AnalyticsScreen screen='cities' access={access}>
+      <RankingTable dimension='cities' />
+    </AnalyticsScreen>
+  );
 }

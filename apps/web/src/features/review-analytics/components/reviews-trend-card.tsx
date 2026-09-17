@@ -15,21 +15,33 @@ import {
 } from '@/components/ui/chart';
 import { Skeleton } from '@/components/ui/skeleton';
 import { reviewTrendQueryOptions } from '../api/queries';
+import type { GetReviewTrendQuery } from '../api/types';
 
 export interface ReviewsTrendCardProps {
   scope: string;
   from?: string;
   to?: string;
   className?: string;
+  /** Bucket size («По дням / неделям / месяцам»); day by default. */
+  granularity?: 'day' | 'week' | 'month';
+  /** Extra analytics filters (`filter[region]`, `filter[platform_id]`, …) — additive, F4. */
+  filters?: Partial<GetReviewTrendQuery>;
 }
 
-/** Public stub (SDD-01T §3.5): area chart of reviews per day split positive / negative (F8 overview). */
-export function ReviewsTrendCard({ scope, from, to, className }: ReviewsTrendCardProps) {
+/** Public (SDD-01T §3.5): area chart of reviews per bucket split positive / negative (panel, F8 overview). */
+export function ReviewsTrendCard({
+  scope,
+  from,
+  to,
+  className,
+  granularity = 'day',
+  filters
+}: ReviewsTrendCardProps) {
   const t = useTranslations('review-analytics.trendCard');
   const format = useFormatter();
   const range = from && to ? { from, to } : presetRange('30d');
   const { data, isPending } = useQuery(
-    reviewTrendQueryOptions({ scope, from: range.from, to: range.to, granularity: 'day' })
+    reviewTrendQueryOptions({ ...filters, scope, from: range.from, to: range.to, granularity })
   );
   const config = {
     positive: { label: t('positive'), color: 'var(--rating-positive)' },
@@ -43,7 +55,8 @@ export function ReviewsTrendCard({ scope, from, to, className }: ReviewsTrendCar
         <CardDescription>
           {t('description', {
             from: format.dateTime(new Date(range.from), 'short'),
-            to: format.dateTime(new Date(range.to), 'short')
+            to: format.dateTime(new Date(range.to), 'short'),
+            granularity: t(`granularity.${granularity}`)
           })}
         </CardDescription>
       </CardHeader>

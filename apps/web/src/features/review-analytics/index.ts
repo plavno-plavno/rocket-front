@@ -6,3 +6,6 @@ export {
   reviewTrendQueryOptions,
   reviewAnalyticsKeys
 } from './api/queries';
+export { waitForExport, formatDuration, deltaOf } from './lib/export';
+export { reviewLocationsRankingQueryOptions } from './api/queries';
+export type { ReviewAnalyticsSummary, TrendPoint, RankingRow } from './api/types';

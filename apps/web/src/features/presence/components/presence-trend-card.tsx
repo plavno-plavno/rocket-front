@@ -21,15 +21,32 @@ export interface PresenceTrendCardProps {
   from?: string;
   to?: string;
   className?: string;
+  /** Bucket size («По дням / неделям / месяцам»); day by default. */
+  granularity?: 'day' | 'week' | 'month';
+  /** Platform filter (`filter[platform_id]`) — additive, F4. */
+  platformIds?: string[];
 }
 
-/** Public stub (SDD-01T §3.5): stacked bars of target actions per day (calls / website / directions / other). */
-export function PresenceTrendCard({ scope, from, to, className }: PresenceTrendCardProps) {
+/** Public (SDD-01T §3.5): stacked bars of target actions per day (calls / website / directions / other). */
+export function PresenceTrendCard({
+  scope,
+  from,
+  to,
+  className,
+  granularity = 'day',
+  platformIds
+}: PresenceTrendCardProps) {
   const t = useTranslations('presence.trendCard');
   const format = useFormatter();
   const range = from && to ? { from, to } : presetRange('30d');
   const { data, isPending } = useQuery(
-    presenceTrendQueryOptions({ scope, from: range.from, to: range.to, granularity: 'day' })
+    presenceTrendQueryOptions({
+      scope,
+      from: range.from,
+      to: range.to,
+      granularity,
+      ...(platformIds?.length ? { 'filter[platform_id]': platformIds } : {})
+    })
   );
   const config = {
     actions_calls: { label: t('calls'), color: 'var(--chart-1)' },

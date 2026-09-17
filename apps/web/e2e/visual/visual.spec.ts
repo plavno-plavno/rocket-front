@@ -38,7 +38,20 @@ const PAGES: { name: string; url: string; ready: string }[] = [
     url: '/dashboard/notifications',
     ready: '[data-testid="notifications-list"]'
   },
-  { name: 'onboarding', url: '/dashboard/onboarding', ready: 'text=Добавлено' }
+  { name: 'onboarding', url: '/dashboard/onboarding', ready: 'text=Добавлено' },
+  {
+    name: 'analytics',
+    url: '/dashboard/analytics/reviews',
+    ready: '[data-testid="negative-locations"] li'
+  },
+  {
+    name: 'analytics-locations',
+    url: '/dashboard/analytics/reviews/locations',
+    ready: '[data-testid="ranking-locations"] tbody tr'
+  },
+  { name: 'presence', url: '/dashboard/presence', ready: '[data-testid="platform-links"] a' },
+  { name: 'presence-sync', url: '/dashboard/presence/sync', ready: 'text=Все площадки' },
+  { name: 'rank', url: '/dashboard/rank', ready: '[data-testid="rank-competitors"] tbody tr' }
 ];
 
 for (const theme of ['light', 'dark'] as const) {

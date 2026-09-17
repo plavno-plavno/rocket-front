@@ -1,7 +1,7 @@
 {
   "nav": {
     "root": "Review analytics",
-    "panel": "Dashboard",
+    "panel": "Panel",
     "locations": "Locations",
     "cities": "Cities",
     "tags": "Tags",
@@ -12,11 +12,160 @@
   },
   "page": {
     "title": "Review analytics",
-    "description": "Review metrics for a period"
+    "description": "Review metrics for the period"
+  },
+  "screens": {
+    "panel": {
+      "title": "Review analytics",
+      "description": "Review metrics for the period: trend, regions, ratings",
+      "info": "All metrics count reviews published in the selected period within the global scope and filters. Comparing periods adds a delta to the cards."
+    },
+    "locations": {
+      "title": "Location ranking",
+      "description": "Locations by review count, rating and reply share",
+      "info": "Click a name to open the location card. Sort by clicking a column header."
+    },
+    "cities": {
+      "title": "City ranking",
+      "description": "Cities by review count and average rating",
+      "info": "The city comes from the location address."
+    },
+    "tags": {
+      "title": "Tag ranking",
+      "description": "Tags the team applies to reviews",
+      "info": "A review with several tags counts in each of them."
+    },
+    "phrases": {
+      "title": "Frequent phrases",
+      "description": "Phrases that appear most often in review texts",
+      "info": "Click a phrase to open the concordance — its context in reviews."
+    },
+    "staff": {
+      "title": "Staff",
+      "description": "Replies and reaction speed per team member",
+      "info": "Published replies in the period are counted; the average time is from review publication to the reply."
+    },
+    "topics": {
+      "title": "Topics",
+      "description": "Aspects customers write about, with sentiment",
+      "info": "Topics are extracted by the AI from the review text; sentiment follows the rating and content."
+    },
+    "concordance": {
+      "title": "Concordance",
+      "description": "Keyword in the context of reviews",
+      "info": "Enter a word or phrase — the table shows review fragments containing it. Click a row to open the review."
+    }
+  },
+  "actions": {
+    "export": "Download report",
+    "exportStarted": "Preparing the report…"
+  },
+  "filters": {
+    "region": "Region",
+    "brand": "Brand",
+    "city": "City",
+    "platform": "Platform",
+    "any": "{what}: all",
+    "reset": "Reset"
+  },
+  "kpi": {
+    "total": "Total reviews",
+    "complaints": "Complaints sent",
+    "edited": "Edited by users",
+    "answered": "With replies",
+    "of": "of",
+    "responseTime": "Average response time",
+    "deleted": "Deleted by users"
+  },
+  "duration": {
+    "d": "d",
+    "h": "h",
+    "min": "min",
+    "s": "s"
+  },
+  "regions": {
+    "title": "Reviews by region",
+    "total": "Total reviews from {country}: {count}",
+    "country": "Country",
+    "reviews": "{count, plural, one {# review} other {# reviews}}"
+  },
+  "countries": {
+    "RU": "Russia"
+  },
+  "rating": {
+    "title": "Average rating",
+    "description": "Average rating over the period",
+    "average": "Average rating",
+    "distribution": "Rating distribution",
+    "stars": "{count, plural, one {# star} other {# stars}}",
+    "noRating": "No rating"
+  },
+  "negative": {
+    "title": "Locations with the most negativity",
+    "description": "Most reviews rated 1–2 in the period",
+    "empty": "No negative reviews in the period",
+    "ofTotal": "of {total}"
+  },
+  "ranking": {
+    "search": {
+      "locations": "Search by location",
+      "cities": "Search by city",
+      "tags": "Search by tag",
+      "phrases": "Search by phrase",
+      "topics": "Search by topic"
+    },
+    "label": {
+      "locations": "Location",
+      "cities": "City",
+      "tags": "Tag",
+      "phrases": "Phrase",
+      "topics": "Topic"
+    },
+    "count": "{count, plural, one {# row} other {# rows}}",
+    "total": "Reviews",
+    "positive": "Positive",
+    "negative": "Negative",
+    "rating": "Rating",
+    "answered": "Replied",
+    "sentiment": "Sentiment",
+    "sentiments": {
+      "positive": "Positive",
+      "neutral": "Neutral",
+      "negative": "Negative"
+    },
+    "empty": "No data for the period",
+    "emptyFiltered": "Nothing matches your filters",
+    "page": "Page {page} of {pages}",
+    "prev": "Previous page",
+    "next": "Next page"
+  },
+  "staff": {
+    "name": "Team member",
+    "replies": "Replies",
+    "responseTime": "Average response time",
+    "resolved": "Resolved",
+    "open": "In progress",
+    "empty": "No replies in the period"
+  },
+  "concordance": {
+    "keyword": "Keyword",
+    "placeholder": "e.g. «staff» or «waited»",
+    "search": "Search",
+    "count": "{count, plural, one {# mention} other {# mentions}}",
+    "emptyTitle": "Enter a word or phrase",
+    "emptyHint": "We will show review fragments containing it, with rating and platform",
+    "nothing": "«{keyword}» does not occur in reviews for the period",
+    "nothingHint": "Try another word or widen the period",
+    "meta": "Rating · platform · location · date"
   },
   "trendCard": {
-    "title": "Reviews over time",
-    "description": "{from} — {to}, daily",
+    "title": "Reviews over the period",
+    "description": "{from} — {to}, {granularity}",
+    "granularity": {
+      "day": "by day",
+      "week": "by week",
+      "month": "by month"
+    },
     "positive": "Positive",
     "negative": "Negative"
   }

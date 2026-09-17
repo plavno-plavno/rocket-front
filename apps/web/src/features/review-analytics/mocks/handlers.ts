@@ -11,6 +11,7 @@ import {
   parseListQuery,
   requireSession,
   scopeLocationIds,
+  sortBy,
   type ListQuery
 } from '@mocks/lib/http';
 
@@ -281,7 +282,9 @@ export const handlers = [
         }));
       if (q.q) rows = rows.filter((r) => r.label.toLowerCase().includes(q.q));
       void TOPICS;
-      return response(200).json(paginate(rows, q));
+      return response(200).json(
+        paginate(sortBy(rows, q.sort.length ? q.sort : [{ field: 'total', desc: true }]), q)
+      );
     })
   ),
 
@@ -315,10 +318,7 @@ export const handlers = [
       };
     });
     return response(200).json(
-      paginate(
-        rows.toSorted((a, b) => b.replies - a.replies),
-        q
-      )
+      paginate(sortBy(rows, q.sort.length ? q.sort : [{ field: 'replies', desc: true }]), q)
     );
   }),
 

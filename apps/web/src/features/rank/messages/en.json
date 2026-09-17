@@ -4,6 +4,83 @@
   },
   "page": {
     "title": "Rank tracker",
-    "description": "Local rankings by keyword"
+    "description": "Local listing positions by keyword on a grid around the location",
+    "info": "A project defines platforms, keywords, a grid of points and a schedule. The heatmap shows the listing position from every point; ARP is the average rank, SoLV the share of points where the listing is in the top 3."
+  },
+  "empty": {
+    "title": "No projects yet",
+    "hint": "Create a project: pick platforms, keywords and locations — the first measurement runs on schedule"
+  },
+  "project": {
+    "select": "Project",
+    "create": "New project",
+    "createTitle": "New tracker project",
+    "editTitle": "Tracker project",
+    "description": "Platforms with rank support, keywords, grid and measurement schedule",
+    "name": "Name",
+    "namePlaceholder": "e.g. «Moscow — sneakers»",
+    "nameRequired": "Enter a name",
+    "platforms": "Platforms",
+    "platformsHint": "Only platforms where rank measurement is available",
+    "platformsRequired": "Pick at least one platform",
+    "keywords": "Keywords",
+    "keywordsPlaceholder": "sneakers, sports goods…",
+    "keywordsHint": "Enter or comma adds a keyword",
+    "keywordsRequired": "Add at least one keyword",
+    "grid": "Grid",
+    "radius": "Radius, m",
+    "schedule": "Schedule",
+    "schedules": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "manual": "Manual"
+    },
+    "scope": "Locations",
+    "scopeAll": "All locations",
+    "scopeSelected": "Selected: {count}",
+    "cancel": "Cancel",
+    "save": "Save",
+    "created": "Project created",
+    "updated": "Project saved",
+    "run": "Run measurement",
+    "runStarted": "Measurement started — results appear in a few minutes",
+    "edit": "Edit project",
+    "delete": "Delete project",
+    "deleteConfirm": "Delete project «{name}» and its measurement history?",
+    "deleteConfirmButton": "Delete",
+    "deleted": "Project deleted",
+    "lastRun": "Last measurement {when}",
+    "neverRun": "No measurements yet",
+    "km": "km"
+  },
+  "controls": {
+    "location": "Location",
+    "keyword": "Keyword",
+    "platform": "Platform"
+  },
+  "kpi": {
+    "arp": "ARP — average rank",
+    "arpHint": "Lower is better",
+    "solv": "SoLV — top-3 share",
+    "solvHint": "Share of grid points where the listing is in the top 3",
+    "captured": "Measured on"
+  },
+  "heatmap": {
+    "title": "Rank heatmap",
+    "description": "Position for «{keyword}» from every grid point"
+  },
+  "trend": {
+    "title": "ARP and SoLV trend",
+    "description": "Over the quarter on the project schedule",
+    "arp": "ARP (rank)",
+    "solv": "SoLV, %"
+  },
+  "competitors": {
+    "title": "Competitors in results",
+    "description": "Who appears most often in the top for «{keyword}»",
+    "name": "Organisation",
+    "appearances": "Appearances",
+    "avgRank": "Average rank"
   }
 }
