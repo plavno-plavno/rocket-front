@@ -1197,6 +1197,60 @@ export interface paths {
         patch: operations["update_profile"];
         trace?: never;
     };
+    "/me/2fa": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Disable two-factor authentication */
+        delete: operations["disable_two_factor"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/2fa/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Activate the enrolled authenticator */
+        post: operations["confirm_two_factor"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/2fa/enrol": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start enrolling an authenticator app
+         * @description Returns a fresh TOTP secret (not yet active). Confirm it with `POST /me/2fa/confirm`.
+         */
+        post: operations["enrol_two_factor"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/me/badges": {
         parameters: {
             query?: never;
@@ -1208,6 +1262,43 @@ export interface paths {
         get: operations["get_badges"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/email": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Request a change of own e-mail
+         * @description Sends a confirmation link to the new address; the e-mail changes after `POST /me/email/confirm`.
+         */
+        post: operations["request_email_change"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/email/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm the new e-mail */
+        post: operations["confirm_email_change"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2282,6 +2373,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/taxonomy/attributes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Location attribute keys */
+        get: operations["list_taxonomy_attributes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/taxonomy/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Internal category taxonomy
+         * @description Localised by the user's locale. `platform_id` narrows to categories mapped on that platform.
+         */
+        get: operations["list_taxonomy_categories"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/template-groups": {
         parameters: {
             query?: never;
@@ -2777,6 +2905,13 @@ export interface components {
             fakes: number;
             open: number;
         };
+        EmailChangeConfirm: {
+            token: string;
+        };
+        EmailChangeRequest: {
+            /** Format: email */
+            email: string;
+        };
         Export: {
             created_at: components["schemas"]["Timestamp"];
             download_url?: string | null;
@@ -3009,9 +3144,9 @@ export interface components {
                 [key: string]: unknown;
             };
             location_ids?: components["schemas"]["Id"][];
-            patch: components["schemas"]["LocationCore"];
+            patch: components["schemas"]["LocationPatch"];
         };
-        /** @description Canonical location fields (SDD-00 §4) shared by read and write shapes. */
+        /** @description Canonical location fields (SDD-00 §4) shared by read and write shapes. Keep the property list equal to `LocationPatch`. */
         LocationCore: {
             address: components["schemas"]["Address"];
             attributes?: {
@@ -3082,6 +3217,34 @@ export interface components {
             logo?: string | null;
             photos?: components["schemas"]["Id"][];
         };
+        /** @description Any subset of the canonical location fields (bulk edit, import) — same properties as `LocationCore`, nothing required. */
+        LocationPatch: {
+            address?: components["schemas"]["Address"];
+            attributes?: {
+                [key: string]: boolean | string | number;
+            };
+            branch_code?: string | null;
+            brand_group_id?: string | null;
+            categories?: components["schemas"]["Categories"];
+            description?: string | null;
+            emails?: string[];
+            field_policies?: {
+                [key: string]: components["schemas"]["FieldPolicy"];
+            };
+            geo?: components["schemas"]["Geo"];
+            hours?: components["schemas"]["Hours"];
+            media?: components["schemas"]["LocationMedia"];
+            name?: string;
+            phones?: components["schemas"]["Phone"][];
+            /** @description Per-platform overrides of canonical fields, keyed by platform id. */
+            platform_overrides?: {
+                [key: string]: components["schemas"]["PlatformOverride"];
+            };
+            social?: components["schemas"]["SocialLink"][];
+            status?: components["schemas"]["LocationStatus"];
+            timezone?: string;
+            website?: string | null;
+        };
         /** @enum {string} */
         LocationStatus: "open" | "temporarily_closed" | "permanently_closed" | "coming_soon";
         LocationUpdate: components["schemas"]["LocationCore"] & {
@@ -3130,6 +3293,13 @@ export interface components {
         MediaKind: "photo" | "video" | "logo" | "cover";
         /** @enum {string} */
         MediaOrigin: "owner" | "user_generated";
+        MediaUpload: {
+            /** Format: binary */
+            file: string;
+            kind?: components["schemas"]["MediaKind"];
+            /** @description Locations the asset is attached to — repeated form fields or one comma-separated value. */
+            location_ids?: components["schemas"]["Id"][];
+        };
         /** @description A user inside the current tenant (Settings → Users, SCR-2). */
         Membership: {
             access_rule: components["schemas"]["AccessRule"];
@@ -3161,8 +3331,7 @@ export interface components {
             link?: string | null;
             read: boolean;
             title: string;
-            /** @enum {string} */
-            type: "negative_review" | "unanswered_review" | "action_required" | "batch_finished" | "account_issue" | "system";
+            type: components["schemas"]["NotificationType"];
         };
         /** @enum {string} */
         NotificationChannel: "email" | "telegram" | "web_push";
@@ -3193,6 +3362,8 @@ export interface components {
                 type: components["schemas"]["Notification"]["type"];
             }[];
         };
+        /** @enum {string} */
+        NotificationType: "negative_review" | "unanswered_review" | "action_required" | "batch_finished" | "account_issue" | "system";
         OAuthStartResponse: {
             /** Format: uri */
             redirect_url: string;
@@ -3413,6 +3584,11 @@ export interface components {
             scope: string;
             /** Format: date-time */
             starts_at?: string | null;
+            /**
+             * @description Default `publish`. `draft` keeps the post unpublished, `scheduled` requires `schedule_at`, `publish` sends now (or at `schedule_at` when in the future).
+             * @enum {string}
+             */
+            state?: "draft" | "scheduled" | "publish";
             text: string;
             title?: string | null;
             type: components["schemas"]["PublicationType"];
@@ -3815,7 +3991,7 @@ export interface components {
             id: components["schemas"]["Id"];
             initiator_user_id?: string | null;
             /** @enum {string} */
-            kind: "bulk_edit" | "rollback" | "schedule" | "import";
+            kind: "bulk_edit" | "rollback" | "schedule" | "import" | "products" | "campaign_send";
             progress: {
                 done: number;
                 failed: number;
@@ -3860,6 +4036,25 @@ export interface components {
         TagCreate: {
             color: string;
             name: string;
+        };
+        TaxonomyAttribute: {
+            /** @example wheelchair_accessible */
+            key: string;
+            /** @enum {string} */
+            kind: "boolean" | "enum";
+            name: string;
+            values: {
+                name: string;
+                value: string;
+            }[];
+        };
+        TaxonomyCategory: {
+            /** @example cat_sporting_goods */
+            id: string;
+            name: string;
+            parent_id: string | null;
+            /** @description Platforms with a mapping for this category */
+            platform_ids: components["schemas"]["Id"][];
         };
         TemplateGroup: {
             id: components["schemas"]["Id"];
@@ -3914,6 +4109,15 @@ export interface components {
             total?: number;
             without_rating?: number;
         };
+        TwoFactorCode: {
+            code: string;
+        };
+        TwoFactorEnrolment: {
+            /** @description otpauth:// URI for the QR code */
+            otpauth_url: string;
+            /** @description Base32 secret for manual entry */
+            secret: string;
+        };
         TwoFactorRequest: {
             challenge_token: string;
             code: string;
@@ -3958,9 +4162,7 @@ export interface components {
         };
         Widget: {
             allowed_domains: string[];
-            config: {
-                [key: string]: unknown;
-            };
+            config: components["schemas"]["WidgetConfig"];
             created_at: components["schemas"]["Timestamp"];
             embed_snippet?: string;
             id: components["schemas"]["Id"];
@@ -3968,13 +4170,31 @@ export interface components {
             name: string;
             public_key: string;
         };
+        /** @description Per-kind options (`reviews` → theme/min_rating/platforms/limit, `store_locator` → theme/default_city/show_hours); unknown keys are kept. */
+        WidgetConfig: {
+            /** @description store_locator */
+            default_city?: string;
+            /** @description reviews */
+            limit?: number;
+            /** @description reviews */
+            min_rating?: number;
+            /** @description reviews */
+            platforms?: components["schemas"]["Id"][];
+            /** @description store_locator */
+            show_hours?: boolean;
+            /**
+             * @description Default light
+             * @enum {string}
+             */
+            theme?: "light" | "dark";
+        } & {
+            [key: string]: unknown;
+        };
         /** @enum {string} */
         WidgetKind: "reviews" | "store_locator";
         WidgetUpsert: {
             allowed_domains?: string[];
-            config?: {
-                [key: string]: unknown;
-            };
+            config?: components["schemas"]["WidgetConfig"];
             kind: components["schemas"]["WidgetKind"];
             name: string;
         };
@@ -4060,6 +4280,8 @@ export type DuplicateCase = components['schemas']['DuplicateCase'];
 export type DuplicateKind = components['schemas']['DuplicateKind'];
 export type DuplicateState = components['schemas']['DuplicateState'];
 export type DuplicateSummary = components['schemas']['DuplicateSummary'];
+export type EmailChangeConfirm = components['schemas']['EmailChangeConfirm'];
+export type EmailChangeRequest = components['schemas']['EmailChangeRequest'];
 export type Export = components['schemas']['Export'];
 export type ExportCreate = components['schemas']['ExportCreate'];
 export type ExportState = components['schemas']['ExportState'];
@@ -4100,6 +4322,7 @@ export type LocationGroupCreate = components['schemas']['LocationGroupCreate'];
 export type LocationGroupKind = components['schemas']['LocationGroupKind'];
 export type LocationListItem = components['schemas']['LocationListItem'];
 export type LocationMedia = components['schemas']['LocationMedia'];
+export type LocationPatch = components['schemas']['LocationPatch'];
 export type LocationStatus = components['schemas']['LocationStatus'];
 export type LocationUpdate = components['schemas']['LocationUpdate'];
 export type LocationVersion = components['schemas']['LocationVersion'];
@@ -4108,6 +4331,7 @@ export type Me = components['schemas']['Me'];
 export type MediaAsset = components['schemas']['MediaAsset'];
 export type MediaKind = components['schemas']['MediaKind'];
 export type MediaOrigin = components['schemas']['MediaOrigin'];
+export type MediaUpload = components['schemas']['MediaUpload'];
 export type Membership = components['schemas']['Membership'];
 export type MembershipUpdate = components['schemas']['MembershipUpdate'];
 export type Metric = components['schemas']['Metric'];
@@ -4115,6 +4339,7 @@ export type Money = components['schemas']['Money'];
 export type Notification = components['schemas']['Notification'];
 export type NotificationChannel = components['schemas']['NotificationChannel'];
 export type NotificationSettings = components['schemas']['NotificationSettings'];
+export type NotificationType = components['schemas']['NotificationType'];
 export type OAuthStartResponse = components['schemas']['OAuthStartResponse'];
 export type PageMeta = components['schemas']['PageMeta'];
 export type PasswordChange = components['schemas']['PasswordChange'];
@@ -4196,6 +4421,8 @@ export type SyncOperationState = components['schemas']['SyncOperationState'];
 export type SyncStatus = components['schemas']['SyncStatus'];
 export type Tag = components['schemas']['Tag'];
 export type TagCreate = components['schemas']['TagCreate'];
+export type TaxonomyAttribute = components['schemas']['TaxonomyAttribute'];
+export type TaxonomyCategory = components['schemas']['TaxonomyCategory'];
 export type TemplateGroup = components['schemas']['TemplateGroup'];
 export type TemplateGroupCreate = components['schemas']['TemplateGroupCreate'];
 export type TemplateRenderRequest = components['schemas']['TemplateRenderRequest'];
@@ -4205,6 +4432,8 @@ export type Tenant = components['schemas']['Tenant'];
 export type TenantUpdate = components['schemas']['TenantUpdate'];
 export type Timestamp = components['schemas']['Timestamp'];
 export type TrendPoint = components['schemas']['TrendPoint'];
+export type TwoFactorCode = components['schemas']['TwoFactorCode'];
+export type TwoFactorEnrolment = components['schemas']['TwoFactorEnrolment'];
 export type TwoFactorRequest = components['schemas']['TwoFactorRequest'];
 export type User = components['schemas']['User'];
 export type UserStatus = components['schemas']['UserStatus'];
@@ -4212,6 +4441,7 @@ export type Webhook = components['schemas']['Webhook'];
 export type WebhookDelivery = components['schemas']['WebhookDelivery'];
 export type WebhookUpsert = components['schemas']['WebhookUpsert'];
 export type Widget = components['schemas']['Widget'];
+export type WidgetConfig = components['schemas']['WidgetConfig'];
 export type WidgetKind = components['schemas']['WidgetKind'];
 export type WidgetUpsert = components['schemas']['WidgetUpsert'];
 export type ResponseNoContent = components['responses']['NoContent'];
@@ -7021,6 +7251,81 @@ export interface operations {
             422: components["responses"]["Problem"];
         };
     };
+    disable_two_factor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TwoFactorCode"];
+            };
+        };
+        responses: {
+            204: components["responses"]["NoContent"];
+            400: components["responses"]["Problem"];
+            401: components["responses"]["Problem"];
+            403: components["responses"]["Problem"];
+            404: components["responses"]["Problem"];
+            422: components["responses"]["Problem"];
+        };
+    };
+    confirm_two_factor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TwoFactorCode"];
+            };
+        };
+        responses: {
+            204: components["responses"]["NoContent"];
+            400: components["responses"]["Problem"];
+            401: components["responses"]["Problem"];
+            403: components["responses"]["Problem"];
+            404: components["responses"]["Problem"];
+            422: components["responses"]["Problem"];
+        };
+    };
+    enrol_two_factor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Secret to show as a QR code */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TwoFactorEnrolment"];
+                };
+            };
+            400: components["responses"]["Problem"];
+            401: components["responses"]["Problem"];
+            403: components["responses"]["Problem"];
+            404: components["responses"]["Problem"];
+            /** @description Two-factor is already enabled */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
     get_badges: {
         parameters: {
             query?: {
@@ -7047,6 +7352,71 @@ export interface operations {
             403: components["responses"]["Problem"];
             404: components["responses"]["Problem"];
             409: components["responses"]["Problem"];
+            422: components["responses"]["Problem"];
+        };
+    };
+    request_email_change: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Problem"];
+            401: components["responses"]["Problem"];
+            403: components["responses"]["Problem"];
+            404: components["responses"]["Problem"];
+            /** @description E-mail already taken */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            422: components["responses"]["Problem"];
+        };
+    };
+    confirm_email_change: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailChangeConfirm"];
+            };
+        };
+        responses: {
+            /** @description Updated profile */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            400: components["responses"]["Problem"];
+            401: components["responses"]["Problem"];
+            403: components["responses"]["Problem"];
+            404: components["responses"]["Problem"];
             422: components["responses"]["Problem"];
         };
     };
@@ -7149,12 +7519,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "multipart/form-data": {
-                    /** Format: binary */
-                    file: string;
-                    kind?: components["schemas"]["MediaKind"];
-                    location_ids?: string[];
-                };
+                "multipart/form-data": components["schemas"]["MediaUpload"];
             };
         };
         responses: {
@@ -7271,6 +7636,7 @@ export interface operations {
         parameters: {
             query?: {
                 cursor?: components["parameters"]["Cursor"];
+                "filter[type]"?: components["schemas"]["NotificationType"][];
                 "filter[unread]"?: boolean;
                 limit?: components["parameters"]["Limit"];
             };
@@ -9809,6 +10175,64 @@ export interface operations {
             404: components["responses"]["Problem"];
             409: components["responses"]["Problem"];
             422: components["responses"]["Problem"];
+        };
+    };
+    list_taxonomy_attributes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: components["schemas"]["TaxonomyAttribute"][];
+                    };
+                };
+            };
+            400: components["responses"]["Problem"];
+            401: components["responses"]["Problem"];
+            403: components["responses"]["Problem"];
+            404: components["responses"]["Problem"];
+        };
+    };
+    list_taxonomy_categories: {
+        parameters: {
+            query?: {
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
+                platform_id?: components["schemas"]["Id"];
+                q?: components["parameters"]["Search"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Page */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: components["schemas"]["TaxonomyCategory"][];
+                        meta: components["schemas"]["PageMeta"];
+                    };
+                };
+            };
+            400: components["responses"]["Problem"];
+            401: components["responses"]["Problem"];
+            403: components["responses"]["Problem"];
+            404: components["responses"]["Problem"];
         };
     };
     list_template_groups: {

@@ -1,7 +1,16 @@
 import { test as setup } from '@playwright/test';
 
-/** Resets the mock dataset once per run so tests start from `seed_default`. */
-setup('reset mock data', async ({ request }) => {
+/**
+ * Resets the dataset once per run so tests start from `seed_default`: the mock's `/__mock/reset`, or
+ * `/__dev/reset` of a real core-api when `E2E_API_URL` points at one (≈10 s: truncate + seed).
+ */
+setup('reset seed data', async ({ request }) => {
+  const api = process.env.E2E_API_URL?.replace(/\/+$/, '');
+  if (api) {
+    const res = await request.post(`${api}/__dev/reset`, { timeout: 120_000 });
+    if (!res.ok()) throw new Error(`core-api reset failed: ${res.status()} ${await res.text()}`);
+    return;
+  }
   const mock = process.env.MOCK_URL ?? `http://localhost:${process.env.MOCK_PORT ?? 4100}`;
   await request.post(`${mock}/__mock/reset`);
 });

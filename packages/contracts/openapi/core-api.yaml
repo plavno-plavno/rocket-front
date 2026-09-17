@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Local Presence Platform — core-api
-  version: 0.1.0-draft
+  version: 0.2.0-draft
   description: |
     Draft of the UI ↔ core-api boundary (SDD-00 §8), authored by the UI track so that the
     frontend can be built against a mock server. To be moved to the contracts repository
@@ -319,6 +319,9 @@ components:
     DuplicateState:
       type: string
       enum: [open, confirmed, dismissed, merged, reported]
+    NotificationType:
+      type: string
+      enum: [negative_review, unanswered_review, action_required, batch_finished, account_issue, system]
     NotificationChannel:
       type: string
       enum: [email, telegram, web_push]
@@ -511,6 +514,27 @@ components:
       properties:
         current_password: { type: string }
         new_password: { type: string, minLength: 8 }
+    TwoFactorEnrolment:
+      type: object
+      required: [otpauth_url, secret]
+      properties:
+        otpauth_url: { type: string, description: 'otpauth:// URI for the QR code' }
+        secret: { type: string, description: Base32 secret for manual entry }
+    TwoFactorCode:
+      type: object
+      required: [code]
+      properties:
+        code: { type: string, minLength: 6, maxLength: 6 }
+    EmailChangeRequest:
+      type: object
+      required: [email]
+      properties:
+        email: { type: string, format: email }
+    EmailChangeConfirm:
+      type: object
+      required: [token]
+      properties:
+        token: { type: string }
 
     # ── locations (SDD-00 §3.2, §4) ─────────────────────────────────────────
     Address:
@@ -584,6 +608,29 @@ components:
       properties:
         primary: { type: string }
         additional: { type: array, items: { type: string } }
+    TaxonomyCategory:
+      type: object
+      required: [id, name, parent_id, platform_ids]
+      properties:
+        id: { type: string, examples: [cat_sporting_goods] }
+        name: { type: string }
+        parent_id: { type: [string, 'null'] }
+        platform_ids: { type: array, items: { $ref: '#/components/schemas/Id' }, description: Platforms with a mapping for this category }
+    TaxonomyAttribute:
+      type: object
+      required: [key, name, kind, values]
+      properties:
+        key: { type: string, examples: [wheelchair_accessible] }
+        name: { type: string }
+        kind: { type: string, enum: [boolean, enum] }
+        values:
+          type: array
+          items:
+            type: object
+            required: [value, name]
+            properties:
+              value: { type: string }
+              name: { type: string }
     LocationMedia:
       type: object
       properties:
@@ -593,9 +640,38 @@ components:
     FieldPolicy:
       type: string
       enum: [enforce, accept_platform, ask]
+    LocationPatch:
+      type: object
+      description: Any subset of the canonical location fields (bulk edit, import) — same properties as `LocationCore`, nothing required.
+      properties:
+        branch_code: { type: [string, 'null'] }
+        name: { type: string }
+        brand_group_id: { type: [string, 'null'] }
+        status: { $ref: '#/components/schemas/LocationStatus' }
+        address: { $ref: '#/components/schemas/Address' }
+        geo: { $ref: '#/components/schemas/Geo' }
+        phones: { type: array, items: { $ref: '#/components/schemas/Phone' } }
+        emails: { type: array, items: { type: string, format: email } }
+        website: { type: [string, 'null'] }
+        social: { type: array, items: { $ref: '#/components/schemas/SocialLink' } }
+        hours: { $ref: '#/components/schemas/Hours' }
+        categories: { $ref: '#/components/schemas/Categories' }
+        attributes:
+          type: object
+          additionalProperties: { type: [boolean, string, number] }
+        description: { type: [string, 'null'] }
+        media: { $ref: '#/components/schemas/LocationMedia' }
+        platform_overrides:
+          type: object
+          description: Per-platform overrides of canonical fields, keyed by platform id.
+          additionalProperties: { $ref: '#/components/schemas/PlatformOverride' }
+        field_policies:
+          type: object
+          additionalProperties: { $ref: '#/components/schemas/FieldPolicy' }
+        timezone: { type: string }
     LocationCore:
       type: object
-      description: Canonical location fields (SDD-00 §4) shared by read and write shapes.
+      description: Canonical location fields (SDD-00 §4) shared by read and write shapes. Keep the property list equal to `LocationPatch`.
       required: [name, status, address]
       properties:
         branch_code: { type: [string, 'null'] }
@@ -717,13 +793,13 @@ components:
       properties:
         location_ids: { type: array, items: { $ref: '#/components/schemas/Id' } }
         filter: { type: object, additionalProperties: true }
-        patch: { $ref: '#/components/schemas/LocationCore' }
+        patch: { $ref: '#/components/schemas/LocationPatch' }
     SyncBatch:
       type: object
       required: [id, kind, state, progress, created_at]
       properties:
         id: { $ref: '#/components/schemas/Id' }
-        kind: { type: string, enum: [bulk_edit, rollback, schedule, import] }
+        kind: { type: string, enum: [bulk_edit, rollback, schedule, import, products, campaign_send] }
         state: { $ref: '#/components/schemas/BatchState' }
         progress:
           type: object
@@ -1452,6 +1528,20 @@ components:
         schedule_at: { type: [string, 'null'], format: date-time }
         starts_at: { type: [string, 'null'], format: date-time }
         ends_at: { type: [string, 'null'], format: date-time }
+        state:
+          type: string
+          enum: [draft, scheduled, publish]
+          description: 'Default `publish`. `draft` keeps the post unpublished, `scheduled` requires `schedule_at`, `publish` sends now (or at `schedule_at` when in the future).'
+    MediaUpload:
+      type: object
+      required: [file]
+      properties:
+        file: { type: string, format: binary }
+        kind: { $ref: '#/components/schemas/MediaKind' }
+        location_ids:
+          type: array
+          items: { $ref: '#/components/schemas/Id' }
+          description: Locations the asset is attached to — repeated form fields or one comma-separated value.
     MediaAsset:
       type: object
       required: [id, kind, url, width, height, created_at]
@@ -1581,7 +1671,7 @@ components:
         id: { $ref: '#/components/schemas/Id' }
         kind: { $ref: '#/components/schemas/WidgetKind' }
         name: { type: string }
-        config: { type: object, additionalProperties: true }
+        config: { $ref: '#/components/schemas/WidgetConfig' }
         public_key: { type: string }
         allowed_domains: { type: array, items: { type: string } }
         embed_snippet: { type: string }
@@ -1592,8 +1682,19 @@ components:
       properties:
         kind: { $ref: '#/components/schemas/WidgetKind' }
         name: { type: string }
-        config: { type: object, additionalProperties: true }
+        config: { $ref: '#/components/schemas/WidgetConfig' }
         allowed_domains: { type: array, items: { type: string } }
+    WidgetConfig:
+      type: object
+      description: Per-kind options (`reviews` → theme/min_rating/platforms/limit, `store_locator` → theme/default_city/show_hours); unknown keys are kept.
+      properties:
+        theme: { type: string, enum: [light, dark], description: Default light }
+        min_rating: { type: integer, minimum: 1, maximum: 5, description: reviews }
+        platforms: { type: array, items: { $ref: '#/components/schemas/Id' }, description: reviews }
+        limit: { type: integer, minimum: 1, maximum: 50, description: reviews }
+        default_city: { type: string, description: store_locator }
+        show_hours: { type: boolean, description: store_locator }
+      additionalProperties: true
 
     # ── analytics (SDD-02 §8, SDD-07) ────────────────────────────────────────
     Period:
@@ -1867,7 +1968,7 @@ components:
       required: [id, type, title, body, read, created_at]
       properties:
         id: { $ref: '#/components/schemas/Id' }
-        type: { type: string, enum: [negative_review, unanswered_review, action_required, batch_finished, account_issue, system] }
+        type: { $ref: '#/components/schemas/NotificationType' }
         title: { type: string }
         body: { type: string }
         read: { type: boolean }
@@ -2343,6 +2444,145 @@ paths:
         '404':
           $ref: '#/components/responses/Problem'
         '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /me/2fa/enrol:
+    post:
+      tags:
+      - session
+      operationId: enrol_two_factor
+      summary: Start enrolling an authenticator app
+      description: Returns a fresh TOTP secret (not yet active). Confirm it with `POST /me/2fa/confirm`.
+      responses:
+        '200':
+          description: Secret to show as a QR code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwoFactorEnrolment'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '409':
+          description: Two-factor is already enabled
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /me/2fa/confirm:
+    post:
+      tags:
+      - session
+      operationId: confirm_two_factor
+      summary: Activate the enrolled authenticator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorCode'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /me/2fa:
+    delete:
+      tags:
+      - session
+      operationId: disable_two_factor
+      summary: Disable two-factor authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorCode'
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /me/email:
+    post:
+      tags:
+      - session
+      operationId: request_email_change
+      summary: Request a change of own e-mail
+      description: Sends a confirmation link to the new address; the e-mail changes after `POST /me/email/confirm`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailChangeRequest'
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '409':
+          description: E-mail already taken
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /me/email/confirm:
+    post:
+      tags:
+      - session
+      operationId: confirm_email_change
+      summary: Confirm the new e-mail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailChangeConfirm'
+      responses:
+        '200':
+          description: Updated profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
           $ref: '#/components/responses/Problem'
         '422':
           $ref: '#/components/responses/Problem'
@@ -3427,6 +3667,74 @@ paths:
         '409':
           $ref: '#/components/responses/Problem'
         '422':
+          $ref: '#/components/responses/Problem'
+  /taxonomy/categories:
+    get:
+      tags:
+      - taxonomy
+      operationId: list_taxonomy_categories
+      summary: Internal category taxonomy
+      description: Localised by the user's locale. `platform_id` narrows to categories mapped on that platform.
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/Search'
+      - name: platform_id
+        in: query
+        schema:
+          $ref: '#/components/schemas/Id'
+      responses:
+        '200':
+          description: Page
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - items
+                - meta
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TaxonomyCategory'
+                  meta:
+                    $ref: '#/components/schemas/PageMeta'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+  /taxonomy/attributes:
+    get:
+      tags:
+      - taxonomy
+      operationId: list_taxonomy_attributes
+      summary: Location attribute keys
+      responses:
+        '200':
+          description: List
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - items
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TaxonomyAttribute'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
           $ref: '#/components/responses/Problem'
   /platforms:
     get:
@@ -6270,6 +6578,12 @@ paths:
       - media
       operationId: upload_media_asset
       summary: Upload a media asset
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MediaUpload'
       responses:
         '201':
           description: Created
@@ -6289,24 +6603,6 @@ paths:
           $ref: '#/components/responses/Problem'
         '422':
           $ref: '#/components/responses/Problem'
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              required:
-              - file
-              properties:
-                file:
-                  type: string
-                  format: binary
-                kind:
-                  $ref: '#/components/schemas/MediaKind'
-                location_ids:
-                  type: array
-                  items:
-                    type: string
   /media/{id}:
     delete:
       tags:
@@ -8402,6 +8698,12 @@ paths:
         in: query
         schema:
           type: boolean
+      - name: filter[type]
+        in: query
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationType'
       responses:
         '200':
           description: Feed

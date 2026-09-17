@@ -143,7 +143,7 @@ export function seedIdentity(db: MockDb, rnd: Random) {
     role: u.role,
     access_rule:
       u.role === 'reputation_manager' && i === 3
-        ? { mode: 'groups', group_ids: [] }
+        ? { mode: 'groups', group_ids: ['grp_CITY0000000000000000000001'] } // the first city group (Москва)
         : { mode: 'all' },
     status: 'active',
     last_login_at: isoDaysAgo(rnd.int(0, 10)),
