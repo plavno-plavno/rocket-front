@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { keepPreviousData, queryOptions } from '@tanstack/react-query';
 import { listDuplicates, getDuplicatesSummary, getDuplicate } from './service';
 import type { ListDuplicatesQuery, GetDuplicatesSummaryQuery } from './types';
 
@@ -21,7 +21,9 @@ export const duplicatesQueryOptions = (params?: ListDuplicatesQuery) =>
 export const duplicatesSummaryQueryOptions = (params?: GetDuplicatesSummaryQuery) =>
   queryOptions({
     queryKey: duplicatesKeys.duplicatesSummary(params),
-    queryFn: () => getDuplicatesSummary(params)
+    queryFn: () => getDuplicatesSummary(params),
+    // Filter/period changes keep the previous numbers on screen instead of a skeleton flash.
+    placeholderData: keepPreviousData
   });
 
 export const duplicateQueryOptions = (id: string) =>

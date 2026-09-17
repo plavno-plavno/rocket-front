@@ -322,6 +322,10 @@
   max-height: min(var(--available-height, 85dvh), 85dvh);
   overflow-y: auto;
 }
+/* Menus and select lists size to their longest item (the ⋮ trigger is 40px), capped for long names. */
+[data-theme='lp'] :is([data-slot='select-content'], [data-slot='dropdown-menu-content']) {
+  max-width: min(22rem, var(--available-width, 100vw), calc(100vw - 24px));
+}
 [data-theme='lp']
   :is(
     [data-slot='select-item'],
@@ -931,4 +935,35 @@
   bottom: calc(-1 * var(--lp-dialog-pad));
   z-index: 1;
   background: color-mix(in oklab, var(--muted) 50%, var(--popover));
+}
+
+/*
+ * Light theme contrast. The light palette sits on a slightly darker page (--background) so white
+ * cards separate; pieces that used «a shade of the page» as their only cue get a real edge here.
+ * Dark is unchanged (all rules are scoped to :not(.dark)).
+ */
+[data-theme='lp']:not(.dark)
+  :is([data-slot='toggle-group-item'], [data-slot='toggle'])[aria-pressed='true'] {
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow:
+    0 0 0 1px var(--border),
+    var(--shadow-xs);
+}
+[data-theme='lp']:not(.dark) .lp-dashboard-content .lp-stat-card {
+  border-color: color-mix(in oklab, var(--lp-stat-glow) 55%, var(--border));
+}
+[data-theme='lp']:not(.dark) .lp-dashboard-content .lp-stat-card[data-active='true'] {
+  border-color: var(--primary);
+}
+[data-theme='lp']:not(.dark)
+  .lp-dashboard-content
+  [data-slot='table-header']
+  [data-slot='table-row'] {
+  border-bottom-color: var(--border);
+}
+
+/* KPI tiles: secondary text uses the tile label token (AA on the tone surface in both themes). */
+.lp-stat-card {
+  --muted-foreground: var(--lp-stat-label);
 }

@@ -22,7 +22,8 @@ export function InfoButton({
   ...props
 }: InfoButtonProps) {
   const t = useTranslations('ui');
-  const { setContent, setOpen } = useInfobar();
+  const { setContent, setOpen, open, openMobile, isMobile } = useInfobar();
+  const visible = isMobile ? openMobile : open;
 
   // Set content on mount so the infobar has it ready, but don't force it open
   const contentRef = React.useRef(content);
@@ -32,9 +33,10 @@ export function InfoButton({
     setContent(contentRef.current);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Same button opens and closes the panel (it used to only open it).
   const handleClick: React.ComponentProps<typeof Button>['onClick'] = (e) => {
-    setContent(content);
-    setOpen(true);
+    if (!visible) setContent(content);
+    setOpen(!visible);
     props.onClick?.(e);
   };
 
@@ -44,11 +46,11 @@ export function InfoButton({
       size={size}
       className={cn('shrink-0', className)}
       onClick={handleClick}
-      aria-label={t('showInfo')}
+      aria-label={visible ? t('hideInfo') : t('showInfo')}
+      aria-expanded={visible}
       {...props}
     >
       <Icons.info className='h-4 w-4' />
-      <span className='sr-only'>{t('showInfo')}</span>
     </Button>
   );
 }

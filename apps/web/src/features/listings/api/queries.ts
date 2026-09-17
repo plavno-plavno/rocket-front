@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { keepPreviousData, queryOptions } from '@tanstack/react-query';
 import { listListings, getListingsSummary, getListing, listListingOperations } from './service';
 import type { ListListingsQuery, GetListingsSummaryQuery } from './types';
 
@@ -19,7 +19,9 @@ export const listingsQueryOptions = (params?: ListListingsQuery) =>
 export const listingsSummaryQueryOptions = (params?: GetListingsSummaryQuery) =>
   queryOptions({
     queryKey: listingsKeys.listingsSummary(params),
-    queryFn: () => getListingsSummary(params)
+    queryFn: () => getListingsSummary(params),
+    // Filter/period changes keep the previous numbers on screen instead of a skeleton flash.
+    placeholderData: keepPreviousData
   });
 
 export const listingQueryOptions = (id: string) =>

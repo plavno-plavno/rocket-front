@@ -32,7 +32,9 @@ export const reviewsQueryOptions = (params?: ListReviewsQuery) =>
 export const reviewsSummaryQueryOptions = (params?: GetReviewsSummaryQuery) =>
   queryOptions({
     queryKey: reviewsKeys.reviewsSummary(params),
-    queryFn: () => getReviewsSummary(params)
+    queryFn: () => getReviewsSummary(params),
+    // Filter/period changes keep the previous numbers on screen instead of a skeleton flash.
+    placeholderData: keepPreviousData
   });
 
 export const reviewQueryOptions = (id: string) =>

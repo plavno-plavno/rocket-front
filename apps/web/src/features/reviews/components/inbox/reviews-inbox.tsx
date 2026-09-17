@@ -46,7 +46,24 @@ export function useReviewsInbox() {
     if (!selectedId && items[0] && window.innerWidth >= 768) select(items[0].id);
   }, [items, selectedId, select]);
 
-  return { params, setParams, search, setSearch, list, items, selectedId, select };
+  // When the filters change, the selection follows the new result: a review that is no longer in
+  // the list is replaced by the first one (desktop) or cleared. Otherwise the detail kept showing a
+  // review next to «Отзывов по этим условиям нет». A deep link (first load) is left alone.
+  const queryKey = JSON.stringify(query);
+  const settledKey = useRef<string | null>(null);
+  useEffect(() => {
+    if (list.isPending || list.isPlaceholderData) return;
+    const changed = settledKey.current !== null && settledKey.current !== queryKey;
+    settledKey.current = queryKey;
+    if (!changed || (selectedId && items.some((r) => r.id === selectedId))) return;
+    select(items[0] && window.innerWidth >= 768 ? items[0].id : null);
+  }, [queryKey, list.isPending, list.isPlaceholderData, items, selectedId, select]);
+
+  // Same loading language in every column: old content stays, dimmed, until the new result arrives.
+  const refreshing =
+    list.isPlaceholderData || (list.isFetching && !list.isFetchingNextPage && !list.isPending);
+
+  return { params, setParams, search, setSearch, list, items, selectedId, select, refreshing };
 }
 
 /** S-REV-01: list | detail with hotkeys (j/k/r/t/a) and the SSE «N новых» banner. */
@@ -140,6 +157,7 @@ export function ReviewsInbox({ column }: { column: 'list' | 'detail' }) {
             selectedId={selectedId}
             onSelect={select}
             isPending={inbox.list.isPending}
+            refreshing={inbox.refreshing}
             hasNextPage={!!inbox.list.hasNextPage}
             isFetchingNextPage={inbox.list.isFetchingNextPage}
             onLoadMore={() => void inbox.list.fetchNextPage()}
@@ -153,11 +171,23 @@ export function ReviewsInbox({ column }: { column: 'list' | 'detail' }) {
   }
 
   if (!selectedId) {
+    // Empty result: the list already explains it, the detail column stays quiet.
+    const empty = !inbox.list.isPending && items.length === 0;
     return (
-      <div className='text-muted-foreground flex h-full items-center justify-center p-8 text-sm'>
-        {t('selectHint')}
+      <div
+        className='text-muted-foreground flex h-full items-center justify-center p-8 text-sm'
+        data-testid={empty ? 'review-detail-empty' : undefined}
+      >
+        {empty ? <Icons.chat className='size-8 opacity-30' aria-hidden /> : t('selectHint')}
       </div>
     );
   }
-  return <ReviewDetail key={selectedId} ref={detailRef} reviewId={selectedId} />;
+  return (
+    <div
+      className='h-full transition-opacity duration-200 aria-busy:opacity-60'
+      aria-busy={inbox.refreshing || undefined}
+    >
+      <ReviewDetail key={selectedId} ref={detailRef} reviewId={selectedId} />
+    </div>
+  );
 }

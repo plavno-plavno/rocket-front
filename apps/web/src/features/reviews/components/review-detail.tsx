@@ -1,6 +1,12 @@
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  type InfiniteData,
+  type QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient
+} from '@tanstack/react-query';
 import { useFormatter, useNow, useTranslations } from 'next-intl';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -17,6 +23,13 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle
+} from '@/components/ui/empty';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
@@ -60,6 +73,21 @@ export interface ReviewDetailProps {
   showInboxLink?: boolean;
 }
 
+/** A review already loaded by any list (infinite inbox pages or a plain page) — or undefined. */
+function reviewFromLists(queryClient: QueryClient, id: string): Review | undefined {
+  for (const [, data] of queryClient.getQueriesData<
+    { items: Review[] } | InfiniteData<{ items: Review[] }>
+  >({ queryKey: [...reviewsKeys.all, 'reviews'] })) {
+    if (!data) continue;
+    const pages = 'pages' in data ? data.pages : [data];
+    for (const page of pages) {
+      const hit = page.items?.find((r) => r.id === id);
+      if (hit) return hit;
+    }
+  }
+  return undefined;
+}
+
 const errorText = (e: unknown) => (isApiError(e) ? (e.detail ?? e.message) : (e as Error).message);
 
 function formatDuration(seconds: number, t: (k: 'h' | 'm' | 's', n: number) => string) {
@@ -92,7 +120,15 @@ export const ReviewDetail = forwardRef<ReviewDetailHandle, ReviewDetailProps>(fu
   const canEdit = useCan('reviews.reply');
   const me = useMe();
 
-  const { data: review, isPending } = useQuery(reviewQueryOptions(reviewId));
+  const {
+    data: review,
+    isPending,
+    isError
+  } = useQuery({
+    ...reviewQueryOptions(reviewId),
+    // Lists already hold the full Review: show it at once, refresh in the background.
+    placeholderData: () => reviewFromLists(queryClient, reviewId)
+  });
   const { data: platforms } = useQuery(platformsQueryOptions());
   const { data: replies } = useQuery({
     ...reviewRepliesQueryOptions(reviewId),
@@ -154,6 +190,20 @@ export const ReviewDetail = forwardRef<ReviewDetailHandle, ReviewDetailProps>(fu
   );
   void tagsOpen;
   void assigneeOpen;
+
+  if (isError && !review) {
+    return (
+      <Empty className='h-full py-12' data-testid='review-detail-error'>
+        <EmptyHeader>
+          <EmptyMedia variant='icon'>
+            <Icons.alertCircle />
+          </EmptyMedia>
+          <EmptyTitle>{t('notFound')}</EmptyTitle>
+          <EmptyDescription>{t('notFoundHint')}</EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    );
+  }
 
   if (isPending || !review) {
     return (

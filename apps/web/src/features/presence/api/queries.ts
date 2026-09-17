@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { keepPreviousData, queryOptions } from '@tanstack/react-query';
 import {
   getPresenceSummary,
   getPresenceTrend,
@@ -38,7 +38,9 @@ export const presenceKeys = {
 export const presenceSummaryQueryOptions = (params: GetPresenceSummaryQuery) =>
   queryOptions({
     queryKey: presenceKeys.presenceSummary(params),
-    queryFn: () => getPresenceSummary(params)
+    queryFn: () => getPresenceSummary(params),
+    // Filter/period changes keep the previous numbers on screen instead of a skeleton flash.
+    placeholderData: keepPreviousData
   });
 
 export const presenceTrendQueryOptions = (params: GetPresenceTrendQuery) =>

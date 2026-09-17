@@ -76,6 +76,8 @@
     "count": "{count, plural, one {# review} other {# reviews}}"
   },
   "detail": {
+    "notFound": "Review not found",
+    "notFoundHint": "It may have been deleted or is outside the selected locations. Pick another review in the list.",
     "openOnPlatform": "Open on platform",
     "copyLink": "Copy link",
     "copied": "Link copied",

@@ -110,7 +110,8 @@ export function ScopeSelector({ className }: { className?: string }) {
                       key={g.id}
                       value={`${g.name} ${g.id}`}
                       onSelect={() => toggle(g.id)}
-                      className='gap-2'
+                      // The checkbox shows the state: hide the primitive's trailing check icon.
+                      className='gap-2 [&>svg:last-child]:hidden'
                     >
                       <Checkbox
                         checked={selected.has(g.id)}
@@ -118,8 +119,8 @@ export function ScopeSelector({ className }: { className?: string }) {
                         aria-hidden
                         className='pointer-events-none'
                       />
-                      <span className='truncate'>{g.name}</span>
-                      <span className='text-muted-foreground ml-auto text-xs tabular-nums'>
+                      <span className='min-w-0 flex-1 truncate'>{g.name}</span>
+                      <span className='text-muted-foreground w-8 shrink-0 text-right text-xs tabular-nums'>
                         {g.location_count}
                       </span>
                     </CommandItem>

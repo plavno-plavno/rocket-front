@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { keepPreviousData, queryOptions } from '@tanstack/react-query';
 import {
   getReviewAnalyticsSummary,
   getReviewTrend,
@@ -82,7 +82,9 @@ export const reviewAnalyticsKeys = {
 export const reviewAnalyticsSummaryQueryOptions = (params: GetReviewAnalyticsSummaryQuery) =>
   queryOptions({
     queryKey: reviewAnalyticsKeys.reviewAnalyticsSummary(params),
-    queryFn: () => getReviewAnalyticsSummary(params)
+    queryFn: () => getReviewAnalyticsSummary(params),
+    // Filter/period changes keep the previous numbers on screen instead of a skeleton flash.
+    placeholderData: keepPreviousData
   });
 
 export const reviewTrendQueryOptions = (params: GetReviewTrendQuery) =>

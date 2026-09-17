@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { keepPreviousData, queryOptions } from '@tanstack/react-query';
 import {
   getExport,
   getListingsSummary,
@@ -73,7 +73,9 @@ export const listingsSummaryQueryOptions = (scope: string, platformKind?: 'map' 
   queryOptions({
     queryKey: locationKeys.summary(scope, platformKind),
     queryFn: () => getListingsSummary(scope, platformKind),
-    staleTime: 30 * 1000
+    staleTime: 30 * 1000,
+    // Filter/period changes keep the previous numbers on screen instead of a skeleton flash.
+    placeholderData: keepPreviousData
   });
 
 export const exportStatusQueryOptions = (id: string) =>

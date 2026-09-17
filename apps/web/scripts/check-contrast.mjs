@@ -40,7 +40,19 @@ const PAIRS = [
   ['rating-positive', 'card', 3],
   ['primary', 'background', 3],
   ['ring', 'background', 3],
-  ['border', 'background', 1.2]
+  ['border', 'background', 1.2],
+  // Light theme rework (2026-09-17): edges and controls must read on white cards and the page.
+  // A 4th element limits a pair to one mode; dark keeps its own, already legible, surfaces.
+  ['border', 'card', 1.3, 'light'],
+  ['input', 'card', 1.6, 'light'],
+  ['control-border', 'card', 3, 'light'],
+  ['control-border', 'muted', 3, 'light'],
+  ['sidebar-accent-foreground', 'sidebar-accent', 4.5],
+  ['lp-stat-label', 'lp-mint', 4.5],
+  ['lp-stat-label', 'lp-blue', 4.5],
+  ['lp-stat-label', 'lp-peach', 4.5],
+  ['lp-stat-label', 'lp-rose', 4.5],
+  ['lp-hero-ink', 'lp-hero', 7]
 ];
 
 let failures = 0;
@@ -48,7 +60,8 @@ for (const [mode, block] of Object.entries(blocks)) {
   const light = tokens(blocks.light);
   const t = { ...light, ...tokens(block) };
   console.log(`\n${mode}`);
-  for (const [fg, bg, min] of PAIRS) {
+  for (const [fg, bg, min, only] of PAIRS) {
+    if (only && only !== mode) continue;
     const a = parse(t[fg]);
     const b = parse(t[bg]);
     if (!a || !b) {

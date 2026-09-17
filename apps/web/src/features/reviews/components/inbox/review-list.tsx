@@ -23,6 +23,8 @@ export interface ReviewListProps {
   selectedId: string | null;
   onSelect: (id: string) => void;
   isPending: boolean;
+  /** Filters changed: previous items stay visible (dimmed) until the new page arrives. */
+  refreshing?: boolean;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   onLoadMore: () => void;
@@ -48,6 +50,7 @@ export function ReviewList({
   selectedId,
   onSelect,
   isPending,
+  refreshing,
   hasNextPage,
   isFetchingNextPage,
   onLoadMore,
@@ -83,7 +86,11 @@ export function ReviewList({
           {t('newCount', { count: newCount })} · {t('show')}
         </button>
       )}
-      <div ref={listRef} className='flex-1 overflow-y-auto' aria-busy={isPending}>
+      <div
+        ref={listRef}
+        className='flex-1 overflow-y-auto transition-opacity duration-200 aria-busy:opacity-60'
+        aria-busy={isPending || refreshing || undefined}
+      >
         {isPending &&
           Array.from({ length: 8 }, (_, i) => (
             <div key={i} className='flex flex-col gap-2 border-b p-3'>
