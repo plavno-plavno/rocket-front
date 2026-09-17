@@ -75,6 +75,11 @@ export function SignInForm() {
         }}
         noValidate
       >
+        {searchParams.has('expired') && !formError && (
+          <Alert>
+            <AlertDescription>{t('expired')}</AlertDescription>
+          </Alert>
+        )}
         {formError && (
           <Alert variant='destructive'>
             <AlertDescription>{formError}</AlertDescription>

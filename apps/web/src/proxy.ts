@@ -19,6 +19,14 @@ export function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // core-api rejected the cookie (401 on /me, e.g. the session expired or the mock restarted):
+  // drop it and show the sign-in form instead of bouncing back to the dashboard.
+  if (pathname === '/auth/sign-in' && hasSession && req.nextUrl.searchParams.has('expired')) {
+    const res = NextResponse.next();
+    res.cookies.delete(SESSION_COOKIE);
+    return res;
+  }
+
   if (pathname === '/auth/sign-in' && hasSession) {
     const url = req.nextUrl.clone();
     url.pathname = '/dashboard/overview';

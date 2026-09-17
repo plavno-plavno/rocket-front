@@ -8,7 +8,8 @@
     "submit": "Войти",
     "forgot": "Забыли пароль?",
     "invalidCredentials": "Неверный email или пароль",
-    "demoHint": "Демо: {email} / {password}"
+    "demoHint": "Демо: {email} / {password}",
+    "expired": "Сессия завершилась — войдите снова"
   },
   "twoFactor": {
     "title": "Подтверждение входа",

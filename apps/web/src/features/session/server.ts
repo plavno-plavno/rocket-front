@@ -21,7 +21,7 @@ export const getMeServer = cache(async () => {
   } catch (error) {
     if (isApiError(error) && error.status === 401) {
       const path = (await headers()).get('x-pathname') ?? '/dashboard/overview';
-      redirect(`/auth/sign-in?next=${encodeURIComponent(path)}`);
+      redirect(`/auth/sign-in?next=${encodeURIComponent(path)}&expired=1`);
     }
     throw error;
   }
