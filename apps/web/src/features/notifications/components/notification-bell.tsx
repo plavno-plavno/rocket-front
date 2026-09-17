@@ -13,7 +13,7 @@ import { badgesQueryOptions } from '@/features/session';
 import { useScope } from '@/hooks/use-scope';
 import { cn } from '@/lib/utils';
 import { markAllNotificationsReadMutation, markNotificationReadMutation } from '../api/mutations';
-import { notificationsQueryOptions } from '../api/queries';
+import { notificationsKeys, notificationsQueryOptions } from '../api/queries';
 
 const MAX_VISIBLE = 6;
 
@@ -30,14 +30,16 @@ export function NotificationBell() {
     ...notificationsQueryOptions({ limit: MAX_VISIBLE }),
     staleTime: 30_000
   });
+  const refresh = () =>
+    Promise.all([
+      queryClient.invalidateQueries({ queryKey: notificationsKeys.all }),
+      queryClient.invalidateQueries({ queryKey: badgesQueryOptions(scope).queryKey })
+    ]);
   const markAll = useMutation({
     ...markAllNotificationsReadMutation(queryClient),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['session', 'badges'] })
+    onSuccess: refresh
   });
-  const markOne = useMutation({
-    ...markNotificationReadMutation(queryClient),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['session', 'badges'] })
-  });
+  const markOne = useMutation({ ...markNotificationReadMutation(queryClient), onSuccess: refresh });
   const count = badges?.notifications_unread ?? 0;
   const items = data?.items ?? [];
 

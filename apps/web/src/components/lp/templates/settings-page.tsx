@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import PageContainer from '@/components/layout/page-container';
 import type { InfobarContent } from '@/components/ui/infobar';
+import { cn } from '@/lib/utils';
 
 export interface SettingsPageProps {
   title: string;
@@ -11,6 +12,8 @@ export interface SettingsPageProps {
   nav?: ReactNode;
   children: ReactNode;
   access?: boolean;
+  /** Table-heavy screens (users, accounts, integrations) use the full width instead of ~800px. */
+  wide?: boolean;
 }
 
 /** Settings template (SDD-01T §3.6): nested nav + form column (max ~ 800px). */
@@ -21,7 +24,8 @@ export function SettingsPage({
   actions,
   nav,
   children,
-  access = true
+  access = true,
+  wide = false
 }: SettingsPageProps) {
   return (
     <PageContainer
@@ -33,7 +37,9 @@ export function SettingsPage({
     >
       <div className='flex flex-1 flex-col gap-6 lg:flex-row' data-template='settings'>
         {nav && <nav className='w-full shrink-0 lg:w-56'>{nav}</nav>}
-        <div className='flex max-w-3xl flex-1 flex-col gap-6'>{children}</div>
+        <div className={cn('flex min-w-0 flex-1 flex-col gap-6', !wide && 'max-w-3xl')}>
+          {children}
+        </div>
       </div>
     </PageContainer>
   );

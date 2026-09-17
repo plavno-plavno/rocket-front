@@ -34,3 +34,4 @@ pnpm-debug.log*
 
 # sentry
 .env.sentry-build-plugin
+.scratch/

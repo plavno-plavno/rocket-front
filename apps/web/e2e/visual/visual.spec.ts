@@ -21,7 +21,24 @@ const PAGES: { name: string; url: string; ready: string }[] = [
     url: '/dashboard/reviews/auto-replies',
     ready: '[data-testid="rules-table"] tbody tr'
   },
-  { name: 'ai', url: '/dashboard/reviews/ai', ready: '[data-testid="ai-sandbox"]' }
+  { name: 'ai', url: '/dashboard/reviews/ai', ready: '[data-testid="ai-sandbox"]' },
+  { name: 'settings-users', url: '/dashboard/settings/users', ready: 'text=owner@example.ru' },
+  {
+    name: 'settings-accounts',
+    url: '/dashboard/settings/accounts',
+    ready: '[data-testid="accounts-table"] tbody tr'
+  },
+  {
+    name: 'settings-integrations',
+    url: '/dashboard/settings/integrations',
+    ready: '[data-testid="webhooks"] tbody tr'
+  },
+  {
+    name: 'notifications',
+    url: '/dashboard/notifications',
+    ready: '[data-testid="notifications-list"]'
+  },
+  { name: 'onboarding', url: '/dashboard/onboarding', ready: 'text=Добавлено' }
 ];
 
 for (const theme of ['light', 'dark'] as const) {

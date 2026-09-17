@@ -28,9 +28,12 @@ DS, F1 (`LocationPicker`)
 6. e2e — `e2e/*.spec.ts` в фиче (`pnpm e2e`), визуальные эталоны через `toHaveScreenshot`.
 
 ## Definition of Done (SDD-01T §8)
-- [ ] Все экраны трека используют шаблоны страниц и работают против mock core-api.
-- [ ] Публичный API реализован полностью, props изменены только аддитивно.
-- [ ] Переводы RU/EN, `gen --check` без ошибок и без provisional.
-- [ ] e2e трека и визуальные эталоны (1440px светлая/тёмная, 390px для инбокса).
-- [ ] Нет `_local`-компонентов и открытых блокирующих запросов.
-- [ ] `feature.ts` → `status: 'ready'`.
+- [x] Все экраны трека используют шаблоны страниц и работают против mock core-api.
+- [x] Публичный API реализован полностью, props изменены только аддитивно.
+- [x] Переводы RU/EN, `gen --check` без ошибок и без provisional.
+- [x] e2e трека и визуальные эталоны (1440px светлая/тёмная, 390px для инбокса).
+- [x] Нет `_local`-компонентов и открытых блокирующих запросов.
+- [x] `feature.ts` → `status: 'ready'`.
+
+## Статус (2026-09-17)
+Готово, ветка `ui/UI-F7/admin-settings`, влита в main. Подробности — `docs/CHANGELOG.md` («UI-F7 — Admin & Settings»), cross-track — `docs/requests/20260917-UI-F7-cross-track-fixes.md`, запросы к контракту — `packages/contracts/CHANGE_REQUESTS.md` (2FA, `filter[type]`, смена email). Не сделано: доводка auth-страниц (UI-0, изменений не потребовалось — формы уже локализованы и покрыты smoke e2e).

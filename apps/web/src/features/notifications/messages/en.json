@@ -5,18 +5,48 @@
   "page": {
     "title": "Notifications",
     "description": "Negative reviews, listings needing action, finished operations",
-    "markAll": "Mark all read",
+    "settings": "Settings",
+    "markAll": "Mark all as read",
     "all": "All",
     "unread": "Unread",
     "empty": "No notifications",
+    "emptyUnread": "No unread notifications",
+    "emptyHint": "Negative reviews, listing problems and finished operations will appear here",
     "open": "Open",
-    "markRead": "Mark as read"
+    "markRead": "Mark as read",
+    "loadMore": "Load more"
   },
   "bell": {
-    "label": "Notifications, {count} unread",
+    "label": "Notifications, unread: {count}",
     "title": "Notifications",
-    "markAll": "Mark all read",
+    "markAll": "Mark all as read",
     "empty": "No notifications",
     "all": "All notifications"
+  },
+  "types": {
+    "negative_review": {
+      "title": "Negative review",
+      "hint": "Rating below the organisation threshold"
+    },
+    "unanswered_review": {
+      "title": "Unanswered review",
+      "hint": "No published reply longer than the threshold"
+    },
+    "action_required": {
+      "title": "Action required",
+      "hint": "A listing waits for a decision: data conflict, moderation, lost access"
+    },
+    "batch_finished": {
+      "title": "Operation finished",
+      "hint": "Import, bulk change or export is ready"
+    },
+    "account_issue": {
+      "title": "Platform account issue",
+      "hint": "Re-authorisation or verification needed"
+    },
+    "system": {
+      "title": "System",
+      "hint": "New features, scheduled maintenance"
+    }
   }
 }

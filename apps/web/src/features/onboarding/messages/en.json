@@ -1,6 +1,39 @@
 {
   "page": {
-    "title": "Onboarding",
-    "description": "First steps: locations, platforms, team"
+    "title": "Getting started",
+    "description": "Three steps to make the system work: locations, platforms, team"
+  },
+  "done": "Done",
+  "back": "Back",
+  "next": "Next",
+  "finish": "Go to overview",
+  "skipAll": "Skip",
+  "noPermission": "This step is done by an organisation administrator",
+  "steps": {
+    "locations": {
+      "title": "Locations",
+      "description": "Upload the list of branches from a file or add them by hand",
+      "have": "{count, plural, one {# location added} other {# locations added}}",
+      "none": "No locations yet",
+      "import": "Import from file",
+      "manual": "Add manually",
+      "hint": "A CSV or XLSX with «Name», «Address», «Phone» columns works. A template can be downloaded on the import screen."
+    },
+    "platforms": {
+      "title": "Platforms",
+      "description": "Connect Yandex, Google and 2GIS accounts — the system will find your listings and reviews",
+      "connected": "{count, plural, one {# account} other {# accounts}}",
+      "notConnected": "not connected",
+      "connect": "Connect platform",
+      "hint": "Platforms can be connected later in «Settings → Platform accounts»"
+    },
+    "team": {
+      "title": "Team",
+      "description": "Invite colleagues who will reply to reviews and look after the listings",
+      "have": "{count, plural, one {# colleague on the team} other {# colleagues on the team}}",
+      "none": "You are alone in the organisation so far",
+      "invite": "Invite colleagues",
+      "hint": "Roles and location access can be changed later in «Users»"
+    }
   }
 }

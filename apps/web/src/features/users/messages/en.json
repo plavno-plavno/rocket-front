@@ -4,10 +4,94 @@
   },
   "page": {
     "title": "Users",
-    "description": "Team, roles and access rules"
+    "description": "Team, roles and access rules",
+    "info": {
+      "title": "About roles",
+      "body": "The owner manages the plan and everything else; an administrator manages users, platforms and integrations; a reputation manager replies to reviews; an observer only views. Access rules limit which locations a user sees."
+    }
   },
   "combobox": {
     "placeholder": "Assignee",
-    "none": "Unassigned"
+    "none": "Unassigned",
+    "search": "Search by name or email",
+    "empty": "Nobody found"
+  },
+  "roles": {
+    "owner": { "title": "Owner", "hint": "Full access, plan and billing" },
+    "admin": { "title": "Administrator", "hint": "Users, platforms, integrations, data" },
+    "reputation_manager": { "title": "Reputation manager", "hint": "Reviews, replies, templates" },
+    "observer": { "title": "Observer", "hint": "View only" }
+  },
+  "scope": {
+    "none": "No locations",
+    "all": "All locations",
+    "groups": "{count, plural, one {# group} other {# groups}}",
+    "locations": "{count, plural, one {# location} other {# locations}}"
+  },
+  "table": {
+    "search": "Search by name or email",
+    "role": "Role",
+    "anyRole": "Any role",
+    "status": "Status",
+    "anyStatus": "Any status",
+    "statuses": {
+      "active": "Active",
+      "invited": "Invited",
+      "disabled": "Disabled"
+    },
+    "name": "User",
+    "scope": "Access",
+    "lastLogin": "Last sign-in",
+    "never": "never",
+    "you": "You",
+    "twoFactor": "Two-factor authentication enabled",
+    "empty": "No users yet",
+    "emptyFiltered": "Nothing matches your filters",
+    "emptyHint": "Invite colleagues — they will get an email with a sign-up link",
+    "limit": "Users: {used} of {limit} on the plan",
+    "invitations": "{count, plural, one {# invitation pending} other {# invitations pending}}",
+    "email": "Email",
+    "expires": "Valid until"
+  },
+  "actions": {
+    "invite": "Add users",
+    "edit": "Change role and access",
+    "enable": "Enable",
+    "disable": "Disable",
+    "enabled": "User enabled",
+    "disabled": "User disabled",
+    "remove": "Remove from organisation",
+    "removeConfirm": "Remove {name} from the organisation? Their assigned reviews will become unassigned.",
+    "removed": "User removed",
+    "resend": "Resend",
+    "resent": "Invitation sent to {email}",
+    "revoke": "Revoke invitation",
+    "revokeConfirm": "Revoke the invitation for {email}? The link in the email will stop working.",
+    "revoked": "Invitation revoked",
+    "updated": "Access updated",
+    "invited": "{count, plural, one {Invitation sent} other {# invitations sent}}"
+  },
+  "sheet": {
+    "inviteTitle": "Add users",
+    "inviteDescription": "Enter one or more emails, pick a role and locations",
+    "editTitle": "Role and access",
+    "emails": "Email",
+    "emailsPlaceholder": "ivanov@example.ru, petrova@example.ru",
+    "emailsHint": "Separated by comma, space or new line",
+    "emailsRequired": "Enter at least one email",
+    "emailsInvalid": "{count, plural, one {Invalid email} other {Invalid emails: #}}",
+    "removeEmail": "Remove {email}",
+    "role": "Role",
+    "accessTab": "Access rules",
+    "accessAll": "All locations",
+    "accessAllHint": "Including those added later",
+    "accessSelected": "Selected locations and groups",
+    "accessSelectedHint": "The user sees only their reviews and listings",
+    "selected": "Selected: {count}",
+    "accessRequired": "Pick at least one location or group",
+    "inviteNotice": "Colleagues will receive an email with a sign-up link. The link is valid for 7 days.",
+    "cancel": "Cancel",
+    "save": "Save users",
+    "saveOne": "Save"
   }
 }

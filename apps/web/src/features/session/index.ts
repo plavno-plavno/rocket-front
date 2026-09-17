@@ -8,3 +8,4 @@ export { TenantSwitcher } from './components/tenant-switcher';
 export { UserNav } from './components/user-nav';
 export { LanguageSwitcher } from './components/language-switcher';
 export { SessionProvider } from './components/session-provider';
+export { updateProfileMutation, changePasswordMutation } from './api/mutations';

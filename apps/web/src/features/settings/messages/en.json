@@ -1,6 +1,8 @@
 {
   "nav": {
+    "label": "Settings sections",
     "profile": "Profile",
+    "users": "Users",
     "accounts": "Platform accounts",
     "notifications": "Notifications",
     "integrations": "Integrations",
@@ -9,5 +11,320 @@
   "page": {
     "title": "Settings",
     "description": ""
+  },
+  "validation": {
+    "nameRequired": "Enter a name",
+    "passwordRequired": "Enter your current password",
+    "passwordShort": "At least 8 characters",
+    "passwordMismatch": "Passwords do not match"
+  },
+  "profile": {
+    "pageTitle": "Profile",
+    "pageDescription": "Personal details, interface language, password and organisation",
+    "info": {
+      "title": "About the profile",
+      "body": "Name and language apply immediately. The email is used for sign-in and notifications — the organisation owner can change it via support."
+    },
+    "title": "Personal details",
+    "description": "How your colleagues see you",
+    "name": "Name",
+    "email": "Email",
+    "emailHint": "Used for sign-in",
+    "locale": "Interface language",
+    "localeHint": "Russian by default",
+    "save": "Save",
+    "saved": "Profile saved",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Administrator",
+      "reputation_manager": "Reputation manager",
+      "observer": "Observer"
+    }
+  },
+  "password": {
+    "title": "Password",
+    "description": "Change it if you suspect someone else knows it",
+    "current": "Current password",
+    "new": "New password",
+    "newHint": "At least 8 characters",
+    "confirm": "Repeat new password",
+    "save": "Change password",
+    "changed": "Password changed"
+  },
+  "twoFactor": {
+    "title": "Two-factor authentication",
+    "description": "A code from an authenticator app on every sign-in",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "enabledHint": "You will be asked for an app code on sign-in",
+    "disabledHint": "Two-factor authentication is enabled by an organisation administrator"
+  },
+  "tenant": {
+    "title": "Organisation",
+    "description": "Name, timezone and default language for the whole team",
+    "name": "Name",
+    "timezone": "Timezone",
+    "locale": "Default language",
+    "plan": "Plan",
+    "limits": "up to {locations} locations, {users} users",
+    "save": "Save",
+    "saved": "Organisation settings saved"
+  },
+  "accounts": {
+    "pageTitle": "Platform accounts",
+    "pageDescription": "Connections to Yandex, Google, 2GIS and other sources",
+    "info": {
+      "title": "About accounts",
+      "body": "A platform account gives the system access to your listings and reviews. When access is lost the listings move to «Action required» — reconnect the account."
+    },
+    "hint": "Connect an account on every platform where your listings live",
+    "oauthOk": "Platform connected",
+    "oauthFailed": "Could not connect the platform — try again",
+    "challengeHint": "Sign in to the platform, pass its verification, then press «Check»",
+    "problems": {
+      "title": "{count, plural, one {# account needs attention} other {# accounts need attention}}",
+      "body": "Until access is restored the platform data is not refreshed"
+    },
+    "actions": {
+      "connect": "Connect platform",
+      "reconnect": "Reconnect",
+      "instructions": "Instructions",
+      "check": "Check",
+      "checked": "Access checked",
+      "never": "never checked",
+      "remove": "Disconnect account",
+      "removed": "Account disconnected"
+    },
+    "columns": {
+      "platform": "Platform",
+      "account": "Account",
+      "authKind": "Connection",
+      "status": "Status",
+      "listings": "Listings",
+      "lastChecked": "Checked",
+      "actions": "Actions"
+    },
+    "empty": {
+      "title": "No platforms connected",
+      "hint": "Connect an account to sync listings and receive reviews"
+    },
+    "authKind": {
+      "oauth": "OAuth",
+      "partner_key": "Partner key",
+      "credentials": "Login and password",
+      "none": "No authorisation"
+    },
+    "status": {
+      "ok": "Working",
+      "reauth_required": "Re-authorisation required",
+      "challenge_required": "Verification on the platform required",
+      "revoked": "Access revoked"
+    },
+    "removeConfirm": "Disconnect «{name}»? {count, plural, =0 {No listings affected.} one {# listing will stop syncing.} other {# listings will stop syncing.}}",
+    "connect": {
+      "title": "Connect platform",
+      "description": "Choose a platform and how to connect",
+      "platform": "Platform",
+      "platformPlaceholder": "Choose a platform",
+      "platformRequired": "Choose a platform",
+      "authKind": "Connection",
+      "authHint": {
+        "oauth": "You will be taken to the platform to confirm access",
+        "partner_key": "The key is issued by the platform in its partner cabinet",
+        "credentials": "Stored in the secure vault and never shown again"
+      },
+      "displayName": "Account name",
+      "displayNamePlaceholder": "e.g. «Main cabinet»",
+      "key": "Key",
+      "keyRequired": "Enter the key",
+      "login": "Login",
+      "password": "Password",
+      "credentialsRequired": "Enter login and password",
+      "cancel": "Cancel",
+      "submit": "Connect",
+      "submitOauth": "Go to the platform",
+      "connected": "Account connected"
+    }
+  },
+  "notifications": {
+    "pageTitle": "Notifications",
+    "pageDescription": "Which events to send and through which channels",
+    "info": {
+      "title": "About notification settings",
+      "body": "Settings are personal: every team member picks their own channels. Quiet hours postpone emails and pushes until the morning."
+    },
+    "saved": "Notification settings saved",
+    "reset": "Discard changes",
+    "save": "Save",
+    "rules": {
+      "title": "Events",
+      "description": "Enable an event and tick the channels. A channel is available when it is enabled below.",
+      "event": "Event",
+      "enabled": "On",
+      "enabledFor": "Notify: {event}",
+      "threshold": "Threshold",
+      "hours": "h"
+    },
+    "channels": {
+      "title": "Channels",
+      "description": "Where notifications arrive",
+      "email": {
+        "short": "Email",
+        "title": "Email",
+        "hint": "Messages to the address from your profile",
+        "digest": "Frequency",
+        "digests": {
+          "instant": "Immediately",
+          "daily": "Daily digest",
+          "weekly": "Weekly digest"
+        }
+      },
+      "telegram": {
+        "short": "Telegram",
+        "title": "Telegram",
+        "hint": "Messages from the bot — link your account once",
+        "linked": "Account linked",
+        "notLinked": "Account not linked",
+        "link": "Link Telegram"
+      },
+      "web_push": {
+        "short": "Push",
+        "title": "Browser push",
+        "hint": "Notifications in this browser while the tab is closed"
+      }
+    },
+    "quiet": {
+      "title": "Quiet hours",
+      "description": "Emails and pushes are held and delivered after the period ends",
+      "enabled": "Enable quiet hours",
+      "from": "From",
+      "to": "To",
+      "hint": "Time in the organisation timezone"
+    }
+  },
+  "integrations": {
+    "pageTitle": "Integrations",
+    "pageDescription": "API keys for your systems and event webhooks",
+    "info": {
+      "title": "About integrations",
+      "body": "An API key is shown once, on creation — store it safely. Webhooks sign requests with a secret; the delivery log is kept for 30 days."
+    },
+    "keys": {
+      "title": "API keys",
+      "description": "Platform API access for BI, CRM and other systems",
+      "create": "Create key",
+      "createTitle": "New API key",
+      "createHint": "The name helps to tell keys apart in the log; scopes limit what the key can do",
+      "name": "Name",
+      "namePlaceholder": "e.g. «BI export»",
+      "nameRequired": "Enter a name",
+      "scopes": "Scopes",
+      "scopesRequired": "Pick at least one scope",
+      "cancel": "Cancel",
+      "createdTitle": "Key created",
+      "createdHint": "Copy the key now — it will not be shown again",
+      "copy": "Copy",
+      "copied": "Key copied",
+      "done": "Done",
+      "prefix": "Prefix",
+      "lastUsed": "Last used",
+      "neverUsed": "never used",
+      "empty": "No keys yet",
+      "revoke": "Revoke",
+      "revokeConfirm": "Revoke key «{name}»? Systems using it will lose access.",
+      "revoked": "Key revoked"
+    },
+    "webhooks": {
+      "title": "Webhooks",
+      "description": "HTTP notifications about events to your system",
+      "add": "Add webhook",
+      "createTitle": "New webhook",
+      "editTitle": "Webhook",
+      "hint": "We send a POST with the event JSON and a signature header",
+      "url": "URL",
+      "urlHint": "https:// only",
+      "urlInvalid": "The URL must start with https://",
+      "eventsLabel": "Events",
+      "eventsRequired": "Pick at least one event",
+      "events": {
+        "review_created": "New review",
+        "review_updated": "Review updated",
+        "reply_published": "Reply published",
+        "listing_action_required": "Listing needs action"
+      },
+      "enabled": "Enabled",
+      "cancel": "Cancel",
+      "save": "Save",
+      "created": "Webhook added",
+      "updated": "Webhook saved",
+      "deleted": "Webhook deleted",
+      "delete": "Delete webhook",
+      "deleteConfirm": "Delete webhook {url}? Events will stop being sent.",
+      "edit": "Edit",
+      "test": "Test",
+      "testOk": "Test event delivered ({status})",
+      "testFailed": "Test event not delivered ({status})",
+      "deliveries": "Delivery log",
+      "deliveryEvent": "Event",
+      "deliveryStatus": "Code",
+      "deliveryAt": "Time",
+      "noDeliveries": "No deliveries yet",
+      "lastDelivery": "Last delivery",
+      "secret": "Secret",
+      "empty": "No webhooks yet"
+    }
+  },
+  "sources": {
+    "pageTitle": "Source settings",
+    "pageDescription": "What to do when data diverges and which platforms to use",
+    "info": {
+      "title": "About field policies",
+      "body": "When a platform changes listing data on its own (e.g. opening hours after a customer complaint), the field policy decides whose version wins."
+    },
+    "saved": "Source settings saved",
+    "reset": "Discard changes",
+    "save": "Save",
+    "policies": {
+      "title": "Field policies",
+      "description": "What to do when platform data differs from the data in the system",
+      "field": "Field",
+      "policy": "Policy"
+    },
+    "fields": {
+      "name": "Name",
+      "address": "Address",
+      "phones": "Phones",
+      "hours": "Opening hours",
+      "website": "Website",
+      "description": "Description",
+      "categories": "Categories",
+      "media": "Photos"
+    },
+    "policy": {
+      "enforce": {
+        "title": "Our version wins",
+        "hint": "Changes on the platform are overwritten"
+      },
+      "accept_platform": {
+        "title": "Accept the platform version",
+        "hint": "The system is updated from the platform"
+      },
+      "ask": {
+        "title": "Ask",
+        "hint": "The divergence goes to «Action required»"
+      }
+    },
+    "platforms": {
+      "title": "Platforms",
+      "description": "Disabled platforms are not synced and do not appear in reports",
+      "platform": "Platform",
+      "enabled": "Enabled",
+      "autoReply": "Auto-replies"
+    },
+    "health": {
+      "ok": "Working",
+      "degraded": "Connector issues",
+      "down": "Connector unavailable"
+    }
   }
 }

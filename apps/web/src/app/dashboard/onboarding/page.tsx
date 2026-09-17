@@ -1,6 +1,19 @@
-import { PlannedPage } from '@/components/lp/planned-page';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { OnboardingWizard } from '@/features/onboarding/components/onboarding-wizard';
 
-/** S-ONB-01 — owned by UI-F7. Replace PlannedPage with the real screen (must render a components/lp template). */
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('onboarding.page');
+  return { title: t('title') };
+}
+
+/** S-ONB-01 «Онбординг» — owned by UI-F7 (renders `WizardPage`). */
 export default function Page() {
-  return <PlannedPage feature='onboarding' screen='S-ONB-01' track='UI-F7' />;
+  return (
+    <Suspense fallback={<Skeleton className='m-4 h-96' />}>
+      <OnboardingWizard />
+    </Suspense>
+  );
 }
