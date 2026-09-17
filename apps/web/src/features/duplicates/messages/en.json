@@ -4,6 +4,93 @@
   },
   "page": {
     "title": "Duplicates & fakes",
-    "description": "Queue of duplicate and suspicious listings"
+    "description": "Platform listings that look like yours: duplicates, fakes, foreign owners",
+    "info": {
+      "title": "How the score works",
+      "body": "The system compares name, address, phone and the distance between the points. The higher the score, the likelier a duplicate. Confirming or merging sends a request to the platform; dismissing removes the case from the queue."
+    }
+  },
+  "kpi": {
+    "open": "Open cases",
+    "duplicates": "Duplicates",
+    "fakes": "Fakes",
+    "conflicting": "Foreign owner"
+  },
+  "tabs": {
+    "open": "Open",
+    "resolved": "Resolved",
+    "all": "All"
+  },
+  "search": "Search by name",
+  "filters": {
+    "kind": "Kind",
+    "anyKind": "All kinds",
+    "platform": "Platform",
+    "anyPlatform": "All platforms"
+  },
+  "columns": {
+    "listing": "Found listing",
+    "location": "Our location",
+    "platform": "Platform",
+    "kind": "Kind",
+    "score": "Score",
+    "state": "State",
+    "created": "Found"
+  },
+  "kinds": {
+    "duplicate": "Duplicate",
+    "fake": "Fake",
+    "conflicting_owner": "Foreign owner"
+  },
+  "states": {
+    "open": "Open",
+    "confirmed": "Confirmed",
+    "dismissed": "Dismissed",
+    "merged": "Merged",
+    "reported": "Reported"
+  },
+  "empty": "No suspicious listings",
+  "emptyFiltered": "Nothing matches your filters",
+  "emptyHint": "New cases appear after the platforms are scanned",
+  "sheet": {
+    "title": "Case",
+    "openListing": "Open on the platform",
+    "mapLabel": "Schematic: our point and the found listing, distance {distance} m",
+    "ours": "Ours",
+    "theirs": "Found",
+    "m": "m",
+    "score": "Match score",
+    "comparison": "Field comparison",
+    "field": "Field",
+    "fields": {
+      "name": "Name",
+      "address": "Address",
+      "phone": "Phone",
+      "website": "Website",
+      "hours": "Opening hours",
+      "categories": "Categories"
+    },
+    "match": "Matches",
+    "mismatch": "Differs",
+    "ourLocation": "Our location",
+    "openLocation": "Open the location card",
+    "found": "Found listing",
+    "createdAt": "Found {date}",
+    "note": "Comment",
+    "notePlaceholder": "Optional: why you made this decision",
+    "actions": {
+      "merge": "Merge",
+      "confirm_duplicate": "Confirm duplicate",
+      "report_fake": "Report fake",
+      "claim": "Claim ownership",
+      "dismiss": "Not a duplicate"
+    },
+    "done": {
+      "merge": "Merge request sent to the platform",
+      "confirm_duplicate": "Duplicate confirmed",
+      "report_fake": "Report sent to the platform",
+      "claim": "Ownership request sent",
+      "dismiss": "Case dismissed"
+    }
   }
 }

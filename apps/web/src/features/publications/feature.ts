@@ -3,7 +3,7 @@ import { defineFeature } from '@/shell/feature';
 export default defineFeature({
   id: 'publications',
   track: 'UI-F5',
-  status: 'planned',
+  status: 'ready',
   screens: ['S-PUB-01'],
   nav: [
     {

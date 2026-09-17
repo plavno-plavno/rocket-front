@@ -4,6 +4,81 @@
   },
   "page": {
     "title": "Photo manager",
-    "description": "Own and user photos on listings"
+    "description": "Your photos for the listings and the pictures customers see on the platforms",
+    "info": {
+      "title": "About photos",
+      "body": "«Library» — your photos, logos and covers; they go to the listings on sync. «On platforms» — everything the platforms show, including customer photos (UGC): inappropriate ones can be reported."
+    }
+  },
+  "tabs": {
+    "library": "Library",
+    "listings": "On platforms"
+  },
+  "filters": {
+    "kind": "Kind",
+    "anyKind": "All kinds",
+    "platform": "Platform",
+    "anyPlatform": "All platforms",
+    "origin": "Origin",
+    "anyOrigin": "Own and UGC",
+    "state": "State",
+    "anyState": "Any state",
+    "anyLocation": "All locations",
+    "clearLocation": "Clear location"
+  },
+  "kinds": {
+    "photo": "Photo",
+    "logo": "Logo",
+    "cover": "Cover",
+    "video": "Video"
+  },
+  "origins": {
+    "owner": "Own",
+    "user_generated": "UGC"
+  },
+  "states": {
+    "published": "Published",
+    "pending": "In moderation",
+    "rejected": "Rejected",
+    "flagged": "Reported"
+  },
+  "actions": {
+    "upload": "Upload photos",
+    "delete": "Delete",
+    "flag": "Report"
+  },
+  "library": {
+    "empty": "No photos in the library yet",
+    "emptyHint": "Upload photos, a logo and a cover — they will appear on the listings of every platform",
+    "locations": "{count, plural, one {# location} other {# locations}}",
+    "deleteConfirm": "Delete the photo from the library? It will be removed from the listings on the next sync.",
+    "deleted": "Photo deleted"
+  },
+  "listings": {
+    "empty": "No photos found on the platforms",
+    "emptyHint": "Change the filters or wait for the next scan",
+    "by": "By {name}",
+    "deleteConfirm": "Request removal of the photo from the platform?",
+    "deleted": "Removal request sent"
+  },
+  "upload": {
+    "title": "Upload photos",
+    "description": "JPG or PNG up to 8 MB, up to 10 files at once",
+    "kind": "Kind",
+    "locations": "Locations",
+    "locationsAll": "All locations",
+    "locationsSelected": "Selected: {count}",
+    "cancel": "Cancel",
+    "submit": "{count, plural, =0 {Upload} one {Upload # file} other {Upload # files}}",
+    "done": "{count, plural, one {Photo uploaded} other {# photos uploaded}}"
+  },
+  "flag": {
+    "title": "Report a photo",
+    "description": "The platform reviews the report and hides the photo if it agrees",
+    "reason": "Reason",
+    "reasonPlaceholder": "e.g. the photo is not of our store",
+    "cancel": "Cancel",
+    "submit": "Send report",
+    "done": "Report sent to the platform"
   }
 }

@@ -218,6 +218,7 @@ export function LocationPicker({
     >
       <DialogTrigger
         render={trigger ? <span /> : <Button variant='outline' size='sm' disabled={disabled} />}
+        nativeButton={!trigger}
       >
         {trigger ?? (
           <>

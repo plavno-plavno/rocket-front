@@ -3,7 +3,7 @@ import { defineFeature } from '@/shell/feature';
 export default defineFeature({
   id: 'duplicates',
   track: 'UI-F5',
-  status: 'planned',
+  status: 'ready',
   screens: ['S-DUP-01'],
   nav: [
     {

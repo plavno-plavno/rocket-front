@@ -4,6 +4,115 @@
   },
   "page": {
     "title": "Publications",
-    "description": "News, offers and events on platforms"
+    "description": "News, offers and events on platform listings",
+    "info": {
+      "title": "About publications",
+      "body": "One publication goes to every selected platform and location. A platform may reject a post — the status per listing is visible in the details, failed ones can be retried."
+    }
+  },
+  "tabs": {
+    "all": "All"
+  },
+  "search": "Search by text",
+  "filters": {
+    "type": "Type",
+    "anyType": "All types"
+  },
+  "actions": {
+    "create": "Create publication"
+  },
+  "columns": {
+    "publication": "Publication",
+    "platforms": "Platforms",
+    "locations": "Locations",
+    "state": "State",
+    "results": "Result",
+    "date": "Date"
+  },
+  "scopeAll": "all",
+  "types": {
+    "news": "News",
+    "offer": "Offer",
+    "event": "Event"
+  },
+  "states": {
+    "draft": "Draft",
+    "scheduled": "Scheduled",
+    "publishing": "Publishing",
+    "published": "Published",
+    "partially_failed": "Partial",
+    "failed": "Failed"
+  },
+  "resultStates": {
+    "queued": "Queued",
+    "sent": "Sent",
+    "published": "Published",
+    "rejected": "Rejected by the platform",
+    "failed": "Failed"
+  },
+  "results": {
+    "published": "✓ {count}",
+    "failed": "✗ {count}",
+    "pending": "… {count}"
+  },
+  "empty": "No publications yet",
+  "emptyFiltered": "Nothing matches your filters",
+  "emptyHint": "Tell customers about news, offers and events — the post appears on the listings of every selected platform",
+  "sheet": {
+    "untitled": "Untitled",
+    "scheduledFor": "Goes out {date}",
+    "createdAt": "Created {date}",
+    "locations": "{count, plural, one {# location} other {# locations}}",
+    "platform": "Platform",
+    "listing": "Listing",
+    "state": "State",
+    "more": "and {count} more",
+    "delete": "Delete",
+    "deleteConfirm": "Delete the publication? Posts already published on the platforms are not removed.",
+    "deleted": "Publication deleted",
+    "edit": "Edit",
+    "retry": "{count, plural, one {Retry # failed} other {Retry # failed}}",
+    "retried": "Retry started"
+  },
+  "composer": {
+    "createTitle": "New publication",
+    "editTitle": "Publication",
+    "description": "Text, photo and button — for every selected platform and location",
+    "type": "Type",
+    "title": "Title",
+    "titlePlaceholder": "e.g. «Winter collection sale»",
+    "text": "Text",
+    "textPlaceholder": "What's new? Come and…",
+    "textRequired": "Enter the publication text",
+    "media": "Photos from the library",
+    "mediaHint": "The first selected photo becomes the cover",
+    "cta": "Button",
+    "ctaNone": "No button",
+    "ctaKinds": {
+      "call": "Call",
+      "website": "Website",
+      "book": "Book",
+      "order": "Order",
+      "learn_more": "Learn more"
+    },
+    "ctaUrl": "Button link",
+    "ctaUrlInvalid": "The link must start with http:// or https://",
+    "platforms": "Platforms",
+    "platformsRequired": "Pick at least one platform",
+    "typeUnsupported": "does not support this type",
+    "scope": "Locations",
+    "scopeAll": "All locations",
+    "scopeSelected": "Selected: {count}",
+    "schedule": "Schedule",
+    "scheduleHint": "Empty — publish right away",
+    "preview": "Preview on the listing",
+    "previewTitle": "Publication title",
+    "previewText": "The text will appear here",
+    "cancel": "Cancel",
+    "submitPublish": "Publish",
+    "submitSchedule": "Schedule",
+    "published": "Publication sent to the platforms",
+    "scheduled": "Publication scheduled",
+    "updated": "Publication saved"
   }
 }

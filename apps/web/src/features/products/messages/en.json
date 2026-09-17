@@ -4,6 +4,56 @@
   },
   "page": {
     "title": "Products & prices",
-    "description": "Catalog and platform export"
+    "description": "Catalogue for platform listings: products, prices, location binding",
+    "info": {
+      "title": "About the catalogue",
+      "body": "Products go to the platforms that support a catalogue (Yandex Business, Google). The sync state shows on how many listings the product is already published."
+    }
+  },
+  "search": "Search by name",
+  "filters": {
+    "category": "Category",
+    "anyCategory": "All categories"
+  },
+  "actions": {
+    "create": "Add product",
+    "edit": "Edit",
+    "delete": "Delete",
+    "sync": "Push to platforms",
+    "syncStarted": "{count, plural, one {# product pushed to the platforms} other {# products pushed to the platforms}}"
+  },
+  "columns": {
+    "name": "Product",
+    "category": "Category",
+    "price": "Price",
+    "scope": "Locations",
+    "sync": "Sync"
+  },
+  "scopeAll": "All locations",
+  "scopeSelected": "{count, plural, one {# location} other {# locations}}",
+  "empty": "No products yet",
+  "emptyFiltered": "Nothing matches your filters",
+  "emptyHint": "Add products with prices — they appear on listings of platforms with catalogue support",
+  "deleteConfirm": "Delete «{name}»? The product is removed from the listings on the next push.",
+  "deleted": "Product deleted",
+  "sheet": {
+    "createTitle": "New product",
+    "editTitle": "Product",
+    "description": "Name, category and price are required by the platforms",
+    "name": "Name",
+    "nameRequired": "Enter a name",
+    "category": "Category",
+    "price": "Price, ₽",
+    "priceHint": "A whole number or with kopecks after a comma",
+    "priceInvalid": "Enter a price above zero",
+    "descriptionField": "Description",
+    "photo": "Photo from the library",
+    "scope": "Locations",
+    "scopeAll": "All locations",
+    "scopeSelected": "Selected: {count}",
+    "cancel": "Cancel",
+    "save": "Save",
+    "created": "Product added",
+    "updated": "Product saved"
   }
 }

@@ -51,7 +51,22 @@ const PAGES: { name: string; url: string; ready: string }[] = [
   },
   { name: 'presence', url: '/dashboard/presence', ready: '[data-testid="platform-links"] a' },
   { name: 'presence-sync', url: '/dashboard/presence/sync', ready: 'text=Все площадки' },
-  { name: 'rank', url: '/dashboard/rank', ready: '[data-testid="rank-competitors"] tbody tr' }
+  { name: 'rank', url: '/dashboard/rank', ready: '[data-testid="rank-competitors"] tbody tr' },
+  {
+    name: 'publications',
+    url: '/dashboard/publications',
+    ready: '[data-testid="publications-list"] tbody tr'
+  },
+  {
+    name: 'products',
+    url: '/dashboard/products',
+    ready: '[data-testid="products-catalog"] tbody tr'
+  },
+  {
+    name: 'duplicates',
+    url: '/dashboard/duplicates',
+    ready: '[data-testid="duplicates-queue"] tbody tr'
+  }
 ];
 
 for (const theme of ['light', 'dark'] as const) {
