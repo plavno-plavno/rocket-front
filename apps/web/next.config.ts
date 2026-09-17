@@ -16,6 +16,15 @@ const baseConfig: NextConfig = {
       }
     ]
   },
+  // Dev server opened via LAN IP / 127.0.0.1 (not only localhost) — otherwise Next blocks HMR/RSC
+  // requests as cross-origin and client JS never runs (forms submit natively).
+  allowedDevOrigins: [
+    '127.0.0.1',
+    '192.168.*.*',
+    '10.*.*.*',
+    '*.local',
+    ...(process.env.ALLOWED_DEV_ORIGINS?.split(',') ?? [])
+  ],
   // The dev-tools badge overlaps the sidebar footer and intercepts clicks in e2e runs.
   devIndicators: process.env.NEXT_DEV_INDICATORS === 'false' ? false : undefined,
   transpilePackages: ['geist'],
