@@ -74,10 +74,17 @@ const baseConfig: NextConfig = {
   devIndicators: process.env.NEXT_DEV_INDICATORS === 'false' ? false : undefined,
   transpilePackages: ['geist'],
   async rewrites() {
+    // `Export.download_url` from the mock is «/__mock/exports/…», i.e. a path on the mock server:
+    // opened from the app origin it hit a Next 404 and «Скачать» in the toast did nothing.
     // Inline mock: /api/core/* is served by src/app/api/core/[...path]/route.ts.
-    if (coreApiUrl === undefined) return [];
+    if (coreApiUrl === undefined) {
+      return [{ source: '/__mock/:path*', destination: '/api/core/__mock/:path*' }];
+    }
     // Same-origin proxy to core-api so the session cookie is first-party (SDD-01 §5.1, §5.3).
-    return [{ source: '/api/core/:path*', destination: `${coreApiUrl}/:path*` }];
+    return [
+      { source: '/api/core/:path*', destination: `${coreApiUrl}/:path*` },
+      { source: '/__mock/:path*', destination: `${coreApiUrl}/__mock/:path*` }
+    ];
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'

@@ -358,7 +358,8 @@ function RankTrackerBody({ access }: { access: boolean }) {
             </CardHeader>
             <CardContent>
               {heatPending || !heat ? (
-                <Skeleton className='h-80' />
+                /* Same box as the grid below, so the card does not resize when data arrives. */
+                <Skeleton className='mx-auto aspect-square w-full max-w-md' />
               ) : (
                 <RankHeatmap
                   cells={heat.cells}

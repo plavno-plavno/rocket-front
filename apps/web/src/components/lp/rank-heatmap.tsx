@@ -61,7 +61,7 @@ export function RankHeatmap({
   if (!styleUrl) {
     return (
       <div
-        className={cn('grid aspect-square w-full max-w-md gap-1', className)}
+        className={cn('mx-auto grid aspect-square w-full max-w-md gap-1', className)}
         style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
         role='grid'
         aria-label={t('rankGrid')}

@@ -129,6 +129,8 @@
   },
   "table": {
     "noResults": "Нет данных",
+    "contextBefore": "Контекст слева",
+    "contextAfter": "Контекст справа",
     "rowsPerPage": "Строк на странице",
     "page": "Страница {page} из {total}",
     "selectedRows": "Выбрано {selected} из {total}",

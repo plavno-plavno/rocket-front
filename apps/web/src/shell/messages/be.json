@@ -129,6 +129,8 @@
   },
   "table": {
     "noResults": "Няма даных",
+    "contextBefore": "Кантэкст злева",
+    "contextAfter": "Кантэкст справа",
     "rowsPerPage": "Радкоў на старонцы",
     "page": "Старонка {page} з {total}",
     "selectedRows": "Выбрана {selected} з {total}",

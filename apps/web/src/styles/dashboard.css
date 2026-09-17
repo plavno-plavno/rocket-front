@@ -671,6 +671,24 @@
     align-items: center;
     gap: 12px;
   }
+
+  /* Filter toolbars: search gets a full row, selects share the next row. */
+  .lp-page [class~='min-w-56'] {
+    min-width: 100% !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+  }
+  .lp-page [class*='min-w-56'] {
+    min-width: 100% !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+  }
+  .lp-page [class~='w-40'],
+  .lp-page [class~='w-48'] {
+    width: calc(50% - 4px);
+    min-width: 0;
+    max-width: 100%;
+  }
 }
 
 /* Let tables scroll inside their panel instead of stretching the app shell. */
@@ -978,4 +996,25 @@
   --lp-stat-surface: var(--lp-violet);
   --lp-stat-glow: var(--lp-glow-violet);
   --lp-stat-glow-2: var(--lp-glow2-violet);
+}
+
+/*
+ * Checkbox and radio lists: 40/44px rows exist for touch. With a mouse they made a plain list of
+ * categories read as a form of separate fields — compact rows there.
+ */
+@media (pointer: fine) {
+  [data-theme='lp'] :is([data-slot='checkbox-group'], [data-slot='radio-group']) {
+    gap: 6px;
+  }
+  [data-theme='lp']
+    :is([data-slot='checkbox-group'], [data-slot='radio-group'])
+    [data-slot='field'][data-orientation='horizontal'] {
+    min-height: 28px;
+  }
+  [data-theme='lp']
+    :is([data-slot='checkbox-group'], [data-slot='radio-group'])
+    [data-slot='field'][data-orientation='horizontal']
+    :is(label, [data-slot='field-label']) {
+    min-height: 28px;
+  }
 }

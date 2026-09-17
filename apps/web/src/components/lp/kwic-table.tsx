@@ -35,9 +35,11 @@ export function KwicTable({ rows, keyword, metaHeader, onRowClick, className }: 
       <Table className='font-mono text-xs'>
         <TableHeader className='bg-muted'>
           <TableRow>
-            <TableHead className='text-right'>…</TableHead>
-            <TableHead className='text-center'>{keyword}</TableHead>
-            <TableHead>…</TableHead>
+            {/* Half the width to each context, the keyword column shrinks to the word: it used to
+                take all the free space and squeeze the context into a few characters. */}
+            <TableHead className='w-1/2 font-sans text-right'>{t('contextBefore')}</TableHead>
+            <TableHead className='w-px text-center whitespace-nowrap'>{keyword}</TableHead>
+            <TableHead className='w-1/2 font-sans'>{t('contextAfter')}</TableHead>
             {metaHeader && <TableHead className='w-48 font-sans'>{metaHeader}</TableHead>}
           </TableRow>
         </TableHeader>
@@ -48,13 +50,13 @@ export function KwicTable({ rows, keyword, metaHeader, onRowClick, className }: 
               onClick={onRowClick ? () => onRowClick(r) : undefined}
               className={cn(onRowClick && 'cursor-pointer')}
             >
-              <TableCell className='max-w-[40ch] truncate text-right' dir='rtl'>
+              <TableCell className='w-1/2 max-w-0 truncate text-right' dir='rtl'>
                 <span dir='ltr'>{r.left}</span>
               </TableCell>
-              <TableCell className='bg-status-action-bg text-status-action text-center font-semibold whitespace-nowrap'>
+              <TableCell className='bg-primary/10 text-foreground w-px px-3 text-center font-semibold whitespace-nowrap'>
                 {r.keyword}
               </TableCell>
-              <TableCell className='max-w-[40ch] truncate'>{r.right}</TableCell>
+              <TableCell className='w-1/2 max-w-0 truncate'>{r.right}</TableCell>
               {metaHeader && <TableCell className='font-sans'>{r.meta}</TableCell>}
             </TableRow>
           ))}

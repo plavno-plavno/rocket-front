@@ -129,6 +129,8 @@
   },
   "table": {
     "noResults": "No results",
+    "contextBefore": "Context before",
+    "contextAfter": "Context after",
     "rowsPerPage": "Rows per page",
     "page": "Page {page} of {total}",
     "selectedRows": "{selected} of {total} selected",

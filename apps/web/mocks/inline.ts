@@ -26,6 +26,22 @@ export async function inlineCoreApiFetch(request: Request): Promise<Response> {
   const db = dbFor(request);
   restoreSession(request, db);
   try {
+    // Download stub for finished exports, as in server.ts (`Export.download_url`).
+    if (request.method === 'GET' && url.pathname.startsWith('/__mock/exports/')) {
+      const file = url.pathname
+        .split('/')
+        .pop()!
+        .replace(/\.xlsx$/, '.csv');
+      return new Response(
+        '\uFEFFКод филиала;Название;Город\n100;Спортэксперт, ТРК Жемчужная Плаза;Москва\n',
+        {
+          headers: {
+            'content-type': 'text/csv; charset=utf-8',
+            'content-disposition': `attachment; filename="${file}"`
+          }
+        }
+      );
+    }
     if (request.method === 'GET' && url.pathname === '/reviews/stream') {
       return reviewStream(request, db);
     }
