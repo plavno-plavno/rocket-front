@@ -3,7 +3,7 @@ import { defineFeature } from '@/shell/feature';
 export default defineFeature({
   id: 'auto-replies',
   track: 'UI-F3',
-  status: 'planned',
+  status: 'ready',
   screens: ['S-REV-04'],
   nav: [
     {

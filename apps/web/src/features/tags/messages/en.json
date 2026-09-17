@@ -4,12 +4,41 @@
   },
   "page": {
     "title": "Tags",
-    "description": "Review tags"
+    "description": "Tags for reviews",
+    "info": {
+      "title": "Tags",
+      "body": "Tags label reviews in the inbox; the «Tags» analytics and filters are built on them."
+    }
   },
   "picker": {
     "add": "Tag",
     "search": "Find a tag…",
     "empty": "No tags",
     "remove": "Remove tag {name}"
+  },
+  "actions": {
+    "add": "Add tag",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete tag “{name}”? It will be removed from all reviews ({count}).",
+    "created": "Tag created",
+    "updated": "Tag updated",
+    "deleted": "Tag deleted"
+  },
+  "table": {
+    "name": "Tag",
+    "color": "Color",
+    "count": "Reviews",
+    "search": "Search tags",
+    "empty": "No tags yet",
+    "emptyHint": "Add tags — they will appear in the reviews inbox."
+  },
+  "editor": {
+    "createTitle": "New tag",
+    "editTitle": "Edit tag",
+    "name": "Name",
+    "color": "Color",
+    "save": "Save",
+    "nameRequired": "Enter a name"
   }
 }

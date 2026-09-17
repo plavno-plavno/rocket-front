@@ -3,10 +3,59 @@
     "ai": "AI replies"
   },
   "page": {
-    "title": "AI replies",
-    "description": "Reply generation profile and sandbox"
+    "title": "AI",
+    "description": "Reply generation profile and sandbox",
+    "info": {
+      "title": "AI",
+      "body": "The profile sets the tone, brand facts and signature — they go into every generation. Try the result in the sandbox on any review text."
+    }
   },
   "button": {
-    "generate": "Generate with AI"
+    "generate": "Generate with AI",
+    "stop": "Stop",
+    "error": "Failed to generate a reply"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "tone": "Tone",
+    "tones": {
+      "formal": "Formal",
+      "friendly": "Friendly",
+      "neutral": "Neutral",
+      "playful": "Playful"
+    },
+    "brandFacts": "Brand facts",
+    "brandFactsHint": "Addresses, hours, loyalty programs — what replies may reference",
+    "forbidden": "Forbidden phrases",
+    "forbiddenPlaceholder": "Type a phrase and press Enter",
+    "signature": "Signature",
+    "languages": "Languages",
+    "maxLength": "Max length",
+    "save": "Save",
+    "saved": "Profile saved",
+    "create": "Create profile",
+    "created": "Profile created",
+    "delete": "Delete profile",
+    "deleted": "Profile deleted",
+    "nameRequired": "Enter a name",
+    "select": "Profile",
+    "new": "New profile"
+  },
+  "sandbox": {
+    "title": "Sandbox",
+    "description": "Generate a reply for a sample review",
+    "text": "Review text",
+    "rating": "Rating",
+    "location": "Location",
+    "locationPlaceholder": "Sportexpert, Galereya mall",
+    "variants": "Variants",
+    "generate": "Generate",
+    "stop": "Stop",
+    "result": "Result",
+    "copy": "Copy",
+    "copied": "Copied",
+    "empty": "The generated reply will appear here",
+    "sample": "Great store, but I had to wait a long time for a consultant. In the end everything was fitted."
   }
 }

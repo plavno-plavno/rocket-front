@@ -1,11 +1,11 @@
 'use client';
 
+import { useCompletion } from '@ai-sdk/react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { generateAiReply } from '../api/service';
 
 export interface AiReplyButtonProps {
   reviewId: string;
@@ -17,9 +17,8 @@ export interface AiReplyButtonProps {
 }
 
 /**
- * Public stub (SDD-01T §3.5): «Сгенерировать ИИ». Foundation version requests one variant as JSON
- * and emits it word by word to exercise the streaming contract of consumers; UI-F3 swaps in the
- * AI SDK stream from `/ai-replies/generate` [H-UI-10].
+ * «Сгенерировать ИИ» (SDD-01T §3.5, [H-UI-10]): streams the UI message stream of
+ * `POST /api/ai/reply` (route handler → core-api `/ai-replies/generate`) via AI SDK `useCompletion`.
  */
 export function AiReplyButton({
   reviewId,
@@ -29,40 +28,34 @@ export function AiReplyButton({
   size = 'sm'
 }: AiReplyButtonProps) {
   const t = useTranslations('ai-replies.button');
-  const [pending, setPending] = useState(false);
+  const onStreamRef = useRef(onStream);
+  onStreamRef.current = onStream;
+  const { completion, complete, isLoading, stop } = useCompletion({
+    api: '/api/ai/reply',
+    body: { review_id: reviewId, profile_id: profileId ?? null },
+    onFinish: (_prompt, text) => onStreamRef.current(text, true),
+    onError: (e) => toast.error(e.message || t('error'))
+  });
 
-  const run = async () => {
-    setPending(true);
-    try {
-      // The endpoint is dual (JSON or event-stream); the JSON branch is what the stub uses.
-      const { variants } = (await generateAiReply({
-        review_id: reviewId,
-        profile_id: profileId ?? null,
-        variants: 1
-      })) as { variants: string[] };
-      const words = (variants[0] ?? '').split(' ');
-      let acc = '';
-      for (let i = 0; i < words.length; i++) {
-        acc += (i ? ' ' : '') + words[i];
-        onStream(acc, false);
-        await new Promise((r) => setTimeout(r, 25));
-      }
-      onStream(acc, true);
-    } catch (error) {
-      toast.error((error as Error).message);
-    } finally {
-      setPending(false);
-    }
-  };
+  useEffect(() => {
+    if (isLoading && completion) onStreamRef.current(completion, false);
+  }, [completion, isLoading]);
 
   return (
-    <Button variant='outline' size={size} onClick={run} disabled={disabled || pending}>
-      {pending ? (
+    <Button
+      variant='outline'
+      size={size}
+      onClick={() => (isLoading ? stop() : void complete(''))}
+      disabled={disabled}
+      aria-busy={isLoading}
+      data-testid='ai-reply-button'
+    >
+      {isLoading ? (
         <Icons.spinner className='size-4 animate-spin' />
       ) : (
         <Icons.sparkles className='size-4' />
       )}
-      {t('generate')}
+      {isLoading ? t('stop') : t('generate')}
     </Button>
   );
 }

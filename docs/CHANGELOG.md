@@ -270,3 +270,14 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 - e2e: `features/reviews/e2e/inbox.spec.ts` (hotkeys, reply → published, status, notes, history, complaint, manual review, observer has no composer), `inbox.mobile.spec.ts` (390px list → detail → back, no horizontal overflow), `features/questions/e2e/questions.spec.ts`; visual baselines `reviews`, `questions` (1440 light/dark) and `inbox-mobile` (390 light/dark).
 
 **Verified locally**: `pnpm typecheck` ✓, `lint:strict` ✓ (0 warnings), `format:check` ✓, `gen --check` ✓, `check:templates` ✓, `depcruise` ✓, `pnpm e2e` (production build) **47/47** incl. visual baselines (reviews, questions × light/dark; inbox 390px × light/dark); 0 browser console errors on the inbox, questions, drawer and phone flows.
+
+## UI-F3 — Reply Tooling (2026-09-17)
+
+**Done** (branch `ui/UI-F3/reply-tooling`, merged to main)
+- **S-REV-02 «Шаблоны ответов»**: `SortableTable` with drag-and-drop order (persisted via `/reply-templates/reorder`; disabled while filtered), search, group / type facets, bulk bar (set group, set type, delete), page-size pagination; Sheet editor (name, group, type, sentiment hint, `TemplateBodyEditor` with `{{ autocomplete, live preview on a real review through `/reply-templates/render`, unknown variables warning); «Настроить группы» dialog with a sortable list, inline rename, create / delete.
+- **S-REV-03 «Теги»**: CRUD table with a colour palette + custom colour, review counts, confirm on delete.
+- **S-REV-04 «Автоответы»**: priority-ordered rules (drag), enable switch, human-readable conditions / action summary, Sheet form (ratings, has text, platforms, scope via `LocationPicker`, keywords → templates rotation or AI profile; draft / publish, delay, working hours only). Mock handlers for `/auto-reply-rules*` added.
+- **S-REV-05 «Нейросеть»** [H-UI-10]: profile form (tone, brand facts, forbidden phrases, signature, languages, max length; multiple profiles) + sandbox that streams the reply. Streaming path: `useCompletion` (AI SDK) → `app/api/ai/reply/route.ts` (forwards the session cookie, passes the UI message stream through) → core `/ai-replies/generate` with `Accept: text/event-stream`. The mock emits `text-start / text-delta / text-end / [DONE]` word by word (`mocks/lib/ai-stream.ts`, express route before MSW). **`AiReplyButton`** now uses the same stream (was a JSON stub) — the inbox composer fills word by word with «Остановить».
+- e2e: templates (create with preview, groups, bulk select), tags (create / delete), rules (validation, create, toggle), AI (sandbox stream, composer stream, profile save); visual baselines `templates`, `auto-replies`, `ai`.
+
+**Verified locally**: typecheck ✓, lint:strict ✓ (0 warnings), format:check ✓, gen --check ✓, check:templates ✓, depcruise ✓, `pnpm e2e` (production build) **58/58** incl. visual; 0 browser console errors on all four screens and the streaming flows.

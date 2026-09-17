@@ -10,7 +10,7 @@ import {
   validation
 } from '@mocks/lib/http';
 
-function compose(
+export function compose(
   reviewText: string | null,
   rating: number | null,
   locationName: string,

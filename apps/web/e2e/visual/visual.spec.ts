@@ -14,7 +14,14 @@ const PAGES: { name: string; url: string; ready: string }[] = [
   { name: 'sources', url: '/dashboard/sources', ready: '[data-testid="coverage-table"]' },
   { name: 'location-import', url: '/dashboard/locations/import', ready: 'text=Скачать шаблон' },
   { name: 'reviews', url: '/dashboard/reviews', ready: '[data-testid="review-detail"]' },
-  { name: 'questions', url: '/dashboard/questions', ready: '[data-testid="question-detail"]' }
+  { name: 'questions', url: '/dashboard/questions', ready: '[data-testid="question-detail"]' },
+  { name: 'templates', url: '/dashboard/reviews/templates', ready: 'text=Спасибо за оценку' },
+  {
+    name: 'auto-replies',
+    url: '/dashboard/reviews/auto-replies',
+    ready: '[data-testid="rules-table"] tbody tr'
+  },
+  { name: 'ai', url: '/dashboard/reviews/ai', ready: '[data-testid="ai-sandbox"]' }
 ];
 
 for (const theme of ['light', 'dark'] as const) {

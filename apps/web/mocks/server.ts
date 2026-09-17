@@ -16,6 +16,7 @@ import express from 'express';
 import { loadOpenApiDocument } from '@lp/contracts/openapi';
 import { featureHandlers } from '@/generated/mock-registry';
 import { dbFor, getDb, isScenario, resetDb, SCENARIOS } from './db';
+import { aiReplyStream } from './lib/ai-stream';
 import { reviewStream } from './lib/review-stream';
 import { serializeSessionCookie, SESSION_HEADER } from './lib/session-cookie';
 
@@ -77,6 +78,16 @@ app.get('/reviews/stream', (req, res) =>
     dbFor(new Request(`http://localhost${req.url}`, { headers: req.headers as HeadersInit }))
   )
 );
+
+// AI generation stream (UI message stream) — JSON requests fall through to MSW.
+app.post('/ai-replies/generate', express.json(), (req, res, next) => {
+  if (!(req.headers.accept ?? '').includes('text/event-stream')) return next();
+  aiReplyStream(
+    req,
+    res,
+    dbFor(new Request(`http://localhost${req.url}`, { headers: req.headers as HeadersInit }))
+  );
+});
 
 app.use(createMiddleware(...featureHandlers));
 

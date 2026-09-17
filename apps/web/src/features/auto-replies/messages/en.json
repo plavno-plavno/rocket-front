@@ -4,6 +4,78 @@
   },
   "page": {
     "title": "Auto-replies",
-    "description": "Automatic reply rules"
+    "description": "Automatic reply rules",
+    "info": {
+      "title": "How rules work",
+      "body": "Rules are checked top-down; the first match fires. In «Draft» mode the reply waits for approval in the inbox; in «Publish» mode it goes to the platform after the delay."
+    }
+  },
+  "actions": {
+    "add": "Add rule",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete rule “{name}”?",
+    "created": "Rule created",
+    "updated": "Rule updated",
+    "deleted": "Rule deleted",
+    "reordered": "Priority saved",
+    "enabled": "Rule enabled",
+    "disabled": "Rule disabled"
+  },
+  "table": {
+    "name": "Rule",
+    "conditions": "Conditions",
+    "action": "Action",
+    "mode": "Mode",
+    "delay": "Delay",
+    "fired": "Fired in 30 days",
+    "enabled": "On",
+    "empty": "No rules yet",
+    "emptyHint": "Create a rule — e.g. thank 5★ reviews.",
+    "anyRating": "Any rating",
+    "ratings": "Ratings {list}",
+    "withText": "with text",
+    "withoutText": "without text",
+    "platforms": "{count, plural, one {# platform} other {# platforms}}",
+    "allPlatforms": "all platforms",
+    "keywords": "words: {list}",
+    "templates": "{count, plural, one {# template} other {# templates}}",
+    "ai": "AI",
+    "noAction": "—",
+    "delayMinutes": "{count, plural, =0 {immediately} one {# minute} other {# minutes}}",
+    "workingHours": "working hours only"
+  },
+  "mode": {
+    "draft": "Draft",
+    "publish": "Publish"
+  },
+  "editor": {
+    "createTitle": "New rule",
+    "editTitle": "Edit rule",
+    "name": "Name",
+    "enabled": "Enabled",
+    "conditions": "Conditions",
+    "ratings": "Ratings",
+    "hasText": "Review text",
+    "hasTextAny": "Any",
+    "hasTextYes": "Present",
+    "hasTextNo": "Absent",
+    "platforms": "Platforms",
+    "platformsHint": "Empty — all platforms",
+    "scope": "Locations",
+    "keywords": "Keywords",
+    "keywordsPlaceholder": "Type a word and press Enter",
+    "action": "Action",
+    "actionTemplates": "Templates (rotation)",
+    "actionAi": "AI",
+    "aiProfile": "Profile",
+    "templates": "Templates",
+    "templatesHint": "Pick one or more — they rotate",
+    "mode": "Mode",
+    "delay": "Delay, minutes",
+    "workingHoursOnly": "Only during the location's working hours",
+    "save": "Save",
+    "nameRequired": "Enter a name",
+    "actionRequired": "Pick templates or an AI profile"
   }
 }

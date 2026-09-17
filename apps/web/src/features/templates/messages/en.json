@@ -4,12 +4,91 @@
   },
   "page": {
     "title": "Reply templates",
-    "description": "Team and private templates with variables"
+    "description": "Team and private templates with variables",
+    "info": {
+      "title": "Templates",
+      "body": "Variables like '{{author_name}}' and '{{location_name}}' are substituted on publish. Row order = order in the composer «Template» menu. Private templates are visible only to you."
+    }
   },
   "picker": {
     "button": "Template",
     "search": "Find a template…",
     "empty": "No templates",
     "ungrouped": "No group"
+  },
+  "actions": {
+    "groups": "Manage groups",
+    "add": "Add template",
+    "bulk": "Actions",
+    "setGroup": "Change group",
+    "setVisibility": "Change type",
+    "delete": "Delete",
+    "deleteConfirm": "Delete selected templates ({count})?",
+    "deleted": "Templates deleted",
+    "updated": "Templates updated",
+    "reordered": "Order saved"
+  },
+  "table": {
+    "name": "Template",
+    "group": "Group",
+    "visibility": "Type",
+    "usage": "Uses",
+    "updated": "Updated",
+    "search": "Search name and text",
+    "allGroups": "All groups",
+    "allTypes": "All types",
+    "ungrouped": "No group",
+    "empty": "No templates yet",
+    "emptyHint": "Add the first template — it will appear in the reply composer.",
+    "dragHint": "Drag & drop works without filters and search",
+    "pageSize": "Per page",
+    "selected": "Selected: {count}",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "copy": "(copy)"
+  },
+  "visibility": {
+    "private": "Private",
+    "team": "Team"
+  },
+  "sentiment": {
+    "positive": "For positive",
+    "neutral": "For neutral",
+    "negative": "For negative",
+    "any": "Any review"
+  },
+  "editor": {
+    "createTitle": "New template",
+    "editTitle": "Edit template",
+    "description": "Variables in curly braces are substituted on publish",
+    "name": "Name",
+    "group": "Group",
+    "visibility": "Type",
+    "sentiment": "Suited for",
+    "body": "Text",
+    "preview": "Preview on a review",
+    "previewHint": "How the template looks for a real review",
+    "previewEmpty": "Pick a review for the preview",
+    "save": "Save",
+    "created": "Template created",
+    "updated": "Template updated",
+    "unknownVariables": "Unknown variables: {list}",
+    "nameRequired": "Enter a name",
+    "bodyRequired": "Enter the text"
+  },
+  "groups": {
+    "title": "Template groups",
+    "description": "Drag to change the order in the menu",
+    "add": "New group",
+    "name": "Group name",
+    "create": "Create",
+    "rename": "Rename",
+    "delete": "Delete group",
+    "deleteConfirm": "Delete group “{name}”? Templates will stay without a group.",
+    "count": "{count, plural, one {# template} other {# templates}}",
+    "created": "Group created",
+    "updated": "Group updated",
+    "deleted": "Group deleted",
+    "empty": "No groups yet"
   }
 }

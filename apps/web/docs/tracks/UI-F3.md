@@ -28,9 +28,18 @@ DS, F1 (`LocationPicker`)
 6. e2e — `e2e/*.spec.ts` в фиче (`pnpm e2e`), визуальные эталоны через `toHaveScreenshot`.
 
 ## Definition of Done (SDD-01T §8)
-- [ ] Все экраны трека используют шаблоны страниц и работают против mock core-api.
-- [ ] Публичный API реализован полностью, props изменены только аддитивно.
-- [ ] Переводы RU/EN, `gen --check` без ошибок и без provisional.
-- [ ] e2e трека и визуальные эталоны (1440px светлая/тёмная, 390px для инбокса).
-- [ ] Нет `_local`-компонентов и открытых блокирующих запросов.
-- [ ] `feature.ts` → `status: 'ready'`.
+- [x] Все экраны трека используют шаблоны страниц (`ListPage`, `SettingsPage`) и работают против mock core-api.
+- [x] Публичный API: `TemplatePicker`, `TagPicker` (без изменений), `AiReplyButton` теперь стримит через AI SDK `useCompletion` ← `/api/ai/reply` ← core `/ai-replies/generate` (UI message stream) [H-UI-10]; props не менялись.
+- [x] Переводы RU/EN, `gen --check` без ошибок и без provisional.
+- [x] e2e (`features/{templates,tags,auto-replies,ai-replies}/e2e/*.spec.ts`), визуальные эталоны `templates`, `auto-replies`, `ai` (1440px светлая/тёмная).
+- [x] Нет `_local`-компонентов и открытых блокирующих запросов.
+- [x] `feature.ts` → `status: 'ready'` (templates, tags, auto-replies, ai-replies).
+
+## Что сделано (2026-09-17)
+| Экран | Где | Примечания |
+| --- | --- | --- |
+| S-REV-02 «Шаблоны ответов» | `features/templates/components/manage/*` | `SortableTable` (drag без фильтров), поиск, фасеты «группа / тип», bulk «Действия» (группа / тип / удалить), пагинация с размером страницы; Sheet-редактор с `TemplateBodyEditor` и предпросмотром на реальном отзыве (`POST /reply-templates/render`), неизвестные переменные подсвечиваются; «Настроить группы» — сортируемый список с inline-переименованием. |
+| S-REV-03 «Теги» | `features/tags/components/tags-manager.tsx` | CRUD, палитра + произвольный цвет, счётчик отзывов, подтверждение удаления. |
+| S-REV-04 «Автоответы» | `features/auto-replies/components/*` | Правила по приоритету (drag), переключатель, Sheet-форма: оценки, текст, площадки, скоуп (`LocationPicker`), ключевые слова → шаблоны с ротацией или профиль нейросети; режим черновик / публиковать, задержка, рабочие часы. Моки `/auto-reply-rules*` добавлены. |
+| S-REV-05 «Нейросеть» | `features/ai-replies/components/*` | Профиль (тон, факты о бренде, запрещённые фразы, подпись, языки, длина; несколько профилей) + песочница со стримом. Мок отдаёт UI message stream на `Accept: text/event-stream` (`mocks/lib/ai-stream.ts`). |
+
