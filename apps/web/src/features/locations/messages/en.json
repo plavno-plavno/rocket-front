@@ -93,5 +93,367 @@
     "empty": "Nothing to do",
     "emptyDescription": "All listings are synced or awaiting moderation.",
     "open": "Open"
+  },
+  "form": {
+    "titleNew": "New location",
+    "titleEdit": "Location data",
+    "sections": {
+      "main": "Main",
+      "address": "Address",
+      "contacts": "Contacts",
+      "hours": "Opening hours",
+      "specialHours": "Special hours",
+      "categories": "Categories",
+      "attributes": "Attributes",
+      "description": "Description",
+      "media": "Media",
+      "overrides": "Platform overrides",
+      "policies": "Field policies"
+    },
+    "fields": {
+      "name": "Name",
+      "branchCode": "Branch code",
+      "status": "Status",
+      "brand": "Brand",
+      "timezone": "Time zone",
+      "country": "Country",
+      "region": "Region",
+      "city": "City",
+      "street": "Street",
+      "house": "House",
+      "building": "Building",
+      "postalCode": "Postal code",
+      "landmark": "Landmark (mall)",
+      "floor": "Floor",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "website": "Website",
+      "emails": "Email",
+      "emailsPlaceholder": "Type an email and press Enter",
+      "primaryCategory": "Primary category",
+      "additionalCategories": "Additional categories",
+      "description": "Description",
+      "descriptionHint": "Up to 4000 characters; platforms may truncate to their limits"
+    },
+    "status": {
+      "open": "Open",
+      "temporarily_closed": "Temporarily closed",
+      "permanently_closed": "Permanently closed",
+      "coming_soon": "Opening soon"
+    },
+    "weekdays": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "hours": {
+      "open": "Open",
+      "closed": "Closed",
+      "from": "from",
+      "to": "to",
+      "copyMonday": "Copy Monday to the whole week",
+      "date": "Date",
+      "remove": "Remove",
+      "addSpecial": "Add special day",
+      "specialHint": "Holidays, inventory days, short days — pushed to platforms ahead of time"
+    },
+    "contacts": {
+      "phone": "Phone",
+      "phoneKind": "Phone type",
+      "phoneKinds": {
+        "main": "Main",
+        "additional": "Additional",
+        "fax": "Fax",
+        "whatsapp": "WhatsApp"
+      },
+      "addPhone": "Add phone",
+      "removePhone": "Remove phone",
+      "socialKind": "Network",
+      "socialUrl": "Link",
+      "socialKinds": {
+        "vk": "VK",
+        "telegram": "Telegram",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "youtube": "YouTube",
+        "tiktok": "TikTok",
+        "other": "Other"
+      },
+      "addSocial": "Add social link",
+      "removeSocial": "Remove"
+    },
+    "attributes": {
+      "wheelchair_accessible": "Wheelchair accessible",
+      "card_payment": "Card payment",
+      "parking": "Parking",
+      "wifi": "Wi-Fi",
+      "delivery": "Delivery",
+      "pickup": "Pickup",
+      "fitting_room": "Fitting rooms"
+    },
+    "overrides": {
+      "name": "Name on platform",
+      "namePlaceholder": "Name for this platform",
+      "add": "Add platform",
+      "remove": "Remove",
+      "hint": "When a listing must be named differently on a platform"
+    },
+    "policies": {
+      "hint": "What to do when a platform changes a field on its own",
+      "fields": {
+        "name": "Name",
+        "phones": "Phones",
+        "hours": "Hours",
+        "description": "Description",
+        "website": "Website"
+      },
+      "values": {
+        "enforce": "Restore our data",
+        "accept_platform": "Accept platform version",
+        "ask": "Ask"
+      }
+    },
+    "media": {
+      "hint": "Logo, cover and photos are managed in the Photo manager (track UI-F5)"
+    },
+    "validation": {
+      "required": "Required",
+      "nameMin": "At least 2 characters",
+      "nameMax": "At most 120 characters",
+      "branchCodeMax": "At most 32 characters",
+      "country": "Two-letter country code",
+      "cityRequired": "Enter the city",
+      "lat": "Latitude −90..90",
+      "lng": "Longitude −180..180",
+      "phone": "Phone in +7XXXXXXXXXX format",
+      "email": "Invalid email",
+      "website": "Link must start with http(s)://",
+      "url": "Invalid link",
+      "time": "Time as HH:MM",
+      "descriptionMax": "At most 4000 characters"
+    },
+    "actions": {
+      "save": "Save",
+      "create": "Create location",
+      "cancel": "Cancel",
+      "saved": "Location saved",
+      "created": "Location “{name}” created",
+      "conflict": "Data changed since you opened it — refresh the page"
+    },
+    "taxonomy": {
+      "cat_sporting_goods": "Sporting goods",
+      "cat_shoes": "Shoes",
+      "cat_clothing": "Clothing",
+      "cat_bicycles": "Bicycles",
+      "cat_fitness": "Fitness",
+      "cat_outdoor": "Outdoor",
+      "cat_kids": "Kids",
+      "cat_electronics": "Electronics"
+    }
+  },
+  "preview": {
+    "title": "What goes to platforms",
+    "description": "Changes will be pushed to listings. Platform moderation may take minutes to days.",
+    "unavailable": "Preview unavailable — changes are pushed after saving.",
+    "noChanges": "Nothing changes on platforms — only internal data is saved.",
+    "field": "Field",
+    "from": "From",
+    "to": "To",
+    "warnings": "Warnings",
+    "confirm": "Push and save",
+    "cancel": "Cancel",
+    "listings": "Listings: {count}"
+  },
+  "detail": {
+    "tabs": {
+      "data": "Data",
+      "listings": "Platforms",
+      "history": "History",
+      "reviews": "Reviews"
+    },
+    "aside": {
+      "status": "Listing status",
+      "meta": "Details",
+      "branchCode": "Branch code",
+      "updated": "Updated",
+      "version": "Version",
+      "created": "Created",
+      "groups": "Groups",
+      "openOnMap": "Open on map",
+      "edit": "Edit",
+      "delete": "Delete location"
+    },
+    "listings": {
+      "columns": {
+        "platform": "Platform",
+        "link": "Link",
+        "status": "Status",
+        "action": "Action",
+        "match": "Match",
+        "checked": "Checked"
+      },
+      "open": "Open",
+      "notConnected": "Not connected",
+      "actions": {
+        "retry": "Resend",
+        "resolve_drift_enforce": "Restore our data",
+        "resolve_drift_accept_platform": "Accept platform version",
+        "mark_manual_done": "Task done",
+        "disconnect": "Disconnect",
+        "reconnect": "Reconnect account"
+      },
+      "done": "Action sent",
+      "match": {
+        "candidate": "Candidate",
+        "auto_confirmed": "Automatic",
+        "needs_review": "Needs review",
+        "confirmed": "Confirmed",
+        "rejected": "Rejected",
+        "duplicate_of": "Duplicate",
+        "suspected_fake": "Suspected fake"
+      },
+      "drift": "Drift: {fields}",
+      "empty": "No listings"
+    },
+    "history": {
+      "title": "Change history",
+      "version": "Version {version}",
+      "fields": "Changed: {fields}",
+      "all": "all fields",
+      "by": {
+        "user": "user",
+        "system": "system",
+        "platform": "platform"
+      },
+      "rollback": "Roll back to version",
+      "rollbackConfirm": "Restore location data to version {version}? Changes will be pushed to platforms.",
+      "rolledBack": "Rolled back",
+      "current": "Current",
+      "empty": "No history yet"
+    },
+    "reviews": {
+      "title": "Location reviews",
+      "all": "All reviews",
+      "empty": "No reviews yet"
+    },
+    "notFound": "Location not found"
+  },
+  "import": {
+    "title": "Import locations",
+    "description": "XLSX or CSV: map columns, review changes, apply",
+    "steps": {
+      "upload": "File",
+      "mapping": "Columns",
+      "preview": "Review",
+      "apply": "Apply",
+      "report": "Report"
+    },
+    "upload": {
+      "hint": "First row = column headers. A matching branch code updates the location, otherwise a new one is created.",
+      "template": "Download template",
+      "uploaded": "File parsed: {rows} rows, {columns} columns"
+    },
+    "mapping": {
+      "column": "File column",
+      "field": "Field",
+      "sample": "Sample",
+      "skip": "— skip —",
+      "fields": {
+        "branch_code": "Branch code",
+        "name": "Name",
+        "address_city": "City",
+        "address_free_form": "Address",
+        "address_postal_code": "Postal code",
+        "phones": "Phone",
+        "website": "Website",
+        "hours": "Opening hours",
+        "description": "Description",
+        "status": "Status"
+      },
+      "needName": "Map a column to the name"
+    },
+    "preview": {
+      "summary": {
+        "create": "Create: {count}",
+        "update": "Update: {count}",
+        "error": "Errors: {count}"
+      },
+      "columns": {
+        "row": "Row",
+        "action": "Action",
+        "branchCode": "Code",
+        "name": "Name",
+        "changes": "Changes",
+        "errors": "Errors"
+      },
+      "actions": {
+        "create": "Create",
+        "update": "Update",
+        "error": "Error",
+        "skip": "Skip"
+      }
+    },
+    "apply": {
+      "running": "Applying changes…",
+      "progress": "{done} of {total}",
+      "done": "Done",
+      "partial": "Done with errors",
+      "failed": "Failed to apply"
+    },
+    "report": {
+      "title": "Import finished",
+      "created": "Created",
+      "updated": "Updated",
+      "failed": "Errors",
+      "toList": "Go to locations",
+      "again": "Import more",
+      "retry": "Retry failed"
+    },
+    "nav": {
+      "back": "Back",
+      "next": "Next",
+      "apply": "Apply",
+      "cancel": "Cancel"
+    }
+  },
+  "bulk": {
+    "edit": {
+      "title": "Bulk edit",
+      "description": "Changes apply to the selected locations ({count}) and go to platforms",
+      "status": "Status",
+      "keep": "— keep —",
+      "description_field": "Description",
+      "website": "Website",
+      "hoursHint": "Opening hours are edited in the location card",
+      "submit": "Apply",
+      "queued": "Bulk update started"
+    },
+    "groups": {
+      "title": "Assign groups",
+      "description": "Selected locations ({count}) will be added to the group",
+      "group": "Group",
+      "submit": "Assign",
+      "done": "Group assigned"
+    },
+    "close": {
+      "title": "Temporarily close",
+      "description": "Locations ({count}) get the “Temporarily closed” status on all platforms",
+      "submit": "Close",
+      "reopen": "Reopen"
+    },
+    "export": {
+      "done": "Export of selected locations started"
+    },
+    "batch": {
+      "title": "Bulk operation",
+      "progress": "{done} of {total}",
+      "failed": "errors: {failed}",
+      "retry": "Retry failed",
+      "close": "Close"
+    }
   }
 }

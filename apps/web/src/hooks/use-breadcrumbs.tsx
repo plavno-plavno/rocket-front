@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { useRouteTitles } from '@/shell/hooks/use-nav-groups';
+import { useBreadcrumbStore } from '@/shell/breadcrumb-store';
 
 type BreadcrumbItem = {
   title: string;
@@ -18,6 +19,7 @@ export function useBreadcrumbs(): BreadcrumbItem[] {
   const pathname = usePathname();
   const titles = useRouteTitles();
   const t = useTranslations('layout');
+  const dynamicTitles = useBreadcrumbStore((s) => s.titles);
 
   return useMemo(() => {
     const segments = pathname.split('/').filter(Boolean);
@@ -28,11 +30,11 @@ export function useBreadcrumbs(): BreadcrumbItem[] {
         crumbs.push({ title: t('home'), link: '/dashboard/overview' });
         continue;
       }
-      const known = titles.get(path);
+      const known = titles.get(path) ?? dynamicTitles[path];
       if (known) crumbs.push({ title: known, link: path });
       else if (i === segments.length - 1)
         crumbs.push({ title: decodeURIComponent(segments[i]), link: path });
     }
     return crumbs;
-  }, [pathname, titles, t]);
+  }, [pathname, titles, dynamicTitles, t]);
 }

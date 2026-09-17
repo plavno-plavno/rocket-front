@@ -1,5 +1,6 @@
 import { coreClient, query } from '@/lib/api';
 import type {
+  ListingAction,
   LocationBulkRequest,
   LocationCreate,
   LocationGroupCreate,
@@ -122,6 +123,14 @@ export async function retrySyncBatch(id: string) {
 export async function getListingsSummary(scope: string, platformKind?: 'map' | 'navigator') {
   const { data } = await coreClient().GET('/listings/summary', {
     params: { query: query({ scope, 'filter[platform_kind]': platformKind }) }
+  });
+  return data!;
+}
+
+export async function actOnListing(id: string, action: ListingAction, note?: string) {
+  const { data } = await coreClient().POST('/listings/{id}/actions', {
+    params: { path: { id } },
+    body: { action, note }
   });
   return data!;
 }

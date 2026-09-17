@@ -1,4 +1,6 @@
 import {
+  IconHistory,
+  IconCopy,
   IconBuildingStore,
   IconDownload,
   IconMapPin,
@@ -176,6 +178,8 @@ export const icons = {
   add: IconPlus,
   edit: IconEdit,
   star: IconStar,
+  copy: IconCopy,
+  history: IconHistory,
   download: IconDownload,
   eye: IconEye,
   upload: IconUpload,

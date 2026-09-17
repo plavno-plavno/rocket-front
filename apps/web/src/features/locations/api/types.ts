@@ -23,3 +23,5 @@ export type PlatformKind = Schema<'PlatformKind'>;
 
 /** Query params of `GET /locations` as the contract defines them. */
 export type LocationListQuery = OperationQuery<'list_locations'>;
+export type Listing = Schema<'Listing'>;
+export type ListingAction = Schema<'ListingAction'>['action'];

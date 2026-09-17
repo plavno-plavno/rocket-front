@@ -1,6 +1,7 @@
 import { mutationOptions, type QueryClient } from '@tanstack/react-query';
 import { locationKeys } from './queries';
 import {
+  actOnListing,
   bulkUpdateLocations,
   createLocation,
   createLocationGroup,
@@ -13,7 +14,12 @@ import {
   updateLocation,
   updateLocationGroup
 } from './service';
-import type { LocationBulkRequest, LocationGroupCreate, LocationUpdate } from './types';
+import type {
+  ListingAction,
+  LocationBulkRequest,
+  LocationGroupCreate,
+  LocationUpdate
+} from './types';
 
 export const createLocationMutation = (qc: QueryClient) =>
   mutationOptions({
@@ -94,4 +100,15 @@ export const deleteLocationGroupMutation = (qc: QueryClient) =>
     mutationKey: [...locationKeys.all, 'group-delete'],
     mutationFn: deleteLocationGroup,
     onSuccess: () => qc.invalidateQueries({ queryKey: locationKeys.groups() })
+  });
+
+export const listingActionMutation = (qc: QueryClient, locationId: string) =>
+  mutationOptions({
+    mutationKey: [...locationKeys.detail(locationId), 'listing-action'],
+    mutationFn: ({ id, action }: { id: string; action: ListingAction }) => actOnListing(id, action),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: locationKeys.listings(locationId) });
+      void qc.invalidateQueries({ queryKey: locationKeys.detail(locationId) });
+      void qc.invalidateQueries({ queryKey: locationKeys.lists() });
+    }
   });

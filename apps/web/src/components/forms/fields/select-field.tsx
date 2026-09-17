@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import {
   Select,
@@ -15,12 +17,14 @@ export function SelectField({
   label,
   description,
   required,
-  placeholder = 'Select',
+  placeholder,
   options
 }: BaseFieldProps & {
   placeholder?: string;
   options: { value: string; label: string; disabled?: boolean }[];
 }) {
+  const tUi = useTranslations('ui');
+  placeholder ??= tUi('selectOption');
   const field = useFieldContext<string>();
   const isInvalid = useFieldInvalid();
 
@@ -40,7 +44,9 @@ export function SelectField({
           aria-invalid={isInvalid}
           aria-describedby={isInvalid ? `${field.name}-error` : undefined}
         >
-          <SelectValue placeholder={placeholder} />
+          <SelectValue placeholder={placeholder}>
+            {(v: string) => options.find((o) => o.value === v)?.label ?? placeholder}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
