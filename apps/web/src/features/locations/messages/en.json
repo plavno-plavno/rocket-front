@@ -87,7 +87,14 @@
     "locations": "Locations",
     "selected": "Selected: {count}",
     "cancel": "Cancel",
-    "apply": "Apply"
+    "apply": "Apply",
+    "hintMulti": "Tick groups and/or individual locations",
+    "hintSingle": "Pick one location or group",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "selectVisible": "Select found ({count})",
+    "clearVisible": "Clear found",
+    "more": "Showing {shown} of {total} — refine the search"
   },
   "actionRequired": {
     "empty": "Nothing to do",
@@ -372,7 +379,8 @@
         "website": "Website",
         "hours": "Opening hours",
         "description": "Description",
-        "status": "Status"
+        "status": "Status",
+        "address": "Address"
       },
       "needName": "Map a column to the name"
     },

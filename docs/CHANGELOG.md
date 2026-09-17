@@ -244,3 +244,17 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 **Verified locally**: `pnpm check` ✓, `depcruise` ✓, `check:contrast` ✓, `pnpm e2e` 24/24 incl. visual, 0 browser console errors on the showcase / overview / locations.
 
 **Open**: brand SVG marks for platforms (trademark decision), 390px inbox baseline (after UI-F2).
+
+## UI-F1 — Locations & Sources (2026-09-17)
+
+**Done** (branch `ui/UI-F1/locations`, merged to main)
+- **S-LOC-03 «Карточка компании»** (`/dashboard/locations/[id]`, `/new`): `DetailPage` with tabs Данные / Карточки / История / Отзывы (`?tab=`), aside with listing status counts, group badges, «Открыть на карте». Form on `useAppForm` + Zod (name, branch code, status, brand, timezone, address, geo, phones, emails, website, social, hours per weekday + special hours, categories, attributes, description, platform overrides, field policies). Save = `POST …/preview-sync` dry-run → diff dialog per listing → `PUT` (409 → conflict message). History tab with rollback (`AlertModal`), listings tab with reason-driven actions and reconnect link, reviews tab via `ReviewDrawer` (UI-F2 public API). Dynamic breadcrumb titles (`useBreadcrumbTitle`).
+- **S-LOC-02 «Импорт компаний»** (`/dashboard/locations/import`): `WizardPage` — file (FileUploader, CSV/XLSX, template in `public/templates`) → columns (auto-mapping from RU/EN headers, «name» required) → preview (создать / обновить / ошибка per row, changed fields) → apply (SyncBatch progress) → report (created / updated / failed, «Повторить неуспешные», «Импортировать ещё»).
+- **S-LOC-01 bulk actions**: bulk edit Sheet (status / website / description → `POST /locations/bulk` → `BatchProgressDialog` polling `/sync-batches/{id}`), assign to a manual group (`PUT /location-groups/{id}` merging `rule.location_ids`), temporarily close / reopen (confirm → batch), export selected (`POST /locations/export` + polling `GET /exports/{id}` → toast with «Скачать»).
+- **S-SRC-01 «Источники»** (`/dashboard/sources`): platform cards (synced / total, coverage %, connector health), `?kind=` tabs, accounts table (auth kind, status, listings, last check, «Проверить», «Переподключить» for OAuth, RBAC `accounts.manage`), coverage table by sync status. `sources` feature → `ready`.
+- **`LocationPicker`** rebuilt per SDD-01 §4.2: group tree (brand → region → city, collapsible) + server-searched location list, «Выбрать найденные», single/multi; demo section in the DS showcase.
+- Shared fixes (documented in `docs/requests/20260917-UI-F1-cross-track-fixes.md`): `SelectField` shows option labels; dialog/sheet close labels in Russian; `Progress` pins `locale` (hydration mismatch of `aria-valuetext` on the showcase); `GET /exports`, `GET /exports/{id}` mocks + download stub; `common.download` / `common.exportReady`.
+- Contract gaps → `packages/contracts/CHANGE_REQUESTS.md`: taxonomy endpoint, partial `LocationBulkRequest.patch`, `ImportUploadResponse.row_count`.
+- e2e: `features/locations/e2e/{detail,bulk,import}.spec.ts`, `features/sources/e2e/sources.spec.ts` (owner + observer).
+
+**Verified locally**: `pnpm typecheck` ✓, `lint:strict` ✓ (0 warnings), `format:check` ✓, `gen --check` ✓, `check:templates` ✓, `depcruise` ✓, `check:ownership` (cross-track, documented) — e2e results below.

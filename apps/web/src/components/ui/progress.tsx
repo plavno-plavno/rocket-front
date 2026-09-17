@@ -1,13 +1,17 @@
 'use client';
 
 import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import { useLocale } from 'next-intl';
 
 import { cn } from '@/lib/utils';
 
 function Progress({ className, children, value, ...props }: ProgressPrimitive.Root.Props) {
+  // Pin the locale so SSR and the browser format `aria-valuetext` identically (no hydration diff).
+  const locale = useLocale();
   return (
     <ProgressPrimitive.Root
       value={value}
+      locale={locale}
       data-slot='progress'
       className={cn('flex flex-wrap gap-3', className)}
       {...props}

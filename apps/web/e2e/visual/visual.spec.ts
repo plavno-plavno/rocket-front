@@ -10,7 +10,9 @@ test.skip(!process.env.VISUAL, 'set VISUAL=1 to run visual regression');
 const PAGES: { name: string; url: string; ready: string }[] = [
   { name: 'components', url: '/dashboard/dev/components', ready: '[data-section="primitives"]' },
   { name: 'locations', url: '/dashboard/locations', ready: 'text=Всего строк' },
-  { name: 'overview', url: '/dashboard/overview', ready: 'text=Последние отзывы' }
+  { name: 'overview', url: '/dashboard/overview', ready: 'text=Последние отзывы' },
+  { name: 'sources', url: '/dashboard/sources', ready: '[data-testid="coverage-table"]' },
+  { name: 'location-import', url: '/dashboard/locations/import', ready: 'text=Скачать шаблон' }
 ];
 
 for (const theme of ['light', 'dark'] as const) {

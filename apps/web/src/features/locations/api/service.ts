@@ -134,3 +134,33 @@ export async function actOnListing(id: string, action: ListingAction, note?: str
   });
   return data!;
 }
+
+export async function uploadLocationImport(file: File) {
+  const form = new FormData();
+  form.append('file', file);
+  const { data } = await coreClient().POST('/locations/import', {
+    body: form as never,
+    bodySerializer: ((b: unknown) => b as FormData) as never
+  });
+  return data!;
+}
+
+export async function setLocationImportMapping(importId: string, mapping: Record<string, string>) {
+  const { data } = await coreClient().POST('/locations/import/{id}/mapping', {
+    params: { path: { id: importId } },
+    body: { mapping }
+  });
+  return data!;
+}
+
+export async function applyLocationImport(importId: string) {
+  const { data } = await coreClient().POST('/locations/import/{id}/apply', {
+    params: { path: { id: importId } }
+  });
+  return data!;
+}
+
+export async function getExport(id: string) {
+  const { data } = await coreClient().GET('/exports/{id}', { params: { path: { id } } });
+  return data!;
+}

@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 import {
+  getExport,
   getListingsSummary,
   getLocation,
   getSyncBatch,
@@ -24,6 +25,7 @@ export const locationKeys = {
   groups: (kind?: string) => [...locationKeys.all, 'groups', kind ?? 'all'] as const,
   summary: (scope: string, platformKind?: string) =>
     [...locationKeys.all, 'summary', scope, platformKind ?? 'all'] as const,
+  export: (id: string) => [...locationKeys.all, 'export', id] as const,
   batch: (id: string) => [...locationKeys.all, 'batch', id] as const,
   batchItems: (id: string, page: number) => [...locationKeys.batch(id), 'items', page] as const
 };
@@ -72,4 +74,12 @@ export const listingsSummaryQueryOptions = (scope: string, platformKind?: 'map' 
     queryKey: locationKeys.summary(scope, platformKind),
     queryFn: () => getListingsSummary(scope, platformKind),
     staleTime: 30 * 1000
+  });
+
+export const exportStatusQueryOptions = (id: string) =>
+  queryOptions({
+    queryKey: locationKeys.export(id),
+    queryFn: () => getExport(id),
+    refetchInterval: (q) =>
+      q.state.data && ['done', 'failed'].includes(q.state.data.state) ? false : 1500
   });

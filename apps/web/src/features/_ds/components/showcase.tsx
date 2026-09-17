@@ -46,6 +46,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
+import { LocationPicker, type LocationPickerValue } from '@/features/locations';
 import { VirtualTableDemo } from './virtual-table-demo';
 
 const SYNC = [
@@ -123,6 +124,7 @@ export function DesignSystemShowcase() {
     { id: 'c', name: 'Уточнить детали', group: 'Уточнение' }
   ]);
 
+  const [picked, setPicked] = useState<LocationPickerValue>({ location_ids: [], group_ids: [] });
   return (
     <div className='flex flex-col gap-10 pb-16'>
       <Section
@@ -396,6 +398,19 @@ export function DesignSystemShowcase() {
         description='Сетка 5×5 позиций; с NEXT_PUBLIC_MAP_STYLE_URL рендерится поверх карты (MapLibre).'
       >
         <RankHeatmap size={5} center={heatmapCenter} cells={heatmapCells} />
+      </Section>
+
+      <Section
+        id='location-picker'
+        title='LocationPicker (UI-F1)'
+        description='Дерево групп + поиск по компаниям; используется в правилах доступа, шаблонах, виджетах.'
+      >
+        <div className='flex flex-wrap items-center gap-3'>
+          <LocationPicker value={picked} onChange={setPicked} />
+          <span className='text-muted-foreground text-sm'>
+            Компаний: {picked.location_ids.length} · групп: {picked.group_ids.length}
+          </span>
+        </div>
       </Section>
 
       <Section

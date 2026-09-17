@@ -42,6 +42,14 @@ app.use((_req, res, next) => {
   next();
 });
 
+// Download stub for finished exports (`Export.download_url`).
+app.get('/__mock/exports/:file', (req, res) => {
+  res
+    .type('text/csv; charset=utf-8')
+    .attachment(req.params.file.replace(/\.xlsx$/, '.csv'))
+    .send('\uFEFFКод филиала;Название;Город\n100;Спортэксперт, ТРК Жемчужная Плаза;Москва\n');
+});
+
 // Fake OAuth provider page: flips the account to `ok` and returns to the app.
 app.get('/__mock/oauth/:accountId', (req, res) => {
   for (const db of [

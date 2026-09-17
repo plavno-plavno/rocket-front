@@ -42,7 +42,9 @@
     "noRating": "No rating",
     "ratingOf": "Rating {rating} of 5",
     "regions": "Regions",
-    "rankGrid": "Rank grid"
+    "rankGrid": "Rank grid",
+    "download": "Download",
+    "exportReady": "Export is ready"
   },
   "layout": {
     "toggleSidebar": "Toggle sidebar",

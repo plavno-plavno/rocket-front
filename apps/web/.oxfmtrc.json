@@ -12,6 +12,8 @@
   "experimentalSortTailwindcss": true,
   "ignorePatterns": [
     ".next/**",
+    "test-results/**",
+    "playwright-report/**",
     "out/**",
     "build/**",
     "node_modules/**",

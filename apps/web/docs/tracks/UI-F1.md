@@ -27,9 +27,19 @@ DS, F2 (`ReviewDrawer` на вкладке «Отзывы»)
 6. e2e — `e2e/*.spec.ts` в фиче (`pnpm e2e`), визуальные эталоны через `toHaveScreenshot`.
 
 ## Definition of Done (SDD-01T §8)
-- [ ] Все экраны трека используют шаблоны страниц и работают против mock core-api.
-- [ ] Публичный API реализован полностью, props изменены только аддитивно.
-- [ ] Переводы RU/EN, `gen --check` без ошибок и без provisional.
-- [ ] e2e трека и визуальные эталоны (1440px светлая/тёмная, 390px для инбокса).
-- [ ] Нет `_local`-компонентов и открытых блокирующих запросов.
-- [ ] `feature.ts` → `status: 'ready'`.
+- [x] Все экраны трека используют шаблоны страниц и работают против mock core-api.
+- [x] Публичный API реализован полностью, props изменены только аддитивно.
+- [x] Переводы RU/EN, `gen --check` без ошибок и без provisional.
+- [x] e2e трека (`features/locations/e2e/{list,detail,bulk,import}.spec.ts`, `features/sources/e2e/sources.spec.ts`); визуальные эталоны — `e2e/visual` (1440px светлая/тёмная).
+- [x] Нет `_local`-компонентов и открытых блокирующих запросов (неблокирующие: `docs/requests/20260917-UI-F1-cross-track-fixes.md`, контракт — `packages/contracts/CHANGE_REQUESTS.md`).
+- [x] `feature.ts` → `status: 'ready'` (locations, sources).
+
+## Что сделано (2026-09-17)
+| Экран | Где | Примечания |
+| --- | --- | --- |
+| S-LOC-01 «Мои компании» | `components/location-table/*` | KPI, фасеты, bulk-бар: массовое редактирование (Sheet → SyncBatch с прогрессом), назначить группу, временно закрыть / снова открыть, экспорт выбранных (поллинг `GET /exports/{id}` → тост со ссылкой). |
+| S-LOC-02 «Импорт компаний» | `components/location-import/import-wizard.tsx` | WizardPage: файл → колонки (автосопоставление по заголовкам RU/EN) → проверка (создать/обновить/ошибка) → применение (прогресс батча) → отчёт (повторить неуспешные). Шаблон — `public/templates/locations-import-template.csv`. |
+| S-LOC-03 «Карточка компании» | `components/location-form/*`, `components/location-detail/*` | Вкладки Данные / Карточки / История / Отзывы; сохранение через предпросмотр синхронизации (dry-run), 409 при конфликте версий, откат версии. Таксономия категорий — статический список до появления эндпоинта (CHANGE_REQUESTS). |
+| S-SRC-01 «Источники» | `features/sources/components/sources-overview.tsx` | Карточки площадок (синхронизировано / покрытие / health), таблица аккаунтов (проверить, переподключить OAuth), таблица покрытия по статусам; `?kind=` вкладки. |
+| `LocationPicker` | `components/location-picker.tsx` | Дерево групп (бренд → регион → город) + поиск по компаниям (серверный `q`), «Выбрать найденные», single/multi. Демо — `/dashboard/dev/components#location-picker`. |
+

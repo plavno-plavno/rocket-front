@@ -1,16 +1,71 @@
 {
-  "nav": { "list": "Sources" },
+  "nav": {
+    "list": "Sources"
+  },
   "page": {
     "title": "Sources",
     "description": "Platforms, accounts and listing coverage",
+    "info": {
+      "title": "How to read this screen",
+      "body": "A platform card shows how many listings are synced and whether the connector is healthy. Below: accounts the platform uses to update listings, and coverage — the share of locations that have a listing on the platform."
+    },
     "accounts": "Accounts",
     "coverage": "Coverage",
-    "health": { "ok": "Healthy", "degraded": "Degraded", "down": "Down" },
+    "kinds": {
+      "all": "All",
+      "map": "Maps, social, catalogs",
+      "navigator": "Navigators"
+    },
+    "card": {
+      "synced": "Synced",
+      "of": "of {total} listings",
+      "coverage": "Coverage: {percent}%",
+      "noAccounts": "No accounts",
+      "accounts": "Accounts: {count}"
+    },
+    "health": {
+      "ok": "Healthy",
+      "degraded": "Degraded",
+      "down": "Down"
+    },
     "accountStatus": {
       "ok": "Connected",
-      "reauth_required": "Reauthorization required",
-      "challenge_required": "Verification required",
+      "reauth_required": "Re-authorization required",
+      "challenge_required": "Challenge required",
       "revoked": "Revoked"
+    },
+    "authKind": {
+      "oauth": "OAuth",
+      "partner_key": "Partner key",
+      "credentials": "Login and password",
+      "none": "No auth"
+    },
+    "columns": {
+      "platform": "Platform",
+      "account": "Account",
+      "authKind": "Auth",
+      "status": "Status",
+      "listings": "Listings",
+      "lastChecked": "Checked",
+      "actions": "Actions",
+      "synced": "Synced",
+      "sent": "Sent",
+      "actionRequired": "Action",
+      "error": "Error",
+      "notConnected": "Not connected",
+      "coverage": "Coverage"
+    },
+    "actions": {
+      "check": "Check",
+      "reconnect": "Reconnect",
+      "manage": "Manage accounts",
+      "checked": "Account checked",
+      "never": "never"
+    },
+    "empty": {
+      "accounts": "No accounts yet",
+      "accountsHint": "Connect platforms in settings — listings will start syncing.",
+      "goSettings": "Connect a platform"
     }
   }
 }

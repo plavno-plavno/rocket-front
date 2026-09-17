@@ -2,6 +2,9 @@ import { mutationOptions, type QueryClient } from '@tanstack/react-query';
 import { locationKeys } from './queries';
 import {
   actOnListing,
+  applyLocationImport,
+  setLocationImportMapping,
+  uploadLocationImport,
   bulkUpdateLocations,
   createLocation,
   createLocationGroup,
@@ -111,4 +114,22 @@ export const listingActionMutation = (qc: QueryClient, locationId: string) =>
       void qc.invalidateQueries({ queryKey: locationKeys.detail(locationId) });
       void qc.invalidateQueries({ queryKey: locationKeys.lists() });
     }
+  });
+
+export const uploadImportMutation = () =>
+  mutationOptions({
+    mutationKey: [...locationKeys.all, 'import-upload'],
+    mutationFn: uploadLocationImport
+  });
+export const importMappingMutation = () =>
+  mutationOptions({
+    mutationKey: [...locationKeys.all, 'import-mapping'],
+    mutationFn: ({ importId, mapping }: { importId: string; mapping: Record<string, string> }) =>
+      setLocationImportMapping(importId, mapping)
+  });
+export const applyImportMutation = (qc: QueryClient) =>
+  mutationOptions({
+    mutationKey: [...locationKeys.all, 'import-apply'],
+    mutationFn: applyLocationImport,
+    onSuccess: () => qc.invalidateQueries({ queryKey: locationKeys.all })
   });
