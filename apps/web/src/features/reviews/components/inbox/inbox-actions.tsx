@@ -76,7 +76,7 @@ export function InboxActions() {
         <DropdownMenuTrigger render={<Button variant='outline' size='sm' />}>
           <Icons.adjustments className='size-4' /> {t('sort')}
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
+        <DropdownMenuContent align='end' className='min-w-56'>
           <DropdownMenuGroup>
             <DropdownMenuLabel>{t('sort')}</DropdownMenuLabel>
             <DropdownMenuRadioGroup

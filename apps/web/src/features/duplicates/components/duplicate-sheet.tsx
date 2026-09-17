@@ -62,7 +62,8 @@ function TwoPointsMap({
   const t = useTranslations('duplicates.sheet');
   const format = useFormatter();
   const d = Math.min(1, (distance ?? 0) / 500);
-  const x2 = 60 + 100 * d;
+  // Schematic, not to scale: at a few metres the pins and labels would sit on top of each other.
+  const x2 = 60 + Math.max(56, 100 * d);
   return (
     <figure className='bg-muted/40 rounded-lg border p-3' data-testid='duplicate-map'>
       <svg
@@ -106,9 +107,9 @@ function TwoPointsMap({
           {distance == null ? '—' : `${format.number(Math.round(distance))} ${t('m')}`}
         </text>
       </svg>
-      <figcaption className='text-muted-foreground mt-1 flex justify-between text-[11px]'>
-        <span className='truncate'>{ours}</span>
-        <span className='truncate text-right'>{theirs}</span>
+      <figcaption className='text-muted-foreground mt-1 flex justify-between gap-4 text-[11px]'>
+        <span className='min-w-0 truncate'>{ours}</span>
+        <span className='min-w-0 truncate text-right'>{theirs}</span>
       </figcaption>
     </figure>
   );

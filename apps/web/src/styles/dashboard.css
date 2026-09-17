@@ -924,3 +924,11 @@
   flex-direction: column;
   gap: var(--card-spacing);
 }
+
+/* A dialog taller than the screen scrolls; its footer (the actions) stays pinned to the bottom edge. */
+[data-theme='lp'] [data-slot='dialog-content'] > [data-slot='dialog-footer'] {
+  position: sticky;
+  bottom: calc(-1 * var(--lp-dialog-pad));
+  z-index: 1;
+  background: color-mix(in oklab, var(--muted) 50%, var(--popover));
+}

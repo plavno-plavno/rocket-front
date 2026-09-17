@@ -7,7 +7,6 @@ import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { LinkButton } from '@/components/ui/link-button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { badgesQueryOptions } from '@/features/session';
 import { useScope } from '@/hooks/use-scope';
@@ -65,8 +64,12 @@ export function NotificationBell() {
           </span>
         )}
       </PopoverTrigger>
-      <PopoverContent align='end' className='w-[calc(100vw-2rem)] p-0 sm:w-96' sideOffset={8}>
-        <div className='flex items-center justify-between px-3 py-2'>
+      <PopoverContent
+        align='end'
+        className='flex w-[calc(100vw-2rem)] flex-col overflow-hidden p-0 sm:w-96'
+        sideOffset={8}
+      >
+        <div className='flex shrink-0 items-center justify-between px-3 py-2'>
           <span className='text-sm font-medium'>{t('title')}</span>
           <Button
             variant='ghost'
@@ -79,7 +82,8 @@ export function NotificationBell() {
           </Button>
         </div>
         <Separator />
-        <ScrollArea className='max-h-96'>
+        {/* A plain scroll box: ScrollArea capped only by max-height let the list spill under the footer. */}
+        <div className='max-h-[min(24rem,55dvh)] min-h-0 overflow-y-auto overscroll-contain'>
           {items.length === 0 ? (
             <p className='text-muted-foreground p-6 text-center text-sm'>{t('empty')}</p>
           ) : (
@@ -110,9 +114,9 @@ export function NotificationBell() {
               ))}
             </ul>
           )}
-        </ScrollArea>
+        </div>
         <Separator />
-        <div className='p-2'>
+        <div className='shrink-0 p-2'>
           <LinkButton variant='ghost' size='sm' className='w-full' href='/dashboard/notifications'>
             {t('all')}
           </LinkButton>
