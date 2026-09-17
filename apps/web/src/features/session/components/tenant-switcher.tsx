@@ -91,10 +91,14 @@ export function TenantSwitcher() {
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
-            <DropdownMenuItem disabled>
-              <Icons.settings className='size-4' />
-              {me.tenant.plan.name}
-            </DropdownMenuItem>
+            {/* The plan is information, not an action: a disabled item with a gear read as a broken
+                «Settings». Base UI requires a label to sit inside a group. */}
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className='text-muted-foreground flex items-center justify-between gap-2 text-xs font-normal'>
+                {t('plan')}
+                <span className='text-foreground font-medium'>{me.tenant.plan.name}</span>
+              </DropdownMenuLabel>
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
