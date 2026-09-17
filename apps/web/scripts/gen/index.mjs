@@ -12,6 +12,7 @@ import { generateMockRegistry } from './mock-registry.mjs';
 import { generateFeatureRegistry } from './feature-registry.mjs';
 import { generateIcons } from './icons.mjs';
 import { syncVendor } from './vendor.mjs';
+import { syncIntlPolyfill } from './intl-polyfill.mjs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -24,6 +25,7 @@ const mocks = generateMockRegistry(report);
 const feats = generateFeatureRegistry(report);
 const iconSets = generateIcons(report);
 const vendor = syncVendor(report);
+const intl = syncIntlPolyfill(report);
 
 if (!quiet) {
   console.log(`[gen] messages: shell + ${messages.length} feature namespace(s) (${messages.join(', ') || '—'})`);
@@ -31,6 +33,7 @@ if (!quiet) {
   console.log(`[gen] feature registry: ${feats.length} feature(s) (${feats.join(', ') || '—'})`);
   console.log(`[gen] icons: ${iconSets.length} set(s) (${iconSets.join(', ') || '—'})`);
   console.log(`[gen] vendor: ${vendor.join(', ') || '—'}`);
+  console.log(`[gen] intl polyfill: ${intl.length ? intl.length + ' file(s) written' : 'unchanged'}`);
   for (const o of report.outputs) console.log(`[gen] ${o.changed ? 'wrote' : 'unchanged'} ${o.path}`);
 }
 for (const w of report.warnings) console.warn(`[gen] warning: ${w}`);

@@ -4,6 +4,165 @@
   },
   "page": {
     "title": "Help",
-    "description": "Knowledge base and support"
+    "description": "Knowledge base, keyboard shortcuts and support",
+    "info": {
+      "title": "Where to look",
+      "body": "Every screen has contextual help — the ⓘ button next to the title. This page collects articles for all sections and the support contacts."
+    }
+  },
+  "search": "Search the knowledge base",
+  "clear": "Clear search",
+  "nothing": "Nothing found for «{q}»",
+  "nothingHint": "Try another word or write to us: {email}",
+  "found": "{count, plural, one {# article found} other {# articles found}}",
+  "articlesCount": "{count, plural, one {# article} other {# articles}}",
+  "close": "Close",
+  "openScreen": "Open the screen",
+  "roles": {
+    "owner": "Owner",
+    "admin": "Administrator",
+    "reputation_manager": "Reputation manager",
+    "observer": "Observer"
+  },
+  "sections": {
+    "start": "Getting started",
+    "locations": "Locations and listings",
+    "reviews": "Reviews",
+    "analytics": "Analytics",
+    "growth": "Growth and communication",
+    "settings": "Settings and security"
+  },
+  "hotkeys": {
+    "title": "Keyboard shortcuts",
+    "description": "Work on the screens that have the corresponding action",
+    "search": "Search the system",
+    "overview": "Go to the overview",
+    "inboxNav": "Next / previous review",
+    "reply": "Reply to a review",
+    "tags": "Review tags",
+    "assign": "Set the assignee",
+    "publish": "Publish a reply or send a message"
+  },
+  "support": {
+    "title": "Support",
+    "description": "We answer on business days from 9:00 to 19:00 Moscow time",
+    "hint": "Mention the organisation id and the address in your email — we will find your account faster.",
+    "tenant": "Organisation",
+    "user": "User",
+    "subject": "Local Presence question — {tenant}",
+    "write": "Write to support",
+    "accounts": "Check platform accounts"
+  },
+  "articles": {
+    "onboarding": {
+      "title": "Getting started",
+      "summary": "Three steps after which the system starts working",
+      "body": "Local Presence watches your network's listings on the platforms (Yandex, Google, 2GIS and others) and collects reviews into one inbox. Three things are needed for that.\n\n1. Locations — the master data of your branches: name, address, phones, opening hours. Import them from XLSX or CSV or add them by hand.\n\n2. Platform accounts — access to your cabinets on the platforms. Once connected, the system finds the listings and matches them to locations.\n\n3. Team — colleagues with roles: who replies to reviews, who manages the data.\n\nThe «Getting started» wizard walks through all three and shows what is already done."
+    },
+    "scope": {
+      "title": "The «All locations» scope",
+      "summary": "The switcher in the header narrows every screen to the selected group",
+      "body": "The header has a scope switcher. «All locations» is selected by default; pick a brand, region, city or a custom group — and every screen (overview, reviews, analytics) shows data for it only.\n\nThe scope is kept in the page address, so a link to a filtered screen can be shared with a colleague.\n\nGroups are created from the location list: select locations and assign a group through bulk actions."
+    },
+    "roles": {
+      "title": "Roles and access",
+      "summary": "Who can do what: owner, administrator, reputation manager, observer",
+      "body": "The owner manages the plan and everything else. An administrator manages users, platform accounts, integrations and location data. A reputation manager works with reviews: replies, tags, templates and the AI. An observer only views.\n\nAccess rules limit which locations a user sees: all, selected locations or groups. This affects the inbox, analytics and the location list.\n\nAn invitation is sent by email and is valid for 7 days; an inactive user can be disabled without deleting."
+    },
+    "import": {
+      "title": "Importing locations from a file",
+      "summary": "XLSX or CSV → column mapping → check → apply",
+      "body": "Download the template on the import screen or use your own file: the first row holds the column headers. The system maps columns to fields automatically by their names («Name», «Address», «Phone»); check and adjust by hand if needed.\n\nThe check step shows which rows create new locations, which update existing ones (matched by branch code) and where the errors are. Fix the erroneous rows in the file and upload again — already imported rows are not duplicated."
+    },
+    "sync": {
+      "title": "Listing states and sync",
+      "summary": "What «Synced», «Sent» and «Action required» mean",
+      "body": "Every location has listings on the platforms. A listing state shows whether the platform data matches yours.\n\n«Synced» — the data matches. «Sent» — changes went to the platform and wait for its moderation (minutes to several days). «Action required» — the platform waits for your decision: a data conflict, rejected moderation, lost account access. «Not connected» — the location has no listing or account on that platform.\n\nThe «Sources» screen shows coverage per platform and connector health."
+    },
+    "actionRequired": {
+      "title": "What to do with «Action required»",
+      "summary": "Reasons and buttons: data drift, moderation, access",
+      "body": "Open the location → «Platforms» tab: every listing in this state shows the reason and the action.\n\nData drift — the platform changed a field on its own (e.g. opening hours after a customer complaint). Choose «Restore our data» or «Accept the platform version». To avoid deciding every time, set a field policy in the source settings.\n\nModeration rejected — fix the data and resend. Access lost — reconnect the platform account in the settings."
+    },
+    "policies": {
+      "title": "Field policies",
+      "summary": "Whose version wins when the platform changes data on its own",
+      "body": "In «Source settings» every field (name, address, phones, hours, website, description, categories, photos) gets a policy:\n\n«Our version wins» — platform changes are overwritten with our data. «Accept the platform version» — the system is updated from the platform. «Ask» — the divergence goes to «Action required», the decision is yours.\n\nA policy can be overridden for a single location in its card."
+    },
+    "inbox": {
+      "title": "Reviews inbox",
+      "summary": "List, details, reply, filters and shortcuts",
+      "body": "The list of reviews by filters is on the left, the selected review and the reply composer in the centre, the filters on the right (the «Filters» button on narrow screens).\n\nA review has an assignee, tags and a workflow status; the history shows every event: author edits, replies, complaints. A reply goes to the platform and gets the status «Sending → Published»; on failure it can be retried.\n\nShortcuts: J/K — next/previous, R — reply, T — tags, A — assignee, ⌘↵ — publish."
+    },
+    "templates": {
+      "title": "Reply templates",
+      "summary": "Team and private templates with variables",
+      "body": "A template is a reply draft with variables: author_name, location_name, rating and others are substituted on publish. Type two curly braces in the editor to see the list.\n\nTeam templates are visible to everyone, private ones only to you. Groups order the «Template» menu in the composer; the row order in the table is the menu order.\n\nThe preview shows how the template looks on a real review."
+    },
+    "autoReplies": {
+      "title": "Auto-replies",
+      "summary": "Rules: conditions → templates or AI, draft or publish",
+      "body": "A rule sets conditions (ratings, text presence, platforms, locations, keywords) and an action: template rotation or an AI profile.\n\n«Draft» mode — the reply waits for your confirmation in the inbox; «Publish» — it goes to the platform on its own after a delay, only during the location's working hours when enabled. Rules are checked top to bottom, the first matching one fires — drag to change the priority."
+    },
+    "ai": {
+      "title": "AI",
+      "summary": "A profile of tone and brand facts, reply generation in the composer",
+      "body": "A profile sets the tone (formal, friendly, neutral), brand facts, forbidden phrases, a signature and the maximum length — all of it goes into every generation.\n\nIn the review composer «Generate with AI» writes a reply by the profile; the text can be edited before publishing. The sandbox on the «AI» screen lets you test a profile on any review text."
+    },
+    "complaints": {
+      "title": "Review complaints",
+      "summary": "When a platform may hide a review and how to file a complaint",
+      "body": "If a review breaks the platform rules (insults, ads, a review of another place, a competitor's review), file a complaint from the review details: pick a reason from the platform list and add a comment.\n\nThe complaint status is visible in the review history: sending → submitted → accepted or rejected. The platform decides; the system only passes the complaint on and tracks the result."
+    },
+    "reviewAnalytics": {
+      "title": "Review analytics",
+      "summary": "Panel, location and city rankings, staff, topics, concordance",
+      "body": "The panel shows key metrics for the period (total, complaints, reply share, response speed), a region map, the trend and the rating distribution. Comparing periods adds a delta to every card.\n\nRankings are sortable tables by location, city, tag, phrase and topic. «Staff» — replies and average reaction time per team member. Concordance shows a keyword in the context of real reviews.\n\nAny screen can be downloaded as a report (XLSX)."
+    },
+    "presence": {
+      "title": "Online presence",
+      "summary": "Impressions, target actions, conversion and search keywords",
+      "body": "Impressions — how many times listings were seen in maps and search; target actions — calls, website visits, directions; conversion — their ratio.\n\nNot every platform reports statistics — those are marked separately, not as zeros. The «Sync» tab shows the platform × status matrix, «Search keywords» — the queries that lead to the listings (data arrives monthly)."
+    },
+    "rank": {
+      "title": "Rank tracker",
+      "summary": "Local positions by keyword on a grid around the location",
+      "body": "A project sets platforms, keywords, a grid of points (3×3…9×9) with a radius and a measurement schedule. From every grid point the system queries the results and records the listing position.\n\nThe heatmap shows positions per point; ARP is the average rank (lower is better), SoLV the share of points where the listing is in the top 3. «Competitors» shows who appears most often in the results."
+    },
+    "campaigns": {
+      "title": "Review generation",
+      "summary": "QR, SMS, WhatsApp and email campaigns; QR PDF; funnel",
+      "body": "A campaign leads a customer via a short link to a platform choice page. Channels: a QR code at the location, SMS, WhatsApp, email or just a link.\n\nReview gating is forbidden by platform rules and not supported: every customer gets the same path. A feedback form can be shown next to the platforms.\n\nQR codes are exported as a PDF with a page per location (poster, table tent, sticker). Analytics shows the funnel: sent → opened → clicks → reviews."
+    },
+    "widgets": {
+      "title": "Website widgets",
+      "summary": "Reviews widget and store locator: snippet, domains, key",
+      "body": "The reviews widget shows published reviews of the selected platforms on your website; the store locator — a map of stores with addresses and hours from the location cards.\n\nConfigure the widget, list the allowed domains and paste the snippet before the closing body tag. The public key is bound to the domains; if it leaks, rotate it — the old snippet stops working."
+    },
+    "publications": {
+      "title": "Platform publications",
+      "summary": "News, offers and events on the listings — with one publication",
+      "body": "A publication goes to the selected platforms and locations: text, a photo from the library, a button (call, website, book) and a release date.\n\nA platform may reject a post — the status per listing is visible in the details, failed ones can be resent. Drafts and scheduled publications can be edited until release."
+    },
+    "accounts": {
+      "title": "Platform accounts",
+      "summary": "OAuth, partner key or login and password; reconnecting",
+      "body": "An account gives the system access to your cabinets on the platforms. The connection method depends on the platform: OAuth (you confirm access on the platform), a partner key, or a login and password stored in the secure vault.\n\nIf a platform revoked access or requires verification, listings move to «Action required» — press «Reconnect» or pass the verification in the platform cabinet and «Check»."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "summary": "Events, channels (email, Telegram, push) and quiet hours",
+      "body": "Settings are personal: every member chooses which events and channels to be notified through — negative reviews, reviews unanswered longer than the threshold, listings needing action, finished operations, account issues.\n\nEmail can arrive immediately or as a digest, Telegram needs a one-time account link, push works in the browser. Quiet hours postpone emails and pushes until the morning."
+    },
+    "integrations": {
+      "title": "API keys and webhooks",
+      "summary": "API access for your systems and HTTP event notifications",
+      "body": "An API key is created with a set of scopes and shown once — store it right away. A key can be revoked; systems using it lose access.\n\nA webhook is an https:// address where the system sends a POST with the event JSON (new review, reply published, listing needs action) and a signature header. The delivery log shows statuses for 30 days; a test event checks the address."
+    },
+    "security": {
+      "title": "Profile, password and two-factor authentication",
+      "summary": "Personal details, interface language and sign-in security",
+      "body": "The profile changes the name and the interface language (Russian by default, Belarusian and English by choice). The email is used for sign-in — it can be changed via support.\n\nThe password is at least 8 characters. Two-factor authentication asks for an authenticator app code on every sign-in; an organisation administrator enables it."
+    }
   }
 }

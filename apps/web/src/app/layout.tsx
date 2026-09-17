@@ -11,6 +11,8 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import '../styles/globals.css';
+import { IntlPolyfill } from '@/lib/i18n/polyfill';
+import type { Locale } from '@/lib/i18n';
 
 const META_THEME_COLORS = {
   light: '#ffffff',
@@ -65,6 +67,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           fontVariables
         )}
       >
+        <IntlPolyfill locale={locale as Locale} />
         <NextTopLoader color='var(--primary)' showSpinner={false} />
         <NextIntlClientProvider>
           <NuqsAdapter>
