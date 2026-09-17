@@ -3,7 +3,7 @@ import { defineFeature } from '@/shell/feature';
 export default defineFeature({
   id: 'review-generation',
   track: 'UI-F6',
-  status: 'planned',
+  status: 'ready',
   screens: ['S-GEN-01'],
   nav: [
     {

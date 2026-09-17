@@ -348,3 +348,21 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 - e2e: `features/overview/e2e/overview.spec.ts` (KPI + widgets, week preset → URL + «по дням», KPI click → reviews inbox; `empty_tenant` → welcome card → onboarding). Visual baseline `overview` already existed (UI-DS).
 
 **Verified locally**: `pnpm gen --check` ✓, `typecheck` ✓, `lint:strict` ✓, `format:check` ✓, `check:templates` ✓, `depcruise` ✓, `pnpm e2e` (production build) **110/110** incl. visual (overview baseline refreshed with the period picker).
+
+## UI-F6 — Engagement (2026-09-17)
+
+**Done** (branch `ui/UI-F6/engagement`, merged to main)
+- **S-GEN-01 «Кампании»**: table by channel (QR / SMS / WhatsApp / email / link) with platform marks, routing, sent / opened / clicked / reviews, short link copy, status switch (active ↔ paused); `CampaignSheet` — name, channel, status, message template with `{{location_name}}` / `{{link}}`, target platforms, routing radio (all to platforms / platforms + private form) with an explicit «review gating is forbidden» note (SDD-00 §3.10), private-form switch, scope via `LocationPicker`; «Отправить» dialog (location + recipients per line → `POST /review-campaigns/{id}/send` → batch toast); delete with confirm.
+- **S-GEN-01 «QR-коды»**: QR campaign select, layout radio (A4 poster / table tent / sticker) with a live layout preview, scope via `LocationPicker`, async PDF export with a download toast (`waitForExport` from F4).
+- **S-GEN-01 «Аналитика»**: campaign select + `PeriodPicker` in the URL, KPI cards with step conversion, horizontal funnel bar chart, daily line chart (opened / clicked / reviews); QR campaigns hide «Отправлено».
+- **S-WID-01 «Виджет с отзывами»** and **«Сторлокатор» (Beta)**: shared `WidgetConfigurator` (public) — widget select / create, settings (theme; reviews: min rating, limit, platforms; locator: default city, show hours), allowed domains chips, embed snippet with copy, public key rotation with confirm, delete; preview column (reviews: `RecentReviewsList` from F2; locator: search box + map placeholder + first locations); dark theme previews via the `dark` class.
+- **S-COM-01 «Коммуникация»** [H-UI-05] on `InboxPage`: cursor thread list (search, unread badges, platform marks, «Загрузить ещё»), detail with contact / platform / location header, assignee `UserCombobox` (F7), close / reopen, message bubbles (inbound / outbound, time, failed state, 15 s refetch), composer (⌘↵), filters panel (status, platforms with `capabilities.questions.answer`) pinned ≥ 1536px and as a Sheet below.
+- Mock handlers for `/review-campaigns*` (deterministic funnel), `/widgets*` (key rotation regenerates the snippet), `/conversations*` added.
+- Contract gaps → `packages/contracts/CHANGE_REQUESTS.md`: `SyncBatch.kind: campaign_send`, typed widget config.
+- e2e: `review-generation.spec.ts` (validation, create, pause, send; QR sticker preview + PDF; analytics campaign switch), `widgets.spec.ts` (save, rotate key, create with domains; locator preview), `communication.spec.ts` (open thread, send, close / reopen, status filter via the Sheet); visual baselines `campaigns`, `widgets`, `communication`.
+
+**Verified locally**: `pnpm gen --check` ✓, `typecheck` ✓, `lint:strict` ✓ (0 warnings), `format:check` ✓, `check:templates` ✓, `depcruise` ✓, `pnpm e2e` (production build) **115/115** incl. visual; 0 browser console errors / 5xx on the six screens (owner).
+
+---
+
+**All 28 features are `ready`** (waves 1–3 complete): Foundation, UI-DS, F1, F2, F3, F7, F4, F5, F8, F6. Remaining product work lives in `packages/contracts/CHANGE_REQUESTS.md` (contract gaps) and `docs/requests/` (cross-track notes).

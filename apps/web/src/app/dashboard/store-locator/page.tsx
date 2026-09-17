@@ -1,6 +1,31 @@
-import { PlannedPage } from '@/components/lp/planned-page';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { ListPage } from '@/components/lp';
+import { requireAccess } from '@/features/session/server';
+import { StoreLocator } from '@/features/store-locator/components/store-locator';
 
-/** S-WID-01 — owned by UI-F6. Replace PlannedPage with the real screen (must render a components/lp template). */
-export default function Page() {
-  return <PlannedPage feature='store-locator' screen='S-WID-01' track='UI-F6' />;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('store-locator.page');
+  return { title: t('title') };
+}
+
+/** «Сторлокатор» (Beta) — owned by UI-F6. */
+export default async function Page() {
+  const [t, access] = await Promise.all([
+    getTranslations('store-locator.page'),
+    requireAccess({ feature: 'store_locator' })
+  ]);
+  return (
+    <ListPage
+      title={t('title')}
+      description={t('description')}
+      infoContent={{
+        title: t('info.title'),
+        sections: [{ title: t('info.title'), description: t('info.body') }]
+      }}
+      access={access}
+    >
+      <StoreLocator />
+    </ListPage>
+  );
 }

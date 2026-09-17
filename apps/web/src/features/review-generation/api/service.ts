@@ -61,3 +61,9 @@ export async function exportQrPdf(body: OperationBody<'export_qr_pdf'>) {
   const { data } = await coreClient().POST('/review-campaigns/qr-export', { body });
   return data!;
 }
+
+/** GET /exports/{id} — poll the QR PDF export until `done`. */
+export async function getExport(id: string) {
+  const { data } = await coreClient().GET('/exports/{id}', { params: { path: { id } } });
+  return data!;
+}

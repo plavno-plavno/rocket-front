@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { infiniteQueryOptions, keepPreviousData, queryOptions } from '@tanstack/react-query';
 import { listConversations, getConversation, listConversationMessages } from './service';
 import type { ListConversationsQuery, ListConversationMessagesQuery } from './types';
 
@@ -31,4 +31,18 @@ export const conversationMessagesQueryOptions = (
   queryOptions({
     queryKey: communicationKeys.conversationMessages(id, params),
     queryFn: () => listConversationMessages(id, params)
+  });
+
+/** Cursor feed of threads for the inbox list («Загрузить ещё»). */
+export const conversationsInfiniteQueryOptions = (
+  params: Omit<ListConversationsQuery, 'cursor' | 'limit'>,
+  limit = 30
+) =>
+  infiniteQueryOptions({
+    queryKey: [...communicationKeys.conversations(params), 'infinite', limit] as const,
+    queryFn: ({ pageParam }) =>
+      listConversations({ ...params, limit, cursor: pageParam || undefined }),
+    initialPageParam: '' as string,
+    getNextPageParam: (last) => last.meta.next_cursor ?? undefined,
+    placeholderData: keepPreviousData
   });

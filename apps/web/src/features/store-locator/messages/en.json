@@ -4,6 +4,16 @@
   },
   "page": {
     "title": "Store locator",
-    "description": "Store map for your website"
+    "description": "A store map for the website: city search, addresses and opening hours from your data",
+    "info": {
+      "title": "About the store locator (Beta)",
+      "body": "The widget takes addresses, phones and opening hours from the location cards — no separate updates needed. The public key is bound to the site domains."
+    }
+  },
+  "preview": {
+    "cityPlaceholder": "City or address",
+    "map": "Map with store points",
+    "openNow": "Open now",
+    "poweredBy": "Powered by Local Presence"
   }
 }

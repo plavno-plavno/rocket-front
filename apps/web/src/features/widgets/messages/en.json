@@ -4,6 +4,65 @@
   },
   "page": {
     "title": "Reviews widget",
-    "description": "Reviews widget for your website"
+    "description": "Platform reviews on your website — a single script tag",
+    "info": {
+      "title": "About the widget",
+      "body": "The widget shows published reviews of the selected platforms. The public key is bound to the listed domains; if it leaks, rotate it — the old snippet stops working."
+    }
+  },
+  "configurator": {
+    "select": "Widget",
+    "create": "New widget",
+    "newWidget": "New widget",
+    "createSubmit": "Create",
+    "empty": "No widgets yet",
+    "emptyHint": "Create a widget, configure it and paste the snippet on the site",
+    "settings": "Settings",
+    "kinds": {
+      "reviews": "Reviews on the website",
+      "store_locator": "Store map on the website"
+    },
+    "name": "Name",
+    "nameRequired": "Enter a name",
+    "theme": "Theme",
+    "themes": {
+      "light": "Light",
+      "dark": "Dark",
+      "auto": "Same as the site"
+    },
+    "minRating": "Minimum rating",
+    "minRatingHint": "Reviews below it are hidden",
+    "stars": "{count, plural, one {from # star} other {from # stars}}",
+    "limit": "How many reviews",
+    "platforms": "Platforms",
+    "platformsHint": "Empty — every connected platform",
+    "defaultCity": "Default city",
+    "showHours": "Show opening hours",
+    "domains": "Allowed domains",
+    "domainsPlaceholder": "example.com, www.example.com",
+    "domainsHint": "The widget works only on these domains",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saved": "Widget saved",
+    "created": "Widget created",
+    "delete": "Delete widget",
+    "deleteConfirm": "Delete widget «{name}»? The snippet on the site will stop working.",
+    "deleted": "Widget deleted",
+    "snippet": "Snippet for the site",
+    "snippetHint": "Paste before the closing body tag",
+    "publicKey": "Public key:",
+    "rotate": "Rotate key",
+    "rotateConfirm": "Rotate the public key? The old snippet stops working — update it on the site.",
+    "rotated": "Key rotated, snippet updated",
+    "copy": "Copy snippet",
+    "copied": "Snippet copied",
+    "preview": "Preview",
+    "previewHint": "How the widget looks on the site"
+  },
+  "preview": {
+    "title": "Customer reviews",
+    "minRating": "from {count} ★",
+    "limit": "up to {count} reviews",
+    "poweredBy": "Powered by Local Presence"
   }
 }

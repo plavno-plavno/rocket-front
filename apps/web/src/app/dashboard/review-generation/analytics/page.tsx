@@ -1,6 +1,35 @@
-import { PlannedPage } from '@/components/lp/planned-page';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
+import { ListPage } from '@/components/lp';
+import { Skeleton } from '@/components/ui/skeleton';
+import { CampaignAnalytics } from '@/features/review-generation/components/campaign-analytics';
+import { requireAccess } from '@/features/session/server';
 
-/** S-GEN-01 — owned by UI-F6. Replace PlannedPage with the real screen (must render a components/lp template). */
-export default function Page() {
-  return <PlannedPage feature='review-generation' screen='S-GEN-01' track='UI-F6' />;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('review-generation');
+  return { title: t('screens.analytics.title') };
+}
+
+/** S-GEN-01 «Аналитика» — owned by UI-F6. */
+export default async function Page() {
+  const [t, access] = await Promise.all([
+    getTranslations('review-generation'),
+    requireAccess({ permission: 'reviews.read', feature: 'review_generation' })
+  ]);
+  return (
+    <ListPage
+      title={t('screens.analytics.title')}
+      description={t('screens.analytics.description')}
+      infoContent={{
+        title: t('page.info.title'),
+        sections: [{ title: t('page.info.title'), description: t('page.info.body') }]
+      }}
+      access={access}
+    >
+      <Suspense fallback={<Skeleton className='h-96' />}>
+        <CampaignAnalytics />
+      </Suspense>
+    </ListPage>
+  );
 }

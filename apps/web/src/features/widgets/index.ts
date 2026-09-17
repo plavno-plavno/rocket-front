@@ -1,6 +1,5 @@
-/**
- * Public API of the widgets feature (SDD-01T §3.5). Other features import only from here.
- * Keep exports additive; breaking changes need a cross-track PR.
- */
-/** Placeholder until the track exports its first public component. */
-export const FEATURE_PUBLIC_API_VERSION = 1;
+/** Public API of the widgets feature (SDD-01T §3.5): the configurator is reused by the store locator. */
+export { WidgetConfigurator } from './components/widget-configurator';
+export type { WidgetConfig } from './components/widget-configurator';
+export { widgetsQueryOptions, widgetsKeys } from './api/queries';
+export type { Widget } from './api/types';

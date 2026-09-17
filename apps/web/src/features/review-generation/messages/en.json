@@ -7,6 +7,162 @@
   },
   "page": {
     "title": "Review generation",
-    "description": "Review collection campaigns"
+    "description": "Review collection campaigns: QR at locations, SMS, WhatsApp, email, links",
+    "info": {
+      "title": "About review generation",
+      "body": "A campaign leads a customer to the selected platforms via a short link. Review gating is forbidden by platform rules and not supported: every customer gets the same path."
+    }
+  },
+  "screens": {
+    "qr": {
+      "title": "QR codes",
+      "description": "A PDF with a QR code per location: poster, table tent or sticker"
+    },
+    "analytics": {
+      "title": "Campaign analytics",
+      "description": "Funnel: sent → opened → clicks → reviews"
+    }
+  },
+  "search": "Search by name",
+  "filters": {
+    "channel": "Channel",
+    "anyChannel": "All channels",
+    "status": "Status",
+    "anyStatus": "Any status"
+  },
+  "channels": {
+    "qr": "QR code",
+    "sms": "SMS",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "link": "Link"
+  },
+  "columns": {
+    "campaign": "Campaign",
+    "platforms": "Platforms",
+    "routing": "Route",
+    "privateForm": "with feedback form",
+    "sent": "Sent",
+    "opened": "Opened",
+    "clicked": "Clicks",
+    "reviews": "Reviews",
+    "status": "Status"
+  },
+  "actions": {
+    "create": "New campaign",
+    "send": "Send",
+    "edit": "Edit",
+    "delete": "Delete",
+    "activated": "Campaign activated",
+    "paused": "Campaign paused",
+    "linkCopied": "Link copied"
+  },
+  "empty": "No campaigns yet",
+  "emptyFiltered": "Nothing matches your filters",
+  "emptyHint": "Create a campaign: a QR code at the till or a message after purchase",
+  "deleteConfirm": "Delete campaign «{name}»? The short link will stop working.",
+  "deleted": "Campaign deleted",
+  "sheet": {
+    "createTitle": "New campaign",
+    "editTitle": "Campaign",
+    "description": "Channel, message, platforms and the customer route",
+    "name": "Name",
+    "nameRequired": "Enter a name",
+    "channel": "Channel",
+    "status": "Status",
+    "statuses": {
+      "draft": "Draft",
+      "active": "Active",
+      "paused": "Paused",
+      "archived": "Archived"
+    },
+    "template": "Message",
+    "templateDefault": "Thanks for visiting '{{'location_name'}}'! Leave a review: '{{'link'}}'",
+    "templateHint": "Variables: '{{'location_name'}}', '{{'link'}}'",
+    "templateRequired": "Enter the message",
+    "platforms": "Review platforms",
+    "platformsHint": "The customer picks one of them on the link page",
+    "platformsRequired": "Pick at least one platform",
+    "routing": "Customer route",
+    "routings": {
+      "all_to_platforms": {
+        "title": "Everyone — to the platforms",
+        "hint": "Every customer gets the platform choice"
+      },
+      "platforms_plus_private": {
+        "title": "Platforms + feedback form",
+        "hint": "Next to the platforms — a form to message you directly; no rating filter"
+      }
+    },
+    "noGating": "Review gating is forbidden by platform rules — every customer sees the same options.",
+    "privateForm": "Show the feedback form",
+    "scope": "Locations",
+    "scopeAll": "All locations",
+    "scopeSelected": "Selected: {count}",
+    "cancel": "Cancel",
+    "save": "Save",
+    "created": "Campaign created",
+    "updated": "Campaign saved"
+  },
+  "send": {
+    "title": "Send requests",
+    "description": "Channel: {channel}. Every recipient gets a message with the campaign link",
+    "location": "Location",
+    "locationPlaceholder": "Pick a location",
+    "locationRequired": "Pick a location",
+    "contacts": "Recipients",
+    "contactsPlaceholder": "+79991234567\nivanov@example.ru",
+    "contactsHint": "{count, plural, =0 {One per line} one {# recipient} other {# recipients}}",
+    "contactsRequired": "Add at least one recipient",
+    "cancel": "Cancel",
+    "submit": "Send",
+    "done": "{count, plural, one {# request sent} other {# requests sent}}"
+  },
+  "qr": {
+    "title": "PDF with QR codes",
+    "description": "One file — a page per location with its link",
+    "campaign": "Campaign",
+    "noCampaign": "No QR campaigns",
+    "noCampaignHint": "Create a campaign with the «QR code» channel on the «Campaigns» tab",
+    "link": "Short link: {link}",
+    "layout": "Layout",
+    "layouts": {
+      "a4_poster": {
+        "title": "A4 poster",
+        "hint": "For a wall or window"
+      },
+      "table_tent": {
+        "title": "Table tent",
+        "hint": "For a table or counter"
+      },
+      "sticker": {
+        "title": "Sticker",
+        "hint": "Round, 8 cm"
+      }
+    },
+    "scope": "Locations",
+    "scopeAll": "All locations",
+    "scopeSelected": "Selected: {count}",
+    "scopeHint": "One page per location",
+    "download": "Download PDF",
+    "started": "Preparing the PDF…",
+    "ready": "PDF ready",
+    "preview": "Layout preview",
+    "previewText": "Rate us"
+  },
+  "analytics": {
+    "campaign": "Campaign",
+    "count": "Count",
+    "steps": {
+      "sent": "Sent",
+      "opened": "Opened",
+      "clicked": "Clicks to the platform",
+      "reviews": "Reviews"
+    },
+    "qrNoSend": "QR campaigns do not send messages",
+    "funnel": "Funnel for the period",
+    "funnelHint": "How many customers reached each step",
+    "daily": "By day",
+    "dailyHint": "Opens, clicks and reviews"
   }
 }

@@ -4,6 +4,42 @@
   },
   "page": {
     "title": "Communication",
-    "description": "Customer conversations on platforms"
+    "description": "Customer conversations from the platforms in one window",
+    "info": {
+      "title": "About the multichat",
+      "body": "Messages from Yandex Business and 2GIS chats arrive here; a reply goes to the customer on the platform. Closed threads can be reopened."
+    }
+  },
+  "list": {
+    "search": "Search by name or location",
+    "empty": "No conversations",
+    "emptyHint": "New customer messages will appear here",
+    "more": "Load more",
+    "closed": "Closed"
+  },
+  "detail": {
+    "pick": "Pick a conversation",
+    "pickHint": "Customer threads by platform are on the left",
+    "closed": "Closed",
+    "close": "Close thread",
+    "closedDone": "Thread closed",
+    "reopen": "Reopen",
+    "reopened": "Thread reopened",
+    "assigned": "Assignee set",
+    "failed": "not delivered",
+    "placeholder": "Write a reply… (⌘↵ to send)",
+    "message": "Message",
+    "send": "Send"
+  },
+  "filters": {
+    "title": "Filters",
+    "status": "Status",
+    "statuses": {
+      "open": "Open",
+      "closed": "Closed",
+      "all": "All"
+    },
+    "platform": "Platform",
+    "allPlatforms": "All platforms"
   }
 }
