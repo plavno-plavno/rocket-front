@@ -149,8 +149,8 @@ function UploadDialog({
             </Field>
             <Field>
               <FieldLabel>{t('locations')}</FieldLabel>
-              <div className='flex items-center gap-2 text-sm'>
-                <span>
+              <div className='flex flex-wrap items-center gap-3 text-sm'>
+                <span className='whitespace-nowrap'>
                   {locationIds.length === 0
                     ? t('locationsAll')
                     : t('locationsSelected', { count: locationIds.length })}

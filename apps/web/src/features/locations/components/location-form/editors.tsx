@@ -40,7 +40,10 @@ export function HoursEditor({
   return (
     <div className='flex flex-col gap-2'>
       {WEEKDAYS.map((day) => (
-        <div key={day} className='grid grid-cols-[3rem_auto_1fr] items-center gap-3 text-sm'>
+        <div
+          key={day}
+          className='lp-hours-row grid grid-cols-[3rem_minmax(0,1fr)] items-center gap-3 rounded-xl border border-border/60 p-3 text-sm sm:grid-cols-[3rem_auto_minmax(0,1fr)]'
+        >
           <span className='font-medium'>{td(day)}</span>
           <label className='flex items-center gap-2'>
             <Switch
@@ -55,7 +58,12 @@ export function HoursEditor({
               {value[day].closed ? t('closed') : t('open')}
             </span>
           </label>
-          <div className={cn('flex items-center gap-2', value[day].closed && 'invisible')}>
+          <div
+            className={cn(
+              'col-span-2 flex min-w-0 items-center gap-2 sm:col-span-1',
+              value[day].closed && 'invisible'
+            )}
+          >
             <Input
               type='time'
               value={value[day].open}
@@ -108,7 +116,10 @@ export function SpecialHoursEditor({
   return (
     <div className='flex flex-col gap-2'>
       {value.map((s, i) => (
-        <div key={i} className='grid grid-cols-[10rem_auto_1fr_auto] items-center gap-3 text-sm'>
+        <div
+          key={i}
+          className='lp-special-hours-row grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border p-3 text-sm'
+        >
           <Input
             type='date'
             value={s.date}
@@ -126,7 +137,7 @@ export function SpecialHoursEditor({
             />
             <span className='text-muted-foreground w-16'>{s.closed ? t('closed') : t('open')}</span>
           </label>
-          <div className={cn('flex items-center gap-2', s.closed && 'invisible')}>
+          <div className={cn('flex min-w-0 flex-wrap items-center gap-2', s.closed && 'invisible')}>
             <Input
               type='time'
               value={s.open}
@@ -195,7 +206,7 @@ export function PhonesEditor({
     <div className='flex flex-col gap-2'>
       {value.map((p, i) => (
         <div key={i} className='flex flex-col gap-1'>
-          <div className='flex items-center gap-2'>
+          <div className='flex flex-wrap items-center gap-3'>
             <Input
               value={p.e164}
               onChange={(e) => update(i, { e164: e.target.value })}
@@ -279,7 +290,7 @@ export function SocialEditor({
   return (
     <div className='flex flex-col gap-2'>
       {value.map((s, i) => (
-        <div key={i} className='flex items-center gap-2'>
+        <div key={i} className='flex flex-wrap items-center gap-3'>
           <Select
             value={s.kind}
             onValueChange={(kind) => update(i, { kind: kind as Social[number]['kind'] })}
@@ -353,7 +364,10 @@ export function OverridesEditor({
   return (
     <div className='flex flex-col gap-2'>
       {value.map((o, i) => (
-        <div key={i} className='grid grid-cols-[12rem_1fr_auto] items-center gap-2'>
+        <div
+          key={i}
+          className='grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 [&>label]:col-span-2'
+        >
           <Label className='truncate'>
             {platforms.find((p) => p.id === o.platform_id)?.name ?? o.platform_id}
           </Label>

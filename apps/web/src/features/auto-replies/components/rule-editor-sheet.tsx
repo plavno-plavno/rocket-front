@@ -193,7 +193,7 @@ export function RuleEditorSheet({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
-        className='flex w-full flex-col gap-0 p-0 sm:max-w-xl'
+        className='flex w-full flex-col gap-0 p-0 sm:max-w-2xl'
         data-testid='rule-editor'
       >
         <SheetHeader className='border-b'>

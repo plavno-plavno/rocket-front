@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useDateFnsLocale } from '@/lib/i18n/date-locale';
 
 import { Button } from '@/components/ui/button';
@@ -83,6 +84,7 @@ export function DateRangeField({
 }: BaseFieldProps & { placeholder?: string }) {
   const t = useTranslations('ui');
   const dateLocale = useDateFnsLocale();
+  const isMobile = useIsMobile();
   const field = useFieldContext<DateRange | undefined>();
   const isInvalid = useFieldInvalid();
   const range = field.state.value;
@@ -128,7 +130,7 @@ export function DateRangeField({
             mode='range'
             selected={range}
             onSelect={field.handleChange}
-            numberOfMonths={2}
+            numberOfMonths={isMobile ? 1 : 2}
             autoFocus
           />
         </PopoverContent>

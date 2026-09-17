@@ -7,11 +7,15 @@ test.describe('interface language', () => {
     await profile.getByRole('combobox', { name: /Язык интерфейса/ }).click();
     await authed.getByRole('option', { name: 'Беларуская' }).click();
     await profile.getByRole('button', { name: 'Сохранить' }).click();
-    await expect(authed.locator('#main-content').getByRole('heading', { name: 'Профіль' })).toBeVisible();
+    await expect(
+      authed.locator('#main-content').getByRole('heading', { name: 'Профіль' })
+    ).toBeVisible();
     await expect(authed.getByRole('link', { name: 'Мае кампаніі' })).toBeVisible();
 
     await authed.goto('/dashboard/reviews');
-    await expect(authed.locator('#main-content').getByRole('heading', { name: 'Апрацоўка водгукаў' })).toBeVisible();
+    await expect(
+      authed.locator('#main-content').getByRole('heading', { name: 'Апрацоўка водгукаў' })
+    ).toBeVisible();
     // Mock data stays Russian — only the interface is translated.
     await expect(authed.locator('#main-content').getByText('Спортэксперт').first()).toBeVisible();
 
@@ -21,6 +25,8 @@ test.describe('interface language', () => {
     await be.getByRole('combobox', { name: /Мова інтэрфейсу/ }).click();
     await authed.getByRole('option', { name: 'Русский' }).click();
     await be.getByRole('button', { name: 'Захаваць' }).click();
-    await expect(authed.locator('#main-content').getByRole('heading', { name: 'Профиль' })).toBeVisible();
+    await expect(
+      authed.locator('#main-content').getByRole('heading', { name: 'Профиль' })
+    ).toBeVisible();
   });
 });

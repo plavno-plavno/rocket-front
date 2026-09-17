@@ -40,5 +40,15 @@
         "cta": "Invite"
       }
     }
+  },
+  "pulse": {
+    "label": "Network health",
+    "title": "Your network. One clear view.",
+    "description": "Monitor your online presence, manage your reputation and stay closer to your customers.",
+    "locations": "View locations",
+    "health": "Listing health",
+    "summary": "{synced} of {total} platform listings are up to date",
+    "pending": "Loading listing status",
+    "unavailable": "Could not load listing status"
   }
 }

@@ -8,7 +8,7 @@ import { AiSandbox } from './ai-sandbox';
 export function AiPageBody() {
   const [profileId, setProfileId] = useState<string | null>(null);
   return (
-    <div className='grid gap-4 xl:grid-cols-2'>
+    <div className='grid items-start gap-6 lg:grid-cols-2'>
       <AiProfileForm profileId={profileId} onProfileChange={setProfileId} />
       <AiSandbox profileId={profileId} />
     </div>

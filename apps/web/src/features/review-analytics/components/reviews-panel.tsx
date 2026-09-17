@@ -290,24 +290,29 @@ function NegativeLocations() {
         ) : (
           <ol className='flex flex-col divide-y'>
             {rows.map((r, i) => (
-              <li key={r.key} className='flex items-center gap-3 py-2 text-sm'>
+              <li
+                key={r.key}
+                className='grid grid-cols-[1rem_minmax(0,1fr)] items-center gap-x-3 gap-y-1 py-3 text-sm'
+              >
                 <span className='text-muted-foreground w-4 text-right tabular-nums'>{i + 1}</span>
                 <Link
                   href={`/dashboard/locations/${r.key}`}
-                  className='min-w-0 flex-1 truncate underline-offset-4 hover:underline'
+                  className='min-w-0 break-words underline-offset-4 hover:underline'
                 >
                   {r.label}
                 </Link>
-                {r.average_rating != null && (
-                  <RatingStars rating={r.average_rating} size='sm' showValue />
-                )}
-                <span className='text-rating-negative inline-flex items-center gap-1 tabular-nums'>
-                  <Icons.trendingDown className='size-3.5' />
-                  {format.number(r.negative ?? 0)}
-                </span>
-                <span className='text-muted-foreground w-12 text-right text-xs tabular-nums'>
-                  {t('ofTotal', { total: r.total })}
-                </span>
+                <div className='col-start-2 flex flex-wrap items-center gap-3'>
+                  {r.average_rating != null && (
+                    <RatingStars rating={r.average_rating} size='sm' showValue />
+                  )}
+                  <span className='text-rating-negative inline-flex items-center gap-1 tabular-nums'>
+                    <Icons.trendingDown className='size-3.5' />
+                    {format.number(r.negative ?? 0)}
+                  </span>
+                  <span className='text-muted-foreground w-12 text-right text-xs tabular-nums'>
+                    {t('ofTotal', { total: r.total })}
+                  </span>
+                </div>
               </li>
             ))}
           </ol>

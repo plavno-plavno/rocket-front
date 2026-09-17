@@ -68,10 +68,12 @@ export function DataTable<TData>({
     <div className='flex flex-1 flex-col space-y-4'>
       {children}
       <div className='relative flex flex-1'>
-        <div className='absolute inset-0 flex overflow-hidden rounded-lg border'>
+        {/* Below md the page scrolls as a whole (no fixed height): the table sits in the flow with a
+            capped height; from md it fills the remaining viewport height. */}
+        <div className='flex w-full overflow-hidden rounded-lg border md:absolute md:inset-0'>
           <div
             ref={scrollRef}
-            className='h-full w-full overflow-auto'
+            className='h-full max-h-[70dvh] w-full overflow-auto md:max-h-none'
             data-virtualized={virtual || undefined}
           >
             <Table

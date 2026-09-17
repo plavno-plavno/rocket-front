@@ -24,6 +24,7 @@ export default async function AiPage() {
         sections: [{ title: t('info.title'), description: t('info.body') }]
       }}
       access={access}
+      wide
     >
       <AiPageBody />
     </SettingsPage>

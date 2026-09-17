@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 import PageContainer from '@/components/layout/page-container';
 import type { InfobarContent } from '@/components/ui/infobar';
 
@@ -36,7 +37,9 @@ export function DetailPage({
     >
       <div className='flex flex-1 flex-col gap-4' data-template='detail'>
         {tabs}
-        <div className='grid flex-1 gap-4 xl:grid-cols-[minmax(0,1fr)_320px]'>
+        <div
+          className={cn('grid min-w-0 flex-1 gap-6', aside && 'xl:grid-cols-[minmax(0,1fr)_320px]')}
+        >
           <div className='flex min-w-0 flex-col gap-4'>{children}</div>
           {aside && <aside className='flex flex-col gap-4'>{aside}</aside>}
         </div>

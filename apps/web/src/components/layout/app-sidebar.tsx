@@ -21,18 +21,38 @@ import { TenantSwitcher, UserNav } from '@/features/session';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Icons } from '@/components/icons';
+import { useTranslations } from 'next-intl';
 
 function isActivePath(pathname: string, url: string) {
   return pathname === url || (url !== '/dashboard' && pathname.startsWith(`${url}/`));
 }
 
+/** Counters («988», «9+») get a soft pill, static labels («Новое», «Бета») a filled accent pill. */
+function badgeKind(label: string | number): 'count' | 'label' {
+  return /^\d+\+?$/.test(String(label)) ? 'count' : 'label';
+}
+
 export default function AppSidebar() {
   const pathname = usePathname();
+  const t = useTranslations('app');
   const filteredGroups = useNavGroups();
 
   return (
-    <Sidebar collapsible='icon'>
+    <Sidebar collapsible='icon' className='lp-sidebar'>
       <SidebarHeader>
+        <Link
+          href='/dashboard/overview'
+          className='lp-brand flex items-center gap-2.5 px-2 py-3'
+          aria-label={t('name')}
+        >
+          <span className='bg-primary text-primary-foreground flex size-9 shrink-0 items-center justify-center rounded-xl'>
+            <Icons.mapPin className='size-6' />
+          </span>
+          <span className='truncate text-lg font-bold tracking-tight group-data-[collapsible=icon]:hidden'>
+            {t('name')}
+            <span className='text-primary'>.</span>
+          </span>
+        </Link>
         <TenantSwitcher />
       </SidebarHeader>
       <SidebarContent className='overflow-x-hidden'>
@@ -73,7 +93,9 @@ export default function AppSidebar() {
                             >
                               <span>{subItem.title}</span>
                               {subItem.label && (
-                                <SidebarMenuBadge>{subItem.label}</SidebarMenuBadge>
+                                <SidebarMenuBadge data-kind={badgeKind(subItem.label)}>
+                                  {subItem.label}
+                                </SidebarMenuBadge>
                               )}
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
@@ -91,7 +113,11 @@ export default function AppSidebar() {
                       <Icon />
                       <span>{item.title}</span>
                     </SidebarMenuButton>
-                    {item.label && <SidebarMenuBadge>{item.label}</SidebarMenuBadge>}
+                    {item.label && (
+                      <SidebarMenuBadge data-kind={badgeKind(item.label)}>
+                        {item.label}
+                      </SidebarMenuBadge>
+                    )}
                   </SidebarMenuItem>
                 );
               })}

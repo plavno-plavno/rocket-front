@@ -5,6 +5,7 @@ import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useDateFnsLocale } from '@/lib/i18n/date-locale';
 import {
   Select,
@@ -93,6 +94,7 @@ export function PeriodPicker({
   const t = useTranslations('period');
   const format = useFormatter();
   const dateLocale = useDateFnsLocale();
+  const isMobile = useIsMobile();
   const activePreset = PRESETS.find((p) => {
     const r = presetRange(p);
     return r.from === value.from && r.to === value.to;
@@ -140,7 +142,7 @@ export function PeriodPicker({
           <Calendar
             mode='range'
             locale={dateLocale}
-            numberOfMonths={2}
+            numberOfMonths={isMobile ? 1 : 2}
             selected={{ from: new Date(value.from), to: new Date(value.to) }}
             disabled={{ after: new Date() }}
             onSelect={(range) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { StatusStatCard } from '@/components/lp';
@@ -14,8 +14,8 @@ export function OverviewKpis() {
   const ts = useTranslations('status');
   const router = useRouter();
   const [scope] = useScope();
-  const { data: summary, isPending } = useQuery(listingsSummaryQueryOptions(scope));
-  const { data: badges } = useQuery(badgesQueryOptions(scope));
+  const { data: summary, isPending } = useSuspenseQuery(listingsSummaryQueryOptions(scope));
+  const { data: badges } = useSuspenseQuery(badgesQueryOptions(scope));
   const counts = summary?.counts;
   const scopeQs = scope !== 'all' ? `&scope=${scope}` : '';
   return (

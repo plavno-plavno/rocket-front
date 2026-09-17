@@ -358,12 +358,13 @@ export function ReviewFiltersSheet() {
         {t('title')}
         {active > 0 && <Badge variant='secondary'>{active}</Badge>}
       </SheetTrigger>
-      <SheetContent className='w-full p-0 sm:max-w-sm'>
+      <SheetContent className='w-full p-0 sm:max-w-md'>
         <SheetHeader className='sr-only'>
           <SheetTitle>{t('title')}</SheetTitle>
           <SheetDescription>{t('active', { count: active })}</SheetDescription>
         </SheetHeader>
-        <ReviewFiltersPanel className='h-full' />
+        {/* In the sheet the close button sits over the panel header: keep «Очистить» clear of it. */}
+        <ReviewFiltersPanel className='h-full [&>div:first-child]:pr-14' />
       </SheetContent>
     </Sheet>
   );

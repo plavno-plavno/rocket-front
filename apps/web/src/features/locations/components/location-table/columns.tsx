@@ -52,7 +52,7 @@ export function useLocationColumns(options: LocationColumnOptions): ColumnDef<Lo
         ),
         enableSorting: false,
         enableHiding: false,
-        size: 32
+        size: 48
       },
       {
         id: 'name',
@@ -61,10 +61,10 @@ export function useLocationColumns(options: LocationColumnOptions): ColumnDef<Lo
           <DataTableColumnHeader column={column} title={t('name')} />
         ),
         cell: ({ row }) => (
-          <div className='flex min-w-0 flex-col'>
+          <div className='flex w-64 min-w-0 flex-col py-1'>
             <Link
               href={`/dashboard/locations/${row.original.id}`}
-              className='truncate font-medium hover:underline'
+              className='font-medium whitespace-normal hover:underline'
             >
               {row.original.name}
             </Link>
@@ -86,7 +86,9 @@ export function useLocationColumns(options: LocationColumnOptions): ColumnDef<Lo
           `${row.address.city}, ${row.address.street ?? ''} ${row.address.house ?? ''}`,
         header: ({ column }) => <DataTableColumnHeader column={column} title={t('address')} />,
         cell: ({ getValue }) => (
-          <span className='text-muted-foreground line-clamp-2 text-sm'>{getValue<string>()}</span>
+          <span className='text-muted-foreground block w-60 text-sm whitespace-normal'>
+            {getValue<string>()}
+          </span>
         ),
         enableSorting: false,
         meta: { label: t('address') },
@@ -201,7 +203,7 @@ export function useLocationColumns(options: LocationColumnOptions): ColumnDef<Lo
         cell: ({ row }) => <CellAction data={row.original} />,
         enableSorting: false,
         enableHiding: false,
-        size: 48
+        size: 64
       }
     ],
     [t, tf, ts, tc, format, options]

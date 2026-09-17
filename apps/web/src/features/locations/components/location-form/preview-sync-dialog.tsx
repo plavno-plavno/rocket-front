@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { Icons } from '@/components/icons';
 import { PlatformIcon } from '@/components/lp';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -41,11 +42,31 @@ export function PreviewSyncDialog({
   const listings = (preview?.listings ?? []).filter((l) => l.changes.length);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='max-w-2xl'>
+      <DialogContent className='sm:max-w-2xl'>
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
+        <ol className='lp-sync-flow' aria-label={t('flow.label')}>
+          {(['company', 'review', 'platforms'] as const).map((step, index) => {
+            const Icon = [Icons.locations, Icons.eye, Icons.sources][index];
+            return (
+              <li key={step}>
+                <Icon className='size-6 shrink-0' aria-hidden />
+                <div>
+                  <span className='text-muted-foreground text-xs'>{index + 1} / 3</span>
+                  <p className='font-medium'>{t(`flow.${step}`)}</p>
+                </div>
+                {index < 2 && (
+                  <Icons.arrowRight
+                    className='absolute top-1 right-0 hidden size-4 opacity-50 sm:block'
+                    aria-hidden
+                  />
+                )}
+              </li>
+            );
+          })}
+        </ol>
         {loading ? (
           <p className='text-muted-foreground py-6 text-center text-sm'>…</p>
         ) : !preview || !preview.available ? (
@@ -68,22 +89,22 @@ export function PreviewSyncDialog({
                     <PlatformIcon platformId={l.platform_id} className='size-4' />{' '}
                     {platformName(l.platform_id)}
                   </div>
-                  <table className='w-full text-xs'>
+                  <table className='w-full table-fixed text-sm'>
                     <thead className='text-muted-foreground'>
                       <tr>
-                        <th className='py-1 text-left font-normal'>{t('field')}</th>
-                        <th className='py-1 text-left font-normal'>{t('from')}</th>
-                        <th className='py-1 text-left font-normal'>{t('to')}</th>
+                        <th className='px-2 py-3 text-left font-medium'>{t('field')}</th>
+                        <th className='px-2 py-3 text-left font-medium'>{t('from')}</th>
+                        <th className='px-2 py-3 text-left font-medium'>{t('to')}</th>
                       </tr>
                     </thead>
                     <tbody>
                       {l.changes.map((c) => (
                         <tr key={c.field} className='border-t'>
-                          <td className='py-1 pr-2 font-mono'>{c.field}</td>
-                          <td className='text-muted-foreground max-w-48 truncate py-1 pr-2 line-through'>
+                          <td className='px-2 py-3 align-top text-xs break-words'>{c.field}</td>
+                          <td className='text-muted-foreground px-2 py-3 align-top break-words line-through'>
                             {fmt(c.from)}
                           </td>
-                          <td className='max-w-48 truncate py-1'>
+                          <td className='px-2 py-3 align-top break-words'>
                             {fmt(c.to)}
                             {c.note && <span className='text-status-action ml-1'>· {c.note}</span>}
                           </td>

@@ -373,3 +373,18 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 - 2 163 interface strings translated by hand in `src/shell/messages/be.json` and every `features/*/messages/be.json`; placeholders and ICU plural forms verified against RU; mock data (companies, reviews, names) intentionally stays Russian.
 - Language is offered in the user menu, on the auth pages and in the profile («Мова інтэрфейсу»); Russian remains the default, no browser negotiation.
 - e2e: `features/session/e2e/locale.spec.ts` — switch to Belarusian in the profile → sidebar and headings in Belarusian while mock content stays Russian → switch back.
+
+## UI-DS — Dashboard refresh and responsive pass (2026-09-17)
+
+**Done** (cross-track, see `apps/web/docs/requests/2026-09-17-UI-DS-dashboard-design.md`)
+- Visual refresh: `src/styles/dashboard.css` (shared 4/8px rhythm, 40/44px controls, page heading, cards), pastel KPI tones in `themes/lp.css`, sidebar branding, overview «pulse» (welcome + network health), GSAP panel motion (`dashboard-motion.tsx`, `use-panel-motion.ts`) that respects reduced motion.
+- Controls never break mid-word: `overflow-wrap: anywhere` removed everywhere (it shrank buttons in shrink-to-fit table columns to one letter per line — «Проверить» in Sources, «Отозвать» in Integrations; «Команд|ный» in selects). Tabs stay on one row and scroll; toggle groups wrap between items.
+- Tables: buttons/badges in cells never wrap; a table that scrolls sideways fades at the edge with hidden columns (scroll-driven, no JS); `DataTable` no longer collapses to 0px on phones (locations list was empty at 375px).
+- Tabs: shared `TabsList` renders a Base UI `Tabs.Indicator` — the active segment slides (300ms ease-out, off under reduced motion).
+- Overlays: `SheetContent`/`DialogContent` base widths no longer beat the widths features pass (every sheet was 384px, dialogs ignored `max-w-*`); sheets default to `sm:max-w-md`, dialogs to `sm:max-w-lg`, rule editor `2xl`. Dialog footer bleeds to the edges with the dialog padding; card sections inside a `<form>` get the card gap.
+- Page header: actions sit under the title on the left on every page; overview toolbar = «Импорт / Добавить компанию» left, period right. «Последние отзывы» / «Требуется действие» share one row rhythm (container query, redundant status badge removed).
+- Sidebar: collapsed rail fixed (paddings of the expanded state no longer push icons, brand and avatars off-centre); counters are soft pills, «Новое» / «Бета» filled pills (RU strings were English).
+- KPI tiles: brighter dark tones and two slowly drifting glows per tone (`transform` only, per-tile period 22–31s). `color-mix` switched to `oklab` — in `oklch` the near-grey mixes lost their hue and inputs turned brown in the dark theme.
+- «Нейросеть» uses the wide settings template; settings nav items no longer overlap on phones; media upload dialog companies row wraps.
+
+**Verified locally**: `gen --check` ✓, `typecheck` ✓, `lint:strict` ✓, `check:contrast` ✓ (WCAG AA), `check:templates` ✓, `depcruise` ✓; layout audit (Playwright, all 53 routes × 375/768/1024/1440 + 1920 dark, 31 overlay states): no page-level horizontal overflow, no letter-per-line controls, no overlapping text in the shell. e2e result is in the commit notes below.

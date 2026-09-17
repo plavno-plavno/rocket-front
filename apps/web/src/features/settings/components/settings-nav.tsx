@@ -53,12 +53,12 @@ function NavLink({ item }: { item: Item }) {
   const Icon = Icons[item.icon];
   const active = pathname === item.url || pathname.startsWith(`${item.url}/`);
   return (
-    <li>
+    <li className='shrink-0'>
       <Link
         href={item.url}
         aria-current={active ? 'page' : undefined}
         className={cn(
-          'hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-3 py-2 text-sm',
+          'hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap',
           active ? 'bg-accent font-medium' : 'text-muted-foreground'
         )}
       >
@@ -74,7 +74,7 @@ export function SettingsNav() {
   const t = useTranslations('settings.nav');
   return (
     <ul
-      className='flex flex-row gap-1 overflow-x-auto lg:flex-col'
+      className='flex flex-row gap-1 overflow-x-auto [scrollbar-width:none] lg:flex-col [&::-webkit-scrollbar]:hidden'
       aria-label={t('label')}
       data-testid='settings-nav'
     >

@@ -1,0 +1,926 @@
+/* Product surfaces extend, rather than modify, the Base UI primitives. */
+
+.lp-sidebar [data-sidebar='header'] {
+  padding: 12px;
+  gap: 14px;
+}
+.lp-sidebar [data-sidebar='content'] {
+  padding: 0 10px;
+}
+.lp-sidebar [data-sidebar='footer'] {
+  border-top: 1px solid var(--border);
+  padding: 12px;
+}
+.lp-sidebar [data-sidebar='group-label'] {
+  margin-top: 16px;
+  margin-bottom: 7px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.lp-sidebar [data-sidebar='menu-button'] {
+  min-height: 40px;
+  border-radius: 12px;
+  font-size: 13px;
+  transition:
+    background-color 180ms,
+    color 180ms;
+}
+.lp-sidebar [data-sidebar='menu-button'][data-active='true'] {
+  background: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+  font-weight: 600;
+}
+.lp-sidebar [data-sidebar='menu-sub-button'] {
+  min-height: 34px;
+  border-radius: 9px;
+  font-size: 12px;
+}
+.lp-sidebar [data-sidebar='menu-sub'] {
+  margin-block: 5px;
+}
+/*
+ * Collapsed rail (48px, `data-collapsible=icon` sits on the wrapper *above* .lp-sidebar): drop the
+ * expanded paddings so 32px buttons, the brand mark and avatars are centred, and hidden group labels
+ * leave an even 12px gap instead of a 55px hole.
+ */
+[data-collapsible='icon'] .lp-sidebar :is([data-sidebar='header'], [data-sidebar='footer']) {
+  padding: 8px;
+}
+[data-collapsible='icon'] .lp-sidebar [data-sidebar='content'] {
+  padding: 0;
+}
+[data-collapsible='icon'] .lp-sidebar [data-sidebar='group'] {
+  padding-inline: 8px;
+}
+[data-collapsible='icon'] .lp-sidebar [data-sidebar='group-label'] {
+  height: 12px;
+  margin: 0;
+}
+[data-collapsible='icon']
+  .lp-sidebar
+  :is([data-sidebar='menu-button'], [data-sidebar='menu-sub-button']) {
+  /* 32px square with 8px padding already centres the icon; `justify-content: center` would pull the
+     hidden label of collapsible groups into view. */
+  min-height: 32px;
+}
+[data-collapsible='icon'] .lp-sidebar .lp-brand {
+  justify-content: center;
+  padding: 0;
+}
+[data-collapsible='icon'] .lp-sidebar .lp-brand > span:first-child {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+[data-collapsible='icon'] .lp-sidebar .lp-brand > span:first-child svg {
+  width: 20px;
+  height: 20px;
+}
+.lp-page-heading h2 {
+  font-size: 26px;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+.lp-page-heading p {
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.lp-dashboard-content [data-slot='card'] {
+  border-radius: 20px;
+  --tw-ring-color: var(--border);
+  box-shadow:
+    0 0 0 1px var(--border),
+    var(--lp-elevation);
+}
+.lp-dashboard-content [data-slot='card']:not(.lp-stat-card) {
+  --card-spacing: 1.4rem;
+}
+.lp-dashboard-content [data-slot='card-title'] {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.lp-dashboard-content [data-slot='card-description'] {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.lp-dashboard-content [data-slot='table-head'] {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+.lp-dashboard-content [data-slot='table-header'] {
+  background: var(--muted);
+}
+.lp-dashboard-content [data-slot='table-row'] {
+  border-color: color-mix(in oklab, var(--border) 65%, transparent);
+}
+.lp-dashboard-content .lp-stat-card {
+  box-shadow: none;
+  border: 1px solid transparent;
+}
+.lp-stat-card[data-tone='mint'] {
+  background: var(--lp-mint);
+}
+.lp-stat-card[data-tone='blue'] {
+  background: var(--lp-blue);
+}
+.lp-stat-card[data-tone='peach'] {
+  background: var(--lp-peach);
+}
+.lp-stat-card[data-tone='rose'] {
+  background: var(--lp-rose);
+}
+.lp-stat-icon {
+  background: color-mix(in oklab, var(--card) 65%, transparent);
+}
+.lp-stat-card [data-slot='progress'] {
+  background: color-mix(in oklab, var(--foreground) 7%, transparent);
+}
+.lp-stat-card[data-tone='mint'] [data-slot='progress-indicator'] {
+  background: var(--status-synced);
+}
+.lp-stat-card[data-tone='peach'] [data-slot='progress-indicator'] {
+  background: var(--status-action);
+}
+.lp-stat-card[data-active='true'] {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--ring);
+}
+.lp-stat-card:has(button:hover),
+.lp-stat-card:focus-within {
+  border-color: var(--primary);
+}
+.lp-welcome-panel {
+  background: var(--lp-hero);
+  color: var(--lp-hero-ink);
+}
+.lp-health-panel {
+  background: oklch(0.28 0.043 225);
+  color: white;
+}
+.lp-orbit {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  right: -100px;
+  top: 18px;
+  color: color-mix(in oklab, var(--lp-hero-ink) 14%, transparent);
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+.lp-orbit-inner {
+  position: absolute;
+  inset: 35px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+.lp-orbit-pin {
+  position: absolute;
+  left: 36px;
+  top: 85px;
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  background: var(--card);
+  color: var(--primary);
+  box-shadow: 0 12px 35px #123b4220;
+}
+.lp-orbit-star {
+  position: absolute;
+  left: 27px;
+  top: 9px;
+  padding: 12px;
+  border-radius: 16px;
+  color: var(--status-action);
+  background: var(--lp-peach);
+}
+.lp-dashboard-content .recharts-cartesian-grid-horizontal line {
+  stroke-dasharray: 3 5;
+}
+@media (min-width: 1280px) {
+  .lp-page {
+    padding-inline: 32px;
+  }
+  .lp-topbar {
+    padding-inline: 8px;
+  }
+}
+@media (max-width: 639px) {
+  .lp-page-heading h2 {
+    font-size: 24px;
+  }
+  .lp-orbit {
+    opacity: 0.4;
+    right: -155px;
+  }
+  .lp-dashboard-content [data-slot='card']:not(.lp-stat-card) {
+    --card-spacing: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-sidebar *,
+  .lp-dashboard-content * {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* A shared 4/8px rhythm, including controls rendered in portals. */
+[data-theme='lp'] {
+  --lp-control-height: 40px;
+  --lp-field-gap: 8px;
+  --lp-section-gap: 24px;
+}
+[data-theme='lp']
+  :is(
+    [data-slot='button'],
+    .group\/button,
+    [data-slot='select-trigger'],
+    [data-slot='input'],
+    [data-slot='toggle-group-item'],
+    [data-slot='tabs-trigger']
+  ) {
+  min-height: var(--lp-control-height);
+  min-width: var(--lp-control-height);
+  height: auto;
+  max-width: 100%;
+  padding: 9px 12px;
+  font-size: 14px;
+  line-height: 20px;
+}
+/*
+ * Never `overflow-wrap: anywhere` on controls: it drops their min-content width to one letter, so a
+ * button in a shrink-to-fit table column renders «П/р/о/в/е/р/и/т/ь». Buttons may wrap between
+ * words on narrow screens; tabs and toggles never wrap (their list scrolls instead).
+ */
+[data-theme='lp'] :is([data-slot='button'], .group\/button) {
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+  gap: 8px;
+}
+[data-theme='lp'] :is([data-slot='toggle-group-item'], [data-slot='tabs-trigger']) {
+  white-space: nowrap;
+  gap: 8px;
+}
+[data-theme='lp'] [data-slot='tabs-list'][data-orientation='horizontal'] [data-slot='tabs-trigger'],
+[data-theme='lp'] [data-slot='toggle-group'] [data-slot='toggle-group-item'] {
+  flex: 0 0 auto;
+}
+[data-theme='lp'] :is([data-slot='input'], [data-slot='select-trigger'], [data-slot='textarea']) {
+  border-radius: 10px;
+  background-color: color-mix(in oklab, var(--card) 85%, var(--background));
+}
+[data-theme='lp'] [data-slot='textarea'] {
+  min-height: 112px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+[data-theme='lp'] [data-slot='select-value'] {
+  min-width: 0;
+  overflow-wrap: break-word;
+  white-space: normal;
+  line-clamp: unset;
+  -webkit-line-clamp: unset;
+}
+[data-theme='lp'] [data-slot='field'] {
+  min-width: 0;
+  gap: var(--lp-field-gap);
+}
+[data-theme='lp'] [data-slot='field-group'] {
+  gap: var(--lp-section-gap);
+}
+[data-theme='lp'] :is([data-slot='field-label'], [data-slot='label']) {
+  line-height: 1.5;
+}
+[data-theme='lp'] :is([data-slot='field-description'], [data-slot='field-error']) {
+  margin-top: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+}
+[data-theme='lp'] [data-slot='field'][data-orientation='vertical'] [data-slot='select-trigger'] {
+  width: 100%;
+}
+[data-theme='lp']
+  :is(
+    [data-slot='select-content'],
+    [data-slot='popover-content'],
+    [data-slot='dropdown-menu-content']
+  ) {
+  max-width: min(var(--available-width, 100vw), calc(100vw - 24px));
+  max-height: min(var(--available-height, 85dvh), 85dvh);
+  overflow-y: auto;
+}
+[data-theme='lp']
+  :is(
+    [data-slot='select-item'],
+    [data-slot='dropdown-menu-item'],
+    [data-slot='dropdown-menu-checkbox-item'],
+    [data-slot='command-item']
+  ) {
+  min-height: var(--lp-control-height);
+  padding-block: 10px;
+  padding-inline-start: 12px;
+  line-height: 20px;
+  gap: 10px;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+[data-theme='lp'] [data-slot='select-item'] > span {
+  min-width: 0;
+  flex-shrink: 1;
+  white-space: normal;
+}
+[data-theme='lp'] :is([data-slot='tabs'], [data-slot='tabs-content']) {
+  min-width: 0;
+}
+[data-theme='lp'] :is([data-slot='tabs-list'], [data-slot='toggle-group']) {
+  height: auto;
+  max-width: 100%;
+  justify-content: flex-start;
+  gap: 4px;
+}
+/* Tabs stay one row and scroll; toggle groups (period presets) may wrap between items, never inside one. */
+[data-theme='lp'] [data-slot='tabs-list'][data-orientation='horizontal'] {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+[data-theme='lp'] [data-slot='tabs-list']::-webkit-scrollbar {
+  display: none;
+}
+[data-theme='lp'] [data-slot='toggle-group'] {
+  flex-wrap: wrap;
+}
+[data-theme='lp'] [data-slot='dialog-content'] {
+  --lp-dialog-pad: 24px;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: var(--lp-dialog-pad);
+  gap: 24px;
+}
+/* The footer strip bleeds to the dialog edges: its negative margins follow the dialog padding
+   (the primitive assumes 16px and left an 8px gap on three sides). */
+[data-theme='lp'] [data-slot='dialog-content'] > [data-slot='dialog-footer'] {
+  margin: 0 calc(-1 * var(--lp-dialog-pad)) calc(-1 * var(--lp-dialog-pad));
+  padding: 16px var(--lp-dialog-pad);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+[data-theme='lp'] :is([data-slot='dialog-header'], [data-slot='sheet-header']) {
+  gap: 8px;
+  padding-inline-end: 52px;
+}
+[data-theme='lp'] :is([data-slot='dialog-title'], [data-slot='sheet-title']) {
+  font-size: 20px;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+[data-theme='lp'] :is([data-slot='dialog-description'], [data-slot='sheet-description']) {
+  font-size: 14px;
+  line-height: 1.6;
+}
+[data-theme='lp'] [data-slot='sheet-header'] {
+  padding-block: 24px;
+  padding-inline-start: 24px;
+}
+[data-theme='lp'] [data-slot='sheet-footer'] {
+  padding: 20px 24px;
+  gap: 12px;
+}
+[data-theme='lp'] [data-slot='calendar'] {
+  --cell-size: 40px;
+  padding: 12px;
+}
+[data-theme='lp'] [data-slot='calendar'] :is(button, .group\/button) {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  min-width: var(--cell-size);
+  min-height: var(--cell-size);
+  padding: 0;
+}
+[data-theme='lp'] :is([data-slot='checkbox'], [data-slot='radio-group-item']) {
+  flex-shrink: 0;
+}
+[data-theme='lp']
+  [data-slot='field'][data-orientation='horizontal']:has(
+    [role='checkbox'],
+    [role='switch'],
+    [role='radio']
+  ) {
+  min-height: var(--lp-control-height);
+  align-items: center;
+}
+
+.lp-page {
+  line-height: 1.55;
+}
+.lp-page-heading {
+  gap: 20px 32px;
+}
+.lp-page-heading > * {
+  min-width: 0;
+}
+.lp-page-heading h2 {
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  overflow-wrap: break-word;
+}
+/* Title block and actions stack (actions left-aligned under the title), so neither grows. */
+.lp-page-heading > * {
+  flex: none;
+}
+.lp-page-heading p {
+  max-width: 62ch;
+}
+.lp-page [data-template] {
+  min-width: 0;
+  gap: var(--lp-section-gap);
+}
+.lp-page [data-template] > .grid {
+  gap: var(--lp-section-gap);
+}
+.lp-page :is([data-slot='card'], [data-slot='card-header'], [data-slot='card-content']) {
+  min-width: 0;
+}
+.lp-page [data-slot='card-header'] {
+  gap: 8px 16px;
+}
+.lp-page [data-slot='card-title'] {
+  font-size: 17px;
+  line-height: 1.45;
+}
+.lp-page [data-slot='card-description'] {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.lp-page [data-slot='card-action'] {
+  min-width: 0;
+}
+.lp-page form > .grid:has([data-slot='field']),
+.lp-page [data-slot='card-content'] > .grid:has([data-slot='field']) {
+  gap: 24px;
+}
+.lp-page form {
+  min-width: 0;
+}
+.lp-page [data-slot='table-container'] {
+  min-width: 0;
+  max-width: 100%;
+}
+.lp-page [data-slot='table-head'] {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.lp-page
+  [data-slot='table']:not([data-density])
+  :is([data-slot='table-cell'], [data-slot='table-head']) {
+  padding: 12px;
+}
+.lp-stat-card > :is(div, button) {
+  height: 100%;
+}
+.lp-stat-card [data-slot='card-content'] > .flex:has(.tabular-nums) {
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+.lp-stat-card .tabular-nums {
+  font-size: clamp(24px, 2vw, 30px);
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.lp-stat-card [data-slot='card-content'] {
+  justify-content: space-between;
+}
+.lp-stat-card {
+  --lp-stat-surface: var(--lp-blue);
+  --lp-stat-glow: var(--lp-glow-blue);
+  --lp-stat-glow-2: var(--lp-glow2-blue);
+}
+.lp-stat-card[data-tone='mint'] {
+  --lp-stat-surface: var(--lp-mint);
+  --lp-stat-glow: var(--lp-glow-mint);
+  --lp-stat-glow-2: var(--lp-glow2-mint);
+}
+.lp-stat-card[data-tone='peach'] {
+  --lp-stat-surface: var(--lp-peach);
+  --lp-stat-glow: var(--lp-glow-peach);
+  --lp-stat-glow-2: var(--lp-glow2-peach);
+}
+.lp-stat-card[data-tone='rose'] {
+  --lp-stat-surface: var(--lp-rose);
+  --lp-stat-glow: var(--lp-glow-rose);
+  --lp-stat-glow-2: var(--lp-glow2-rose);
+}
+.lp-dashboard-content .lp-stat-card {
+  /* No `--card` mix: in the dark theme it muddied the tone; the drifting glows add the depth. */
+  background: linear-gradient(
+    135deg,
+    var(--lp-stat-surface),
+    color-mix(in oklab, var(--lp-stat-surface) 80%, var(--lp-stat-glow-2))
+  );
+}
+.lp-welcome-panel {
+  background:
+    radial-gradient(
+      ellipse at 100% 0%,
+      color-mix(in oklab, var(--lp-blue) 85%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 70% 100%,
+      color-mix(in oklab, var(--lp-mint) 70%, transparent),
+      transparent 65%
+    ),
+    linear-gradient(120deg, var(--lp-hero), var(--lp-mint));
+}
+.lp-health-panel {
+  background:
+    radial-gradient(ellipse at 110% -20%, oklch(0.45 0.085 185 / 0.65), transparent 65%),
+    radial-gradient(ellipse at 0% 110%, oklch(0.36 0.075 270 / 0.5), transparent 70%),
+    linear-gradient(125deg, oklch(0.25 0.045 240), oklch(0.29 0.055 210));
+}
+.lp-orbit {
+  right: -140px;
+  opacity: 0.65;
+}
+.lp-sidebar [data-sidebar='menu-button'],
+.lp-sidebar [data-sidebar='menu-sub-button'] {
+  min-height: 44px;
+}
+.lp-sidebar [data-sidebar='menu-sub-button'] {
+  font-size: 13px;
+}
+.lp-topbar > :last-child {
+  flex-shrink: 0;
+}
+.lp-topbar [data-slot='breadcrumb'] {
+  min-width: 0;
+}
+.lp-topbar [data-slot='breadcrumb-list'] {
+  flex-wrap: nowrap;
+}
+.lp-topbar [data-slot='breadcrumb-page'] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lp-form-section-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--lp-blue);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.lp-sync-flow {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 20px;
+  border-radius: 16px;
+  background: linear-gradient(120deg, var(--lp-blue), var(--lp-mint));
+}
+.lp-sync-flow li {
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.lp-sync-flow li > svg {
+  color: var(--primary);
+}
+@media (max-width: 1279px) {
+  .lp-page-heading > :first-child,
+  .lp-page-heading > :last-child:not(:first-child) {
+    flex-basis: auto;
+  }
+}
+@media (max-width: 767px) {
+  [data-theme='lp'] {
+    --lp-control-height: 44px;
+  }
+  [data-theme='lp'] :is([data-slot='input'], [data-slot='select-trigger'], [data-slot='textarea']) {
+    font-size: 16px;
+  }
+  [data-theme='lp'] [data-slot='calendar'] {
+    --cell-size: 44px;
+  }
+  [data-theme='lp'] [data-slot='dialog-content'] {
+    --lp-dialog-pad: 20px;
+  }
+  [data-theme='lp'] [data-slot='sheet-content']:not([data-sidebar]) {
+    max-width: calc(100vw - 16px);
+  }
+  .lp-page-heading {
+    gap: 20px;
+  }
+  .lp-page-heading > :last-child {
+    max-width: 100%;
+  }
+  .lp-topbar > div {
+    padding-inline: 12px;
+    gap: 4px;
+  }
+  .lp-topbar > :first-child {
+    flex: 1;
+  }
+  .lp-topbar [data-slot='separator'] {
+    display: none;
+  }
+  .lp-page [data-slot='card-header']:has([data-slot='card-action']) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lp-page [data-slot='card-action'] {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+  }
+  .lp-orbit {
+    display: none;
+  }
+  .lp-sync-flow {
+    grid-template-columns: 1fr;
+  }
+  .lp-sync-flow li {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+/* Let tables scroll inside their panel instead of stretching the app shell. */
+.lp-page [data-template] :is(.grid, .flex) > :not(button):not(a):not(input) {
+  min-width: 0;
+}
+.lp-page form label:has([role='switch'], [role='checkbox']) {
+  min-height: var(--lp-control-height);
+}
+.lp-page [data-slot='field-label']:has(+ [role='switch']),
+.lp-page [data-slot='field'][data-orientation='horizontal'] [data-slot='field-label'] {
+  min-height: var(--lp-control-height);
+  align-items: center;
+}
+.lp-page [data-slot='card-content'] [data-slot='select-trigger'] {
+  flex-shrink: 1;
+}
+.lp-hours-row input[type='time'] {
+  flex: 1;
+  min-width: 0;
+}
+.lp-special-hours-row input[type='time'] {
+  width: 100%;
+}
+@media (max-width: 767px) {
+  .lp-stat-card [data-slot='card-content'] > div:first-child {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .lp-stat-card [data-slot='card-content'] > div:first-child > span:last-child {
+    overflow-wrap: break-word;
+  }
+}
+
+.lp-page a:not(.group\/button):not([data-slot='badge']),
+.lp-page button:not([data-slot]):not([role='checkbox']):not([role='switch']):not([role='radio']) {
+  min-height: var(--lp-control-height);
+}
+.lp-page a:not(.group\/button):not([data-slot='badge']) {
+  display: inline-flex;
+  align-items: center;
+}
+.lp-page button[aria-roledescription='sortable'] {
+  min-width: var(--lp-control-height);
+}
+[data-theme='lp']
+  :is([data-slot='checkbox'], [data-slot='switch'], [data-slot='radio-group-item']) {
+  position: relative;
+}
+[data-theme='lp']
+  :is([data-slot='checkbox'], [data-slot='switch'], [data-slot='radio-group-item'])::before {
+  content: '';
+  position: absolute;
+  width: max(100%, var(--lp-control-height));
+  height: var(--lp-control-height);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.lp-page [data-slot='table-cell']:has([role='checkbox']),
+.lp-page [data-slot='table-head']:has([role='checkbox']) {
+  min-width: 44px;
+  padding-inline: 14px;
+}
+
+/* Reserve space for leading/trailing adornments instead of painting over input text. */
+[data-theme='lp'] [data-slot='input']:is([class~='pl-8'], [class~='pl-9'], [class~='pl-10']) {
+  padding-inline-start: 40px;
+}
+[data-theme='lp'] [data-slot='input']:is([class~='pr-8'], [class~='pr-9'], [class~='pr-10']) {
+  padding-inline-end: 40px;
+}
+[data-theme='lp'] .group\/button:has(kbd) {
+  padding-inline-end: 56px;
+}
+[data-theme='lp'] [data-slot='select-item'] * {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+[data-theme='lp'] [data-slot='sheet-footer'] {
+  flex-wrap: wrap;
+}
+[data-theme='lp'] :is([data-slot='dialog-close'], [data-slot='sheet-close']) {
+  min-width: var(--lp-control-height);
+  min-height: var(--lp-control-height);
+}
+[data-theme='lp'] [data-slot='input-group'] {
+  min-height: var(--lp-control-height);
+  height: auto;
+}
+[data-theme='lp'] input[data-slot='input-group-control'] {
+  min-height: var(--lp-control-height);
+}
+@media (max-width: 767px) {
+  [data-theme='lp']
+    [data-slot='sheet-content']:not([data-sidebar]):is([data-side='right'], [data-side='left']) {
+    width: calc(100vw - 16px);
+  }
+  [data-theme='lp'] [data-slot='sheet-footer'] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  [data-theme='lp'] [data-slot='sheet-footer'] > button {
+    width: 100%;
+  }
+}
+
+.lp-health-panel {
+  flex-wrap: wrap;
+}
+.lp-health-panel > :first-child {
+  min-width: 150px;
+  flex: 1;
+}
+.lp-page [data-template] > .grid:has(> .lp-stat-card) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+.lp-page [data-template] > .grid > .lp-stat-card {
+  grid-column: auto;
+}
+[data-theme='lp']
+  :is(form, [data-slot='sheet-content'], [data-slot='dialog-content'])
+  .grid:has(> [data-slot='field']) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 24px;
+}
+
+/*
+ * Tables look the same everywhere: controls and badges inside cells never wrap (an action column
+ * shrinks to its buttons instead of breaking their labels), and a table that scrolls sideways fades
+ * at the edge that still has hidden columns.
+ */
+[data-theme='lp']
+  :is([data-slot='table-cell'], [data-slot='table-head'])
+  :is([data-slot='button'], .group\/button, [data-slot='badge']) {
+  white-space: nowrap;
+}
+@property --lp-fade-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --lp-fade-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes lp-scroll-fade {
+  0% {
+    --lp-fade-start: 0px;
+    --lp-fade-end: 32px;
+  }
+  6% {
+    --lp-fade-start: 32px;
+  }
+  94% {
+    --lp-fade-end: 32px;
+  }
+  100% {
+    --lp-fade-start: 32px;
+    --lp-fade-end: 0px;
+  }
+}
+@supports (animation-timeline: scroll()) {
+  [data-theme='lp'] [data-slot='table-container'] {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--lp-fade-start),
+      #000 calc(100% - var(--lp-fade-end)),
+      transparent
+    );
+    animation: lp-scroll-fade linear both;
+    animation-timeline: scroll(self inline);
+  }
+}
+
+/* Sidebar counters and labels: a pill centred on the row, readable on the active row too. */
+.lp-sidebar [data-sidebar='menu-badge'] {
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  height: 22px;
+  min-width: 24px;
+  padding-inline: 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 22px;
+  background: color-mix(in oklab, var(--sidebar-primary) 16%, var(--sidebar));
+  color: var(--sidebar-primary);
+}
+.lp-sidebar [data-sidebar='menu-badge'][data-kind='label'] {
+  background: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
+  letter-spacing: 0.02em;
+}
+.lp-sidebar
+  [data-sidebar='menu-item']:has(> [data-sidebar='menu-badge'])
+  > [data-sidebar='menu-button'],
+.lp-sidebar [data-sidebar='menu-sub-button']:has([data-sidebar='menu-badge']) {
+  padding-inline-end: 64px;
+}
+
+/*
+ * KPI tiles: two soft glows of the tone drift slowly behind the content. Only `transform` is
+ * animated (compositor, no repaint); each tile gets its own period so they never move in sync.
+ */
+.lp-stat-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.lp-stat-card::before {
+  content: '';
+  position: absolute;
+  inset: -45%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(closest-side at 28% 34%, var(--lp-stat-glow), transparent 72%),
+    radial-gradient(closest-side at 74% 70%, var(--lp-stat-glow-2), transparent 72%);
+  animation: lp-stat-drift 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.lp-stat-card:nth-child(2n)::before {
+  animation-duration: 27s;
+  animation-delay: -9s;
+}
+.lp-stat-card:nth-child(3n)::before {
+  animation-duration: 31s;
+  animation-delay: -17s;
+}
+@keyframes lp-stat-drift {
+  0% {
+    transform: translate3d(-9%, -7%, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(7%, 5%, 0) rotate(10deg) scale(1.1);
+  }
+  100% {
+    transform: translate3d(-3%, 9%, 0) rotate(-8deg) scale(1.03);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-stat-card::before {
+    animation: none;
+  }
+}
+
+/* Settings cards wrap header/content/footer in a <form>: give them the card's rhythm there too. */
+[data-theme='lp'] [data-slot='card'] > form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-spacing);
+}

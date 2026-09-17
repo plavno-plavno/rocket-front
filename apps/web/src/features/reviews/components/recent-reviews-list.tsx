@@ -44,7 +44,7 @@ export function RecentReviewsList({ scope, limit = 5 }: { scope: string; limit?:
             <button
               type='button'
               onClick={() => setOpenId(r.id)}
-              className='hover:bg-accent/50 flex w-full items-start gap-3 rounded-md px-1 py-2 text-left text-sm'
+              className='hover:bg-accent/50 flex w-full items-start gap-3 rounded-md px-1 py-3 text-left text-sm'
             >
               <PlatformIcon platformId={r.platform_id} className='mt-0.5 size-5' />
               <div className='min-w-0 flex-1'>

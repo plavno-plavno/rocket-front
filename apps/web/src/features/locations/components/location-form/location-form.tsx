@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import { Icons } from '@/components/icons';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -68,18 +69,26 @@ export interface LocationFormProps {
 }
 
 function Section({
+  icon,
   title,
   description,
   children
 }: {
+  icon: keyof typeof Icons;
   title: string;
   description?: string;
   children: React.ReactNode;
 }) {
+  const Icon = Icons[icon];
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className='flex items-center gap-3'>
+          <span className='lp-form-section-icon'>
+            <Icon className='size-5' aria-hidden />
+          </span>
+          {title}
+        </CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent className='flex flex-col gap-4'>{children}</CardContent>
@@ -165,7 +174,7 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
 
   return (
     <form
-      className='flex flex-col gap-4'
+      className='lp-location-form flex flex-col gap-6'
       onSubmit={(e) => {
         e.preventDefault();
         void form.handleSubmit();
@@ -179,7 +188,7 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         </Alert>
       )}
 
-      <Section title={t('sections.main')}>
+      <Section icon='locations' title={t('sections.main')}>
         <div className='grid gap-4 sm:grid-cols-2'>
           <form.AppField
             name='name'
@@ -225,7 +234,7 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         </div>
       </Section>
 
-      <Section title={t('sections.address')}>
+      <Section icon='mapPin' title={t('sections.address')}>
         <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
           <form.AppField
             name='address.country'
@@ -293,7 +302,7 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         </div>
       </Section>
 
-      <Section title={t('sections.contacts')}>
+      <Section icon='phone' title={t('sections.contacts')}>
         <form.Field
           name='phones'
           children={(field) => (
@@ -352,7 +361,7 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         />
       </Section>
 
-      <Section title={t('sections.hours')}>
+      <Section icon='clock' title={t('sections.hours')}>
         <form.Field
           name='hours'
           children={(field) => (
@@ -365,7 +374,11 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         />
       </Section>
 
-      <Section title={t('sections.specialHours')} description={t('hours.specialHint')}>
+      <Section
+        icon='calendar'
+        title={t('sections.specialHours')}
+        description={t('hours.specialHint')}
+      >
         <form.Field
           name='special_hours'
           children={(field) => (
@@ -378,7 +391,7 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         />
       </Section>
 
-      <Section title={t('sections.categories')}>
+      <Section icon='product' title={t('sections.categories')}>
         <div className='grid gap-4 sm:grid-cols-2'>
           <form.AppField
             name='categories.primary'
@@ -402,11 +415,11 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         </div>
       </Section>
 
-      <Section title={t('sections.attributes')}>
+      <Section icon='adjustments' title={t('sections.attributes')}>
         <form.Field
           name='attributes'
           children={(field) => (
-            <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+            <div className='grid gap-4 sm:grid-cols-2'>
               {ATTRIBUTE_KEYS.map((k) => (
                 <div key={k} className='flex items-center gap-2'>
                   <Switch
@@ -423,7 +436,11 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         />
       </Section>
 
-      <Section title={t('sections.description')} description={t('fields.descriptionHint')}>
+      <Section
+        icon='post'
+        title={t('sections.description')}
+        description={t('fields.descriptionHint')}
+      >
         <form.AppField
           name='description'
           children={(field) => (
@@ -432,11 +449,11 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         />
       </Section>
 
-      <Section title={t('sections.media')} description={t('media.hint')}>
+      <Section icon='media' title={t('sections.media')} description={t('media.hint')}>
         <p className='text-muted-foreground text-sm'>—</p>
       </Section>
 
-      <Section title={t('sections.overrides')} description={t('overrides.hint')}>
+      <Section icon='sources' title={t('sections.overrides')} description={t('overrides.hint')}>
         <form.Field
           name='platform_overrides'
           children={(field) => (
@@ -450,11 +467,11 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
         />
       </Section>
 
-      <Section title={t('sections.policies')} description={t('policies.hint')}>
+      <Section icon='lock' title={t('sections.policies')} description={t('policies.hint')}>
         <form.Field
           name='field_policies'
           children={(field) => (
-            <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+            <div className='grid gap-4 sm:grid-cols-2'>
               {POLICY_FIELDS.map((f) => (
                 <div key={f} className='flex flex-col gap-1'>
                   <Label>{t(`policies.fields.${f}`)}</Label>
@@ -486,7 +503,7 @@ export function LocationForm({ location, readOnly = false, onSaved }: LocationFo
       </Section>
 
       {!readOnly && (
-        <div className='bg-background/95 sticky bottom-0 -mx-4 flex items-center justify-end gap-2 border-t px-4 py-3 backdrop-blur md:-mx-6 md:px-6'>
+        <div className='bg-card/95 sticky bottom-0 z-10 mt-2 flex flex-wrap items-center justify-end gap-3 rounded-xl border p-4 shadow-sm backdrop-blur'>
           <Button type='button' variant='outline' onClick={() => router.back()}>
             {t('actions.cancel')}
           </Button>

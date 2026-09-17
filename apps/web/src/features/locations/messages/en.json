@@ -273,7 +273,13 @@
     "warnings": "Warnings",
     "confirm": "Push and save",
     "cancel": "Cancel",
-    "listings": "Listings: {count}"
+    "listings": "Listings: {count}",
+    "flow": {
+      "label": "How changes reach platforms",
+      "company": "Location data",
+      "review": "Review changes",
+      "platforms": "Send after saving"
+    }
   },
   "detail": {
     "tabs": {

@@ -40,36 +40,36 @@ export function DistributionCard({
       <CardContent className='flex flex-col gap-3 px-4'>
         <div className='flex h-3 w-full overflow-hidden rounded-full' role='img' aria-label={title}>
           {segments.map((s) => (
-            <button
+            <span
               key={s.key}
-              type='button'
-              className={cn(
-                'h-full transition-opacity',
-                s.colorClass,
-                active && active !== s.key && 'opacity-40',
-                onSelect && 'cursor-pointer'
-              )}
+              className={cn('h-full', s.colorClass, active && active !== s.key && 'opacity-40')}
               style={{ width: `${(s.value / total) * 100}%` }}
-              aria-label={`${s.label}: ${fmt(s.value, s.value / total)}`}
-              aria-pressed={active === s.key}
-              onClick={() => onSelect?.(active === s.key ? null : s.key)}
-              disabled={!onSelect}
             />
           ))}
         </div>
-        <ul className='grid grid-cols-2 gap-x-4 gap-y-1 text-xs sm:grid-cols-3'>
-          {segments.map((s) => (
-            <li
-              key={s.key}
-              className={cn('flex items-center gap-2', active && active !== s.key && 'opacity-60')}
-            >
-              <span className={cn('size-2.5 shrink-0 rounded-sm', s.colorClass)} aria-hidden />
-              <span className='truncate'>{s.label}</span>
-              <span className='text-muted-foreground ml-auto tabular-nums'>
-                {fmt(s.value, s.value / total)}
-              </span>
-            </li>
-          ))}
+        <ul className='grid gap-2 text-sm sm:grid-cols-2'>
+          {segments.map((s) => {
+            const Comp = onSelect ? 'button' : 'div';
+            return (
+              <li key={s.key} className={cn('min-w-0', active && active !== s.key && 'opacity-60')}>
+                <Comp
+                  type={onSelect ? 'button' : undefined}
+                  onClick={onSelect ? () => onSelect(active === s.key ? null : s.key) : undefined}
+                  aria-pressed={onSelect ? active === s.key : undefined}
+                  className={cn(
+                    'flex w-full flex-wrap items-center gap-2 rounded-lg px-2 py-2 text-left',
+                    onSelect && 'hover:bg-muted focus-visible:ring-ring focus-visible:ring-2'
+                  )}
+                >
+                  <span className={cn('size-2.5 shrink-0 rounded-sm', s.colorClass)} aria-hidden />
+                  <span>{s.label}</span>
+                  <span className='text-muted-foreground ml-auto tabular-nums'>
+                    {fmt(s.value, s.value / total)}
+                  </span>
+                </Comp>
+              </li>
+            );
+          })}
         </ul>
       </CardContent>
     </Card>
