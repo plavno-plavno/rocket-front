@@ -258,3 +258,15 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 - e2e: `features/locations/e2e/{detail,bulk,import}.spec.ts`, `features/sources/e2e/sources.spec.ts` (owner + observer).
 
 **Verified locally**: `pnpm typecheck` ✓, `lint:strict` ✓ (0 warnings), `format:check` ✓, `gen --check` ✓, `check:templates` ✓, `depcruise` ✓, `check:ownership` (cross-track, documented) — e2e results below.
+
+## UI-F2 — Reviews Inbox (2026-09-17)
+
+**Done** (branch `ui/UI-F2/reviews`, merged to main)
+- **S-REV-01 «Обработка отзывов»** (`/dashboard/reviews`, `InboxPage`): 5 KPI cards (Positive / Negative / No rating toggle the rating filter), cursor-paginated list (`useInfiniteQuery`, «Загрузить ещё», `keepPreviousData`), detail column (author, stars, sentiment, location link, external link, copy link; «Изменён» → `ReviewVersionDiff`, «Удалён автором», «Скрыт площадкой»; assignee `UserCombobox`, workflow status, `TagPicker`; tabs Ответы / Заметки / История), composer (`TemplatePicker`, `AiReplyButton` stream, `{{var}}` preview, publish ⌘↵ / draft, edit & delete reply with confirm, `requested → published` polling), complaint dialog (platform reasons from `/platforms/{id}/complaint-reasons`), manual review [H-UI-06] (`LocationPicker` single), export with polling, sort menu, hotkeys `j/k/r/t/a` + help popover, filters panel (period calendar, source, rating, status, has reply, assignee, replied by, tags, has text, state, sentiment, locations; pinned ≥ 1536px, Sheet below), «N новых» banner from `useRealtime()`; every filter lives in the URL (`features/reviews/searchparams.ts`).
+- **S-QA-01 «Вопросы и ответы»** (`/dashboard/questions`): simplified inbox with answers, status / assignee, filters; mock handlers for `/questions*` added.
+- **`ReviewDrawer`** now renders the full `ReviewDetail` (compact) — F1 location card, F4/F5 get the complete flow for free.
+- **`InboxPage`** (DS template): phone layout — KPI strip scrolls horizontally, list ↔ detail switch by `?<detailParam>=` with «Назад»; `PageContainer` header wraps on narrow screens and constrains width (`min-w-0`, fixed a 960px overflow at 390px).
+- Shared: `complaintReasonsQueryOptions` in the sources public API; `UserCombobox` shows «…» while members load; Playwright desktop project ignores `*.mobile.spec.ts`.
+- e2e: `features/reviews/e2e/inbox.spec.ts` (hotkeys, reply → published, status, notes, history, complaint, manual review, observer has no composer), `inbox.mobile.spec.ts` (390px list → detail → back, no horizontal overflow), `features/questions/e2e/questions.spec.ts`; visual baselines `reviews`, `questions` (1440 light/dark) and `inbox-mobile` (390 light/dark).
+
+**Verified locally**: `pnpm typecheck` ✓, `lint:strict` ✓ (0 warnings), `format:check` ✓, `gen --check` ✓, `check:templates` ✓, `depcruise` ✓, `pnpm e2e` (production build) **47/47** incl. visual baselines (reviews, questions × light/dark; inbox 390px × light/dark); 0 browser console errors on the inbox, questions, drawer and phone flows.

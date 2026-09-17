@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { infiniteQueryOptions, keepPreviousData, queryOptions } from '@tanstack/react-query';
 import { listQuestions, getQuestion, listAnswers } from './service';
 import type { ListQuestionsQuery } from './types';
 
@@ -19,3 +19,12 @@ export const questionQueryOptions = (id: string) =>
 
 export const answersQueryOptions = (id: string) =>
   queryOptions({ queryKey: questionsKeys.answers(id), queryFn: () => listAnswers(id) });
+
+export const questionsInfiniteQueryOptions = (params: ListQuestionsQuery, limit = 50) =>
+  infiniteQueryOptions({
+    queryKey: [...questionsKeys.questions(params), 'infinite', limit] as const,
+    queryFn: ({ pageParam }) => listQuestions({ ...params, limit, cursor: pageParam || undefined }),
+    initialPageParam: '' as string,
+    getNextPageParam: (last) => last.meta.next_cursor ?? undefined,
+    placeholderData: keepPreviousData
+  });

@@ -12,7 +12,9 @@ const PAGES: { name: string; url: string; ready: string }[] = [
   { name: 'locations', url: '/dashboard/locations', ready: 'text=Всего строк' },
   { name: 'overview', url: '/dashboard/overview', ready: 'text=Последние отзывы' },
   { name: 'sources', url: '/dashboard/sources', ready: '[data-testid="coverage-table"]' },
-  { name: 'location-import', url: '/dashboard/locations/import', ready: 'text=Скачать шаблон' }
+  { name: 'location-import', url: '/dashboard/locations/import', ready: 'text=Скачать шаблон' },
+  { name: 'reviews', url: '/dashboard/reviews', ready: '[data-testid="review-detail"]' },
+  { name: 'questions', url: '/dashboard/questions', ready: '[data-testid="question-detail"]' }
 ];
 
 for (const theme of ['light', 'dark'] as const) {

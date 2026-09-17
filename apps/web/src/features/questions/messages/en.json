@@ -1,9 +1,50 @@
 {
   "nav": {
-    "inbox": "Questions & answers"
+    "inbox": "Q&A"
   },
   "page": {
     "title": "Questions & answers",
-    "description": "User questions on platforms"
+    "description": "Customer questions from platforms and company answers",
+    "info": {
+      "title": "Questions",
+      "body": "Questions from your listings on platforms. Reply — the answer goes to the platform; the status helps the team keep track."
+    }
+  },
+  "list": {
+    "search": "Search question, author, location",
+    "empty": "No questions match",
+    "loadMore": "Load more",
+    "selectHint": "Select a question in the list",
+    "answers": "{count, plural, one {# answer} other {# answers}}",
+    "noAnswer": "Unanswered"
+  },
+  "filters": {
+    "title": "Filters",
+    "platform": "Source",
+    "status": "Status",
+    "hasAnswer": "Has answer",
+    "yes": "Answered",
+    "no": "Unanswered",
+    "any": "Any",
+    "clear": "Clear filters"
+  },
+  "detail": {
+    "openOnPlatform": "Open on platform",
+    "status": "Status",
+    "assignee": "Assignee",
+    "answers": "Answers ({count})",
+    "noAnswers": "No answers yet",
+    "placeholder": "Write an answer…",
+    "publish": "Publish",
+    "published": "Answer sent for publication",
+    "statusUpdated": "Status updated",
+    "assigneeUpdated": "Assignee updated",
+    "state": {
+      "draft": "Draft",
+      "requested": "Sending",
+      "published": "Published",
+      "failed": "Failed",
+      "deleted": "Deleted"
+    }
   }
 }

@@ -50,3 +50,10 @@ export async function updateSourceSettings(body: SourceSettings) {
   const { data } = await coreClient().PUT('/settings/sources', { body });
   return data!;
 }
+
+export async function listComplaintReasons(platformId: string) {
+  const { data } = await coreClient().GET('/platforms/{id}/complaint-reasons', {
+    params: { path: { id: platformId } }
+  });
+  return data!;
+}

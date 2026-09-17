@@ -2,6 +2,7 @@ import { queryOptions } from '@tanstack/react-query';
 import {
   getSourceSettings,
   getSourcesOverview,
+  listComplaintReasons,
   listPlatformAccounts,
   listPlatforms
 } from './service';
@@ -12,7 +13,9 @@ export const sourceKeys = {
   platforms: (kind?: PlatformKind) => [...sourceKeys.all, 'platforms', kind ?? 'all'] as const,
   accounts: () => [...sourceKeys.all, 'accounts'] as const,
   overview: (scope: string) => [...sourceKeys.all, 'overview', scope] as const,
-  settings: () => [...sourceKeys.all, 'settings'] as const
+  settings: () => [...sourceKeys.all, 'settings'] as const,
+  complaintReasons: (platformId: string) =>
+    [...sourceKeys.all, 'complaint-reasons', platformId] as const
 };
 
 /** Platform registry — rarely changes, cached for the session. */
@@ -31,3 +34,11 @@ export const sourcesOverviewQueryOptions = (scope: string) =>
 
 export const sourceSettingsQueryOptions = () =>
   queryOptions({ queryKey: sourceKeys.settings(), queryFn: getSourceSettings });
+
+/** Complaint reasons of a platform (used by the inbox «Пожаловаться» dialog). */
+export const complaintReasonsQueryOptions = (platformId: string) =>
+  queryOptions({
+    queryKey: sourceKeys.complaintReasons(platformId),
+    queryFn: () => listComplaintReasons(platformId),
+    staleTime: 30 * 60 * 1000
+  });

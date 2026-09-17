@@ -7,7 +7,11 @@
   },
   "page": {
     "title": "Reviews",
-    "description": "Review inbox across all platforms"
+    "description": "Inbox of reviews from every platform",
+    "info": {
+      "title": "How the inbox works",
+      "body": "Left — the filtered list, centre — details and the reply, right — filters. Shortcuts: J/K — next/previous review, R — reply, T — tags, A — assignee."
+    }
   },
   "drawer": {
     "title": "Review",
@@ -31,5 +35,200 @@
     "resolved": "Resolved",
     "no_reply_needed": "No reply needed",
     "escalated": "Escalated"
+  },
+  "kpi": {
+    "total": "Total",
+    "positive": "Positive",
+    "negative": "Negative",
+    "withoutRating": "No rating",
+    "averageRating": "Average rating",
+    "unanswered": "Unanswered"
+  },
+  "actions": {
+    "manual": "Add review",
+    "export": "Export",
+    "exportStarted": "Review export started",
+    "exportReady": "Export is ready",
+    "filters": "Filters",
+    "view": "View",
+    "sort": "Sort"
+  },
+  "sort": {
+    "-published_at": "Newest first",
+    "published_at": "Oldest first",
+    "-rating": "Highest rating first",
+    "rating": "Lowest rating first"
+  },
+  "list": {
+    "search": "Search text, author, location",
+    "empty": "No reviews match",
+    "emptyHint": "Change the filters or the period",
+    "loadMore": "Load more",
+    "loading": "Loading…",
+    "newCount": "{count, plural, one {# new review} other {# new reviews}}",
+    "show": "Show",
+    "noText": "No text",
+    "unassigned": "Unassigned",
+    "edited": "Edited",
+    "deleted": "Deleted",
+    "removed": "Removed by platform",
+    "selectHint": "Select a review in the list",
+    "count": "{count, plural, one {# review} other {# reviews}}"
+  },
+  "detail": {
+    "openOnPlatform": "Open on platform",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "copyText": "Copy text",
+    "textCopied": "Text copied",
+    "edited": "Edited",
+    "deletedByAuthor": "Deleted by author",
+    "removedByPlatform": "Removed by platform",
+    "assignee": "Assignee",
+    "unassigned": "Unassigned",
+    "tags": "Tags",
+    "addTag": "+ Tag",
+    "status": "Status",
+    "sentiment": {
+      "positive": "Positive",
+      "neutral": "Neutral",
+      "negative": "Negative"
+    },
+    "aspects": "Topics",
+    "tabs": {
+      "replies": "Replies ({count})",
+      "notes": "Notes ({count})",
+      "history": "History"
+    },
+    "responseTime": "Response time: {time}",
+    "replyBy": "{name} · {origin}",
+    "origin": {
+      "manual": "manual",
+      "template": "template",
+      "auto": "auto-reply",
+      "ai": "AI",
+      "platform_imported": "from platform"
+    },
+    "editReply": "Edit",
+    "deleteReply": "Delete",
+    "deleteReplyConfirm": "Delete the reply from the platform?",
+    "replyDeleted": "Reply deleted",
+    "replyUpdated": "Reply updated",
+    "noReplies": "No replies yet",
+    "noNotes": "No notes",
+    "noteHint": "Notes are visible to your team only",
+    "addNote": "Add note",
+    "notePlaceholder": "Note for the team…",
+    "noteAdded": "Note added",
+    "deleteNote": "Delete note",
+    "complain": "Report",
+    "complaint": {
+      "title": "Report the review",
+      "description": "The platform will review the complaint and may hide the review. Pick a reason.",
+      "reason": "Reason",
+      "text": "Comment",
+      "submit": "Send complaint",
+      "sent": "Complaint sent",
+      "state": {
+        "requested": "Complaint is being sent",
+        "submitted": "Complaint submitted",
+        "accepted": "Complaint accepted",
+        "rejected": "Complaint rejected",
+        "unknown": "Complaint status unknown"
+      }
+    },
+    "history": {
+      "ingested": "Review received",
+      "edited": "Review edited by author",
+      "deleted": "Review deleted by author",
+      "reply_requested": "Reply sent for publication",
+      "reply_published": "Reply published",
+      "reply_failed": "Reply failed",
+      "reply_deleted": "Reply deleted",
+      "note_added": "Note added",
+      "status_changed": "Status changed",
+      "assigned": "Assignee changed",
+      "tagged": "Tags changed",
+      "complaint_requested": "Complaint sent",
+      "complaint_changed": "Complaint status changed",
+      "system": "System",
+      "platform": "Platform",
+      "author": "Author"
+    },
+    "statusUpdated": "Status updated",
+    "assigneeUpdated": "Assignee updated",
+    "tagsUpdated": "Tags updated"
+  },
+  "composer": {
+    "placeholder": "Write a reply to the customer…",
+    "template": "Template",
+    "ai": "Generate with AI",
+    "preview": "Preview",
+    "publish": "Publish",
+    "draft": "Save draft",
+    "cancelEdit": "Cancel",
+    "saveEdit": "Save",
+    "published": "Reply sent for publication",
+    "draftSaved": "Draft saved",
+    "noReplySupport": "This platform does not support replies",
+    "charCount": "{count} / {max}",
+    "variables": "Variables are substituted on publish",
+    "stateHint": {
+      "requested": "Sending to the platform…",
+      "published": "Published",
+      "failed": "Failed to publish"
+    },
+    "retry": "Retry",
+    "replying": "Reply"
+  },
+  "filters": {
+    "title": "Filters",
+    "clear": "Clear filters",
+    "apply": "Apply",
+    "platform": "Source",
+    "rating": "Rating",
+    "period": "Period",
+    "assignee": "Assignee",
+    "repliedBy": "Replied by",
+    "hasReply": "Has reply",
+    "hasReplyYes": "Replied",
+    "hasReplyNo": "Unanswered",
+    "status": "Status",
+    "tags": "Tags",
+    "hasText": "Has text",
+    "hasTextYes": "With text",
+    "hasTextNo": "Without text",
+    "state": "State",
+    "sentiment": "Sentiment",
+    "location": "Locations",
+    "any": "Any",
+    "ratingNone": "No rating",
+    "stars": "{count, plural, one {# star} other {# stars}}",
+    "state_visible": "Visible",
+    "state_edited": "Edited",
+    "state_deleted_by_author": "Deleted by author",
+    "state_removed_by_platform": "Removed by platform",
+    "active": "Filters: {count}"
+  },
+  "manual": {
+    "title": "Add a review manually",
+    "description": "For platforms without an API or reviews received in person. The review counts in analytics.",
+    "location": "Location",
+    "platform": "Platform",
+    "rating": "Rating",
+    "author": "Author name",
+    "text": "Text",
+    "date": "Date",
+    "submit": "Add",
+    "added": "Review added",
+    "chooseLocation": "Choose a location"
+  },
+  "hotkeys": {
+    "title": "Keyboard shortcuts",
+    "next": "Next",
+    "prev": "Previous",
+    "reply": "Reply",
+    "tags": "Tags",
+    "assign": "Assignee"
   }
 }

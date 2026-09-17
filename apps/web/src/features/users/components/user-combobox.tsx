@@ -44,7 +44,9 @@ export function UserCombobox({
       <SelectTrigger className={className} aria-label={placeholder ?? t('placeholder')}>
         <SelectValue placeholder={placeholder ?? t('placeholder')}>
           {(id: string) =>
-            id === NONE ? t('none') : (data?.items.find((m) => m.user.id === id)?.user.name ?? '')
+            id === NONE
+              ? t('none')
+              : (data?.items.find((m) => m.user.id === id)?.user.name ?? (data ? t('none') : '…'))
           }
         </SelectValue>
       </SelectTrigger>

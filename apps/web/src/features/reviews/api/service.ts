@@ -130,3 +130,8 @@ export async function listReviewActivity(id: string) {
   const { data } = await coreClient().GET('/reviews/{id}/activity', { params: { path: { id } } });
   return data!;
 }
+
+export async function getExport(id: string) {
+  const { data } = await coreClient().GET('/exports/{id}', { params: { path: { id } } });
+  return data!;
+}

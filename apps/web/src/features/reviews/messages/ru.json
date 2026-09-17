@@ -7,7 +7,11 @@
   },
   "page": {
     "title": "Обработка отзывов",
-    "description": "Инбокс отзывов со всех площадок"
+    "description": "Инбокс отзывов со всех площадок",
+    "info": {
+      "title": "Как работать с инбоксом",
+      "body": "Слева — список отзывов по фильтрам, в центре — детали и ответ, справа — фильтры. Горячие клавиши: J/K — следующий/предыдущий отзыв, R — ответить, T — теги, A — ответственный."
+    }
   },
   "drawer": {
     "title": "Отзыв",
@@ -31,5 +35,200 @@
     "resolved": "Обработан",
     "no_reply_needed": "Ответ не нужен",
     "escalated": "Эскалирован"
+  },
+  "kpi": {
+    "total": "Всего",
+    "positive": "Положительные",
+    "negative": "Отрицательные",
+    "withoutRating": "Без оценки",
+    "averageRating": "Средний рейтинг",
+    "unanswered": "Без ответа"
+  },
+  "actions": {
+    "manual": "Добавить отзыв",
+    "export": "Экспорт",
+    "exportStarted": "Экспорт отзывов запущен",
+    "exportReady": "Экспорт готов",
+    "filters": "Фильтры",
+    "view": "Вид",
+    "sort": "Сортировка"
+  },
+  "sort": {
+    "-published_at": "Сначала новые",
+    "published_at": "Сначала старые",
+    "-rating": "Сначала высокие оценки",
+    "rating": "Сначала низкие оценки"
+  },
+  "list": {
+    "search": "Поиск по тексту, автору, компании",
+    "empty": "Отзывов по этим условиям нет",
+    "emptyHint": "Измените фильтры или период",
+    "loadMore": "Загрузить ещё",
+    "loading": "Загружаем…",
+    "newCount": "{count, plural, one {# новый отзыв} few {# новых отзыва} other {# новых отзывов}}",
+    "show": "Показать",
+    "noText": "Без текста",
+    "unassigned": "Не назначен",
+    "edited": "Изменён",
+    "deleted": "Удалён",
+    "removed": "Скрыт площадкой",
+    "selectHint": "Выберите отзыв в списке",
+    "count": "{count, plural, one {# отзыв} few {# отзыва} other {# отзывов}}"
+  },
+  "detail": {
+    "openOnPlatform": "Открыть на площадке",
+    "copyLink": "Скопировать ссылку",
+    "copied": "Ссылка скопирована",
+    "copyText": "Скопировать текст",
+    "textCopied": "Текст скопирован",
+    "edited": "Изменён",
+    "deletedByAuthor": "Удалён автором",
+    "removedByPlatform": "Скрыт площадкой",
+    "assignee": "Ответственный",
+    "unassigned": "Не назначен",
+    "tags": "Теги",
+    "addTag": "+ Тег",
+    "status": "Статус",
+    "sentiment": {
+      "positive": "Позитивный",
+      "neutral": "Нейтральный",
+      "negative": "Негативный"
+    },
+    "aspects": "Темы",
+    "tabs": {
+      "replies": "Ответы ({count})",
+      "notes": "Заметки ({count})",
+      "history": "История"
+    },
+    "responseTime": "Время ответа: {time}",
+    "replyBy": "{name} · {origin}",
+    "origin": {
+      "manual": "вручную",
+      "template": "по шаблону",
+      "auto": "автоответ",
+      "ai": "нейросеть",
+      "platform_imported": "с площадки"
+    },
+    "editReply": "Редактировать",
+    "deleteReply": "Удалить",
+    "deleteReplyConfirm": "Удалить ответ с площадки?",
+    "replyDeleted": "Ответ удалён",
+    "replyUpdated": "Ответ обновлён",
+    "noReplies": "Ответов ещё нет",
+    "noNotes": "Заметок нет",
+    "noteHint": "Заметки видны только вашей команде",
+    "addNote": "Добавить заметку",
+    "notePlaceholder": "Заметка для команды…",
+    "noteAdded": "Заметка добавлена",
+    "deleteNote": "Удалить заметку",
+    "complain": "Пожаловаться",
+    "complaint": {
+      "title": "Жалоба на отзыв",
+      "description": "Площадка рассмотрит жалобу и может скрыть отзыв. Укажите причину.",
+      "reason": "Причина",
+      "text": "Комментарий",
+      "submit": "Отправить жалобу",
+      "sent": "Жалоба отправлена",
+      "state": {
+        "requested": "Жалоба отправляется",
+        "submitted": "Жалоба подана",
+        "accepted": "Жалоба принята",
+        "rejected": "Жалоба отклонена",
+        "unknown": "Статус жалобы неизвестен"
+      }
+    },
+    "history": {
+      "ingested": "Отзыв получен",
+      "edited": "Отзыв изменён автором",
+      "deleted": "Отзыв удалён автором",
+      "reply_requested": "Ответ отправлен на публикацию",
+      "reply_published": "Ответ опубликован",
+      "reply_failed": "Ответ не опубликован",
+      "reply_deleted": "Ответ удалён",
+      "note_added": "Добавлена заметка",
+      "status_changed": "Статус изменён",
+      "assigned": "Назначен ответственный",
+      "tagged": "Изменены теги",
+      "complaint_requested": "Отправлена жалоба",
+      "complaint_changed": "Статус жалобы изменён",
+      "system": "Система",
+      "platform": "Площадка",
+      "author": "Автор"
+    },
+    "statusUpdated": "Статус обновлён",
+    "assigneeUpdated": "Ответственный обновлён",
+    "tagsUpdated": "Теги обновлены"
+  },
+  "composer": {
+    "placeholder": "Напишите ответ клиенту…",
+    "template": "Шаблон",
+    "ai": "Сгенерировать ИИ",
+    "preview": "Предпросмотр",
+    "publish": "Опубликовать",
+    "draft": "Сохранить черновик",
+    "cancelEdit": "Отменить",
+    "saveEdit": "Сохранить",
+    "published": "Ответ отправлен на публикацию",
+    "draftSaved": "Черновик сохранён",
+    "noReplySupport": "Площадка не поддерживает ответы на отзывы",
+    "charCount": "{count} / {max}",
+    "variables": "Переменные будут подставлены при публикации",
+    "stateHint": {
+      "requested": "Отправляется на площадку…",
+      "published": "Опубликован",
+      "failed": "Не удалось опубликовать"
+    },
+    "retry": "Повторить",
+    "replying": "Ответить"
+  },
+  "filters": {
+    "title": "Фильтры",
+    "clear": "Очистить фильтр",
+    "apply": "Применить",
+    "platform": "Источник",
+    "rating": "Оценка",
+    "period": "Период",
+    "assignee": "Ответственный",
+    "repliedBy": "Ответивший",
+    "hasReply": "Есть ответ",
+    "hasReplyYes": "С ответом",
+    "hasReplyNo": "Без ответа",
+    "status": "Статус",
+    "tags": "Теги",
+    "hasText": "Есть текст",
+    "hasTextYes": "С текстом",
+    "hasTextNo": "Без текста",
+    "state": "Состояние",
+    "sentiment": "Тональность",
+    "location": "Компании",
+    "any": "Любой",
+    "ratingNone": "Без оценки",
+    "stars": "{count, plural, one {# звезда} few {# звезды} other {# звёзд}}",
+    "state_visible": "Видимые",
+    "state_edited": "Изменённые",
+    "state_deleted_by_author": "Удалённые автором",
+    "state_removed_by_platform": "Скрытые площадкой",
+    "active": "Фильтров: {count}"
+  },
+  "manual": {
+    "title": "Добавить отзыв вручную",
+    "description": "Для площадок без API или отзывов, полученных лично. Отзыв попадёт в аналитику.",
+    "location": "Компания",
+    "platform": "Площадка",
+    "rating": "Оценка",
+    "author": "Имя автора",
+    "text": "Текст",
+    "date": "Дата",
+    "submit": "Добавить",
+    "added": "Отзыв добавлен",
+    "chooseLocation": "Выберите компанию"
+  },
+  "hotkeys": {
+    "title": "Горячие клавиши",
+    "next": "Следующий",
+    "prev": "Предыдущий",
+    "reply": "Ответить",
+    "tags": "Теги",
+    "assign": "Ответственный"
   }
 }

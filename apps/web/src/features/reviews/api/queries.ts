@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { infiniteQueryOptions, keepPreviousData, queryOptions } from '@tanstack/react-query';
 import {
   listReviews,
   getReviewsSummary,
@@ -55,3 +55,13 @@ export const reviewComplaintsQueryOptions = (id: string) =>
 
 export const reviewActivityQueryOptions = (id: string) =>
   queryOptions({ queryKey: reviewsKeys.reviewActivity(id), queryFn: () => listReviewActivity(id) });
+
+/** Cursor-paginated inbox list (`limit` per page; `meta.next_cursor` drives «Загрузить ещё»). */
+export const reviewsInfiniteQueryOptions = (params: ListReviewsQuery, limit = 50) =>
+  infiniteQueryOptions({
+    queryKey: [...reviewsKeys.reviews(params), 'infinite', limit] as const,
+    queryFn: ({ pageParam }) => listReviews({ ...params, limit, cursor: pageParam || undefined }),
+    initialPageParam: '' as string,
+    getNextPageParam: (last) => last.meta.next_cursor ?? undefined,
+    placeholderData: keepPreviousData
+  });
