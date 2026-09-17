@@ -11,6 +11,7 @@
         "listing.discover",
         "listing.fetch",
         "listing.push",
+        "listing.create",
         "operation.poll",
         "reviews.list",
         "review.reply",
@@ -1176,6 +1177,23 @@
             "minLength": 1
           }
         }
+      },
+      "listing.create": {
+        "type": "object",
+        "required": [
+          "operation_id",
+          "desired"
+        ],
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "desired": {
+            "type": "object",
+            "description": "Canonical location fields (LocationCore) to create the card from"
+          }
+        }
       }
     },
     "results": {
@@ -1498,6 +1516,47 @@
             "format": "date-time"
           }
         }
+      },
+      "listing.create": {
+        "type": "object",
+        "required": [
+          "external_id",
+          "state"
+        ],
+        "properties": {
+          "external_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "created",
+              "pending_moderation"
+            ]
+          },
+          "ticket_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verification": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "pending",
+              "unverified",
+              "suspended"
+            ]
+          }
+        }
       }
     },
     "JobRequest": {
@@ -1622,6 +1681,22 @@
             "properties": {
               "payload": {
                 "$ref": "#/$defs/payloads/listing.push"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "listing.create"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/listing.create"
               }
             }
           }

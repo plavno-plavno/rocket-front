@@ -1,5 +1,8 @@
 # @lp/contracts changelog
 
+## 0.2.1-draft (2026-09-17)
+- Job API: `listing.create` (create a card when discovery finds none; capability `listing.create`), SPI `listing.create?`.
+
 ## 0.2.0-draft (2026-09-17)
 - Inter-service contracts added (SDD-00 §6–7, §11): `events/asyncapi.yaml` (41 event types with data schemas, producer/consumers/ordering key), `jobs/job-api.schema.json` (20 job kinds, payload/result per kind, `ConnectorError`), `src/events.ts` / `src/jobs.ts` / `src/spi.ts` (typed twins + Connector SPI). Events carry the data consumers need (`location.*` → canonical location, `platform_account.*` → account descriptor) because services never read each other's databases.
 Reviewed against the core-api implementation (lp-core); all UI change requests of 2026-09-17 accepted:

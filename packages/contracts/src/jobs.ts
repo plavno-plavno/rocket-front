@@ -11,6 +11,7 @@ export type JobKind =
   | 'listing.discover'
   | 'listing.fetch'
   | 'listing.push'
+  | 'listing.create'
   | 'operation.poll'
   | 'reviews.list'
   | 'review.reply'
@@ -170,6 +171,8 @@ export interface JobPayload {
   };
   'listing.fetch': Record<string, never>;
   'listing.push': { patch: CanonicalPatchEntry[]; desired: Partial<Schema<'LocationCore'>>; operation_id: string };
+  /** Creates the card on the platform (capability `listing.create`, SDD-05 §3.1) when discovery found none. */
+  'listing.create': { operation_id: string; desired: Partial<Schema<'LocationCore'>> };
   'operation.poll': { ticket_id: string };
   'reviews.list': { since?: string | null; until?: string | null; cursor?: string | null; limit?: number; include_edits?: boolean };
   'review.reply': { review: ReviewRef; text: string; reply_id: string };
@@ -203,6 +206,7 @@ export interface JobResultData {
   'listing.discover': { items: ListingCandidate[]; next_cursor?: string | null };
   'listing.fetch': CanonicalListingSnapshot;
   'listing.push': PushTicket;
+  'listing.create': { external_id: string; url?: string | null; state: 'created' | 'pending_moderation'; ticket_id?: string | null; verification?: Schema<'ListingVerification'> };
   'operation.poll': OperationStatus;
   'reviews.list': { items: CanonicalReview[]; next_cursor?: string | null; window_complete: boolean };
   'review.reply': { external_id?: string | null; published_at: string };

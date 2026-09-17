@@ -219,6 +219,8 @@ export interface ConnectorPlugin {
     discover(ctx: Ctx, q: DiscoverQuery): Promise<Page<ListingCandidate>>;
     fetch(ctx: Ctx, ref: ListingRef): Promise<CanonicalListingSnapshot>;
     push(ctx: Ctx, ref: ListingRef, patch: CanonicalPatch): Promise<PushTicket>;
+    /** Only when the manifest declares `listing.create` with a non-manual method. */
+    create?(ctx: Ctx, input: { operation_id: string; desired: Partial<Schema<'LocationCore'>> }): Promise<{ external_id: string; url?: string | null; state: 'created' | 'pending_moderation'; ticket_id?: string | null; verification?: Schema<'ListingVerification'> }>;
     pollOperation?(ctx: Ctx, ticket: { ticket_id: string }): Promise<OperationStatus>;
   };
   reviews?: {
