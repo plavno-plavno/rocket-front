@@ -5,6 +5,7 @@ import { test as setup } from '@playwright/test';
  * `/__dev/reset` of a real core-api when `E2E_API_URL` points at one (≈10 s: truncate + seed).
  */
 setup('reset seed data', async ({ request }) => {
+  setup.setTimeout(180_000); // a real core-api rebuilds core + sync-engine + simulator: ~10 s locally, ~30 s on a small droplet
   const api = process.env.E2E_API_URL?.replace(/\/+$/, '');
   if (api) {
     const res = await request.post(`${api}/__dev/reset`, { timeout: 120_000 });
