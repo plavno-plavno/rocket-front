@@ -1,0 +1,2233 @@
+asyncapi: 3.0.0
+info:
+  title: Local Presence Platform — events
+  version: 0.2.0-draft
+  description: 'Events between core-api, sync-engine, matching, connector-runtime, stats-collector and rank-tracker (SDD-00 §7). Transport: NATS JetStream stream `lp-events`, subject `lp.events.<type>`.
+    Guarantees: at-least-once, ordering per key (see `x-key`), consumers idempotent by `event_id`. Services never read each other''s databases, so events carry the data consumers need (canonical location,
+    account descriptor, whole review). TypeScript twin: `@lp/contracts` `src/events.ts`.'
+defaultContentType: application/json
+servers:
+  nats:
+    host: nats:4222
+    protocol: nats
+    description: JetStream, stream lp-events (subjects lp.events.>)
+channels:
+  location_created:
+    address: lp.events.location.created
+    title: location.created
+    description: 'producer: core-api; consumers: sync-engine, matching'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    - matching
+    x-key: location_id
+    messages:
+      location_created:
+        $ref: '#/components/messages/location_created'
+  location_changed:
+    address: lp.events.location.changed
+    title: location.changed
+    description: 'producer: core-api; consumers: sync-engine, matching'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    - matching
+    x-key: location_id
+    messages:
+      location_changed:
+        $ref: '#/components/messages/location_changed'
+  location_deleted:
+    address: lp.events.location.deleted
+    title: location.deleted
+    description: 'producer: core-api; consumers: sync-engine, matching'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    - matching
+    x-key: location_id
+    messages:
+      location_deleted:
+        $ref: '#/components/messages/location_deleted'
+  location_schedule_due:
+    address: lp.events.location.schedule.due
+    title: location.schedule.due
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: location_id
+    messages:
+      location_schedule_due:
+        $ref: '#/components/messages/location_schedule_due'
+  sync_batch_requested:
+    address: lp.events.sync.batch.requested
+    title: sync.batch.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: batch_id
+    messages:
+      sync_batch_requested:
+        $ref: '#/components/messages/sync_batch_requested'
+  listing_action_requested:
+    address: lp.events.listing.action.requested
+    title: listing.action.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: listing_id
+    messages:
+      listing_action_requested:
+        $ref: '#/components/messages/listing_action_requested'
+  platform_account_check_requested:
+    address: lp.events.platform_account.check.requested
+    title: platform_account.check.requested
+    description: 'producer: core-api; consumers: connector-runtime, sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - connector-runtime
+    - sync-engine
+    x-key: platform_account_id
+    messages:
+      platform_account_check_requested:
+        $ref: '#/components/messages/platform_account_check_requested'
+  platform_account_changed:
+    address: lp.events.platform_account.changed
+    title: platform_account.changed
+    description: 'producer: connector-runtime; consumers: core-api, sync-engine'
+    x-producer: connector-runtime
+    x-consumers:
+    - core-api
+    - sync-engine
+    x-key: platform_account_id
+    messages:
+      platform_account_changed:
+        $ref: '#/components/messages/platform_account_changed'
+  review_reply_requested:
+    address: lp.events.review.reply.requested
+    title: review.reply.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: review_id
+    messages:
+      review_reply_requested:
+        $ref: '#/components/messages/review_reply_requested'
+  review_reply_changed:
+    address: lp.events.review.reply.changed
+    title: review.reply.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: review_id
+    messages:
+      review_reply_changed:
+        $ref: '#/components/messages/review_reply_changed'
+  review_complaint_requested:
+    address: lp.events.review.complaint.requested
+    title: review.complaint.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: review_id
+    messages:
+      review_complaint_requested:
+        $ref: '#/components/messages/review_complaint_requested'
+  review_complaint_changed:
+    address: lp.events.review.complaint.changed
+    title: review.complaint.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: review_id
+    messages:
+      review_complaint_changed:
+        $ref: '#/components/messages/review_complaint_changed'
+  question_answer_requested:
+    address: lp.events.question.answer.requested
+    title: question.answer.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: listing_id
+    messages:
+      question_answer_requested:
+        $ref: '#/components/messages/question_answer_requested'
+  question_answer_changed:
+    address: lp.events.question.answer.changed
+    title: question.answer.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      question_answer_changed:
+        $ref: '#/components/messages/question_answer_changed'
+  publication_requested:
+    address: lp.events.publication.requested
+    title: publication.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: publication_id
+    messages:
+      publication_requested:
+        $ref: '#/components/messages/publication_requested'
+  publication_changed:
+    address: lp.events.publication.changed
+    title: publication.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      publication_changed:
+        $ref: '#/components/messages/publication_changed'
+  media_action_requested:
+    address: lp.events.media.action.requested
+    title: media.action.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: listing_id
+    messages:
+      media_action_requested:
+        $ref: '#/components/messages/media_action_requested'
+  media_changed:
+    address: lp.events.media.changed
+    title: media.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      media_changed:
+        $ref: '#/components/messages/media_changed'
+  products_sync_requested:
+    address: lp.events.products.sync.requested
+    title: products.sync.requested
+    description: 'producer: core-api; consumers: sync-engine'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    x-key: batch_id
+    messages:
+      products_sync_requested:
+        $ref: '#/components/messages/products_sync_requested'
+  products_sync_requested_changed:
+    address: lp.events.products.sync.requested.changed
+    title: products.sync.requested.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: batch_id
+    messages:
+      products_sync_requested_changed:
+        $ref: '#/components/messages/products_sync_requested_changed'
+  duplicate_action_requested:
+    address: lp.events.duplicate.action.requested
+    title: duplicate.action.requested
+    description: 'producer: core-api; consumers: matching'
+    x-producer: core-api
+    x-consumers:
+    - matching
+    x-key: listing_id
+    messages:
+      duplicate_action_requested:
+        $ref: '#/components/messages/duplicate_action_requested'
+  duplicate_changed:
+    address: lp.events.duplicate.changed
+    title: duplicate.changed
+    description: 'producer: matching; consumers: core-api'
+    x-producer: matching
+    x-consumers:
+    - core-api
+    x-key: case_id
+    messages:
+      duplicate_changed:
+        $ref: '#/components/messages/duplicate_changed'
+  rank_run_requested:
+    address: lp.events.rank.run.requested
+    title: rank.run.requested
+    description: 'producer: core-api; consumers: rank-tracker'
+    x-producer: core-api
+    x-consumers:
+    - rank-tracker
+    x-key: project_id
+    messages:
+      rank_run_requested:
+        $ref: '#/components/messages/rank_run_requested'
+  campaign_send_requested:
+    address: lp.events.campaign.send.requested
+    title: campaign.send.requested
+    description: 'producer: core-api; consumers: core-api'
+    x-producer: core-api
+    x-consumers:
+    - core-api
+    x-key: batch_id
+    messages:
+      campaign_send_requested:
+        $ref: '#/components/messages/campaign_send_requested'
+  export_requested:
+    address: lp.events.export.requested
+    title: export.requested
+    description: 'producer: core-api; consumers: core-api'
+    x-producer: core-api
+    x-consumers:
+    - core-api
+    x-key: export_id
+    messages:
+      export_requested:
+        $ref: '#/components/messages/export_requested'
+  export_changed:
+    address: lp.events.export.changed
+    title: export.changed
+    description: 'producer: core-api; consumers: core-api'
+    x-producer: core-api
+    x-consumers:
+    - core-api
+    x-key: export_id
+    messages:
+      export_changed:
+        $ref: '#/components/messages/export_changed'
+  webhook_delivery_requested:
+    address: lp.events.webhook.delivery.requested
+    title: webhook.delivery.requested
+    description: 'producer: core-api; consumers: core-api'
+    x-producer: core-api
+    x-consumers:
+    - core-api
+    x-key: webhook_id
+    messages:
+      webhook_delivery_requested:
+        $ref: '#/components/messages/webhook_delivery_requested'
+  listing_discovered:
+    address: lp.events.listing.discovered
+    title: listing.discovered
+    description: 'producer: matching; consumers: core-api, sync-engine'
+    x-producer: matching
+    x-consumers:
+    - core-api
+    - sync-engine
+    x-key: listing_id
+    messages:
+      listing_discovered:
+        $ref: '#/components/messages/listing_discovered'
+  listing_match_changed:
+    address: lp.events.listing.match.changed
+    title: listing.match.changed
+    description: 'producer: matching; consumers: core-api, sync-engine'
+    x-producer: matching
+    x-consumers:
+    - core-api
+    - sync-engine
+    x-key: listing_id
+    messages:
+      listing_match_changed:
+        $ref: '#/components/messages/listing_match_changed'
+  listing_snapshot_captured:
+    address: lp.events.listing.snapshot.captured
+    title: listing.snapshot.captured
+    description: 'producer: sync-engine; consumers: core-api, matching'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    - matching
+    x-key: listing_id
+    messages:
+      listing_snapshot_captured:
+        $ref: '#/components/messages/listing_snapshot_captured'
+  listing_drift_detected:
+    address: lp.events.listing.drift.detected
+    title: listing.drift.detected
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      listing_drift_detected:
+        $ref: '#/components/messages/listing_drift_detected'
+  listing_status_changed:
+    address: lp.events.listing.status.changed
+    title: listing.status.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      listing_status_changed:
+        $ref: '#/components/messages/listing_status_changed'
+  sync_operation_changed:
+    address: lp.events.sync.operation.changed
+    title: sync.operation.changed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      sync_operation_changed:
+        $ref: '#/components/messages/sync_operation_changed'
+  review_ingested:
+    address: lp.events.review.ingested
+    title: review.ingested
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: review_id
+    messages:
+      review_ingested:
+        $ref: '#/components/messages/review_ingested'
+  review_updated:
+    address: lp.events.review.updated
+    title: review.updated
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: review_id
+    messages:
+      review_updated:
+        $ref: '#/components/messages/review_updated'
+  review_removed:
+    address: lp.events.review.removed
+    title: review.removed
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: review_id
+    messages:
+      review_removed:
+        $ref: '#/components/messages/review_removed'
+  question_ingested:
+    address: lp.events.question.ingested
+    title: question.ingested
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      question_ingested:
+        $ref: '#/components/messages/question_ingested'
+  media_ingested:
+    address: lp.events.media.ingested
+    title: media.ingested
+    description: 'producer: sync-engine; consumers: core-api'
+    x-producer: sync-engine
+    x-consumers:
+    - core-api
+    x-key: listing_id
+    messages:
+      media_ingested:
+        $ref: '#/components/messages/media_ingested'
+  connector_health_changed:
+    address: lp.events.connector.health.changed
+    title: connector.health.changed
+    description: 'producer: connector-runtime; consumers: core-api, sync-engine'
+    x-producer: connector-runtime
+    x-consumers:
+    - core-api
+    - sync-engine
+    x-key: platform_id
+    messages:
+      connector_health_changed:
+        $ref: '#/components/messages/connector_health_changed'
+  metrics_ingested:
+    address: lp.events.metrics.ingested
+    title: metrics.ingested
+    description: 'producer: stats-collector; consumers: core-api'
+    x-producer: stats-collector
+    x-consumers:
+    - core-api
+    x-key: tenant_id
+    messages:
+      metrics_ingested:
+        $ref: '#/components/messages/metrics_ingested'
+  rank_snapshot_captured:
+    address: lp.events.rank.snapshot.captured
+    title: rank.snapshot.captured
+    description: 'producer: rank-tracker; consumers: core-api'
+    x-producer: rank-tracker
+    x-consumers:
+    - core-api
+    x-key: project_id
+    messages:
+      rank_snapshot_captured:
+        $ref: '#/components/messages/rank_snapshot_captured'
+operations:
+  send_location_created:
+    action: send
+    channel:
+      $ref: '#/channels/location_created'
+    summary: core-api publishes location.created
+  receive_location_created:
+    action: receive
+    channel:
+      $ref: '#/channels/location_created'
+    summary: sync-engine, matching consume location.created
+  send_location_changed:
+    action: send
+    channel:
+      $ref: '#/channels/location_changed'
+    summary: core-api publishes location.changed
+  receive_location_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/location_changed'
+    summary: sync-engine, matching consume location.changed
+  send_location_deleted:
+    action: send
+    channel:
+      $ref: '#/channels/location_deleted'
+    summary: core-api publishes location.deleted
+  receive_location_deleted:
+    action: receive
+    channel:
+      $ref: '#/channels/location_deleted'
+    summary: sync-engine, matching consume location.deleted
+  send_location_schedule_due:
+    action: send
+    channel:
+      $ref: '#/channels/location_schedule_due'
+    summary: core-api publishes location.schedule.due
+  receive_location_schedule_due:
+    action: receive
+    channel:
+      $ref: '#/channels/location_schedule_due'
+    summary: sync-engine consume location.schedule.due
+  send_sync_batch_requested:
+    action: send
+    channel:
+      $ref: '#/channels/sync_batch_requested'
+    summary: core-api publishes sync.batch.requested
+  receive_sync_batch_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/sync_batch_requested'
+    summary: sync-engine consume sync.batch.requested
+  send_listing_action_requested:
+    action: send
+    channel:
+      $ref: '#/channels/listing_action_requested'
+    summary: core-api publishes listing.action.requested
+  receive_listing_action_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/listing_action_requested'
+    summary: sync-engine consume listing.action.requested
+  send_platform_account_check_requested:
+    action: send
+    channel:
+      $ref: '#/channels/platform_account_check_requested'
+    summary: core-api publishes platform_account.check.requested
+  receive_platform_account_check_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/platform_account_check_requested'
+    summary: connector-runtime, sync-engine consume platform_account.check.requested
+  send_platform_account_changed:
+    action: send
+    channel:
+      $ref: '#/channels/platform_account_changed'
+    summary: connector-runtime publishes platform_account.changed
+  receive_platform_account_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/platform_account_changed'
+    summary: core-api, sync-engine consume platform_account.changed
+  send_review_reply_requested:
+    action: send
+    channel:
+      $ref: '#/channels/review_reply_requested'
+    summary: core-api publishes review.reply.requested
+  receive_review_reply_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/review_reply_requested'
+    summary: sync-engine consume review.reply.requested
+  send_review_reply_changed:
+    action: send
+    channel:
+      $ref: '#/channels/review_reply_changed'
+    summary: sync-engine publishes review.reply.changed
+  receive_review_reply_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/review_reply_changed'
+    summary: core-api consume review.reply.changed
+  send_review_complaint_requested:
+    action: send
+    channel:
+      $ref: '#/channels/review_complaint_requested'
+    summary: core-api publishes review.complaint.requested
+  receive_review_complaint_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/review_complaint_requested'
+    summary: sync-engine consume review.complaint.requested
+  send_review_complaint_changed:
+    action: send
+    channel:
+      $ref: '#/channels/review_complaint_changed'
+    summary: sync-engine publishes review.complaint.changed
+  receive_review_complaint_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/review_complaint_changed'
+    summary: core-api consume review.complaint.changed
+  send_question_answer_requested:
+    action: send
+    channel:
+      $ref: '#/channels/question_answer_requested'
+    summary: core-api publishes question.answer.requested
+  receive_question_answer_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/question_answer_requested'
+    summary: sync-engine consume question.answer.requested
+  send_question_answer_changed:
+    action: send
+    channel:
+      $ref: '#/channels/question_answer_changed'
+    summary: sync-engine publishes question.answer.changed
+  receive_question_answer_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/question_answer_changed'
+    summary: core-api consume question.answer.changed
+  send_publication_requested:
+    action: send
+    channel:
+      $ref: '#/channels/publication_requested'
+    summary: core-api publishes publication.requested
+  receive_publication_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/publication_requested'
+    summary: sync-engine consume publication.requested
+  send_publication_changed:
+    action: send
+    channel:
+      $ref: '#/channels/publication_changed'
+    summary: sync-engine publishes publication.changed
+  receive_publication_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/publication_changed'
+    summary: core-api consume publication.changed
+  send_media_action_requested:
+    action: send
+    channel:
+      $ref: '#/channels/media_action_requested'
+    summary: core-api publishes media.action.requested
+  receive_media_action_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/media_action_requested'
+    summary: sync-engine consume media.action.requested
+  send_media_changed:
+    action: send
+    channel:
+      $ref: '#/channels/media_changed'
+    summary: sync-engine publishes media.changed
+  receive_media_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/media_changed'
+    summary: core-api consume media.changed
+  send_products_sync_requested:
+    action: send
+    channel:
+      $ref: '#/channels/products_sync_requested'
+    summary: core-api publishes products.sync.requested
+  receive_products_sync_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/products_sync_requested'
+    summary: sync-engine consume products.sync.requested
+  send_products_sync_requested_changed:
+    action: send
+    channel:
+      $ref: '#/channels/products_sync_requested_changed'
+    summary: sync-engine publishes products.sync.requested.changed
+  receive_products_sync_requested_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/products_sync_requested_changed'
+    summary: core-api consume products.sync.requested.changed
+  send_duplicate_action_requested:
+    action: send
+    channel:
+      $ref: '#/channels/duplicate_action_requested'
+    summary: core-api publishes duplicate.action.requested
+  receive_duplicate_action_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/duplicate_action_requested'
+    summary: matching consume duplicate.action.requested
+  send_duplicate_changed:
+    action: send
+    channel:
+      $ref: '#/channels/duplicate_changed'
+    summary: matching publishes duplicate.changed
+  receive_duplicate_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/duplicate_changed'
+    summary: core-api consume duplicate.changed
+  send_rank_run_requested:
+    action: send
+    channel:
+      $ref: '#/channels/rank_run_requested'
+    summary: core-api publishes rank.run.requested
+  receive_rank_run_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/rank_run_requested'
+    summary: rank-tracker consume rank.run.requested
+  send_campaign_send_requested:
+    action: send
+    channel:
+      $ref: '#/channels/campaign_send_requested'
+    summary: core-api publishes campaign.send.requested
+  receive_campaign_send_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/campaign_send_requested'
+    summary: core-api consume campaign.send.requested
+  send_export_requested:
+    action: send
+    channel:
+      $ref: '#/channels/export_requested'
+    summary: core-api publishes export.requested
+  receive_export_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/export_requested'
+    summary: core-api consume export.requested
+  send_export_changed:
+    action: send
+    channel:
+      $ref: '#/channels/export_changed'
+    summary: core-api publishes export.changed
+  receive_export_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/export_changed'
+    summary: core-api consume export.changed
+  send_webhook_delivery_requested:
+    action: send
+    channel:
+      $ref: '#/channels/webhook_delivery_requested'
+    summary: core-api publishes webhook.delivery.requested
+  receive_webhook_delivery_requested:
+    action: receive
+    channel:
+      $ref: '#/channels/webhook_delivery_requested'
+    summary: core-api consume webhook.delivery.requested
+  send_listing_discovered:
+    action: send
+    channel:
+      $ref: '#/channels/listing_discovered'
+    summary: matching publishes listing.discovered
+  receive_listing_discovered:
+    action: receive
+    channel:
+      $ref: '#/channels/listing_discovered'
+    summary: core-api, sync-engine consume listing.discovered
+  send_listing_match_changed:
+    action: send
+    channel:
+      $ref: '#/channels/listing_match_changed'
+    summary: matching publishes listing.match.changed
+  receive_listing_match_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/listing_match_changed'
+    summary: core-api, sync-engine consume listing.match.changed
+  send_listing_snapshot_captured:
+    action: send
+    channel:
+      $ref: '#/channels/listing_snapshot_captured'
+    summary: sync-engine publishes listing.snapshot.captured
+  receive_listing_snapshot_captured:
+    action: receive
+    channel:
+      $ref: '#/channels/listing_snapshot_captured'
+    summary: core-api, matching consume listing.snapshot.captured
+  send_listing_drift_detected:
+    action: send
+    channel:
+      $ref: '#/channels/listing_drift_detected'
+    summary: sync-engine publishes listing.drift.detected
+  receive_listing_drift_detected:
+    action: receive
+    channel:
+      $ref: '#/channels/listing_drift_detected'
+    summary: core-api consume listing.drift.detected
+  send_listing_status_changed:
+    action: send
+    channel:
+      $ref: '#/channels/listing_status_changed'
+    summary: sync-engine publishes listing.status.changed
+  receive_listing_status_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/listing_status_changed'
+    summary: core-api consume listing.status.changed
+  send_sync_operation_changed:
+    action: send
+    channel:
+      $ref: '#/channels/sync_operation_changed'
+    summary: sync-engine publishes sync.operation.changed
+  receive_sync_operation_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/sync_operation_changed'
+    summary: core-api consume sync.operation.changed
+  send_review_ingested:
+    action: send
+    channel:
+      $ref: '#/channels/review_ingested'
+    summary: sync-engine publishes review.ingested
+  receive_review_ingested:
+    action: receive
+    channel:
+      $ref: '#/channels/review_ingested'
+    summary: core-api consume review.ingested
+  send_review_updated:
+    action: send
+    channel:
+      $ref: '#/channels/review_updated'
+    summary: sync-engine publishes review.updated
+  receive_review_updated:
+    action: receive
+    channel:
+      $ref: '#/channels/review_updated'
+    summary: core-api consume review.updated
+  send_review_removed:
+    action: send
+    channel:
+      $ref: '#/channels/review_removed'
+    summary: sync-engine publishes review.removed
+  receive_review_removed:
+    action: receive
+    channel:
+      $ref: '#/channels/review_removed'
+    summary: core-api consume review.removed
+  send_question_ingested:
+    action: send
+    channel:
+      $ref: '#/channels/question_ingested'
+    summary: sync-engine publishes question.ingested
+  receive_question_ingested:
+    action: receive
+    channel:
+      $ref: '#/channels/question_ingested'
+    summary: core-api consume question.ingested
+  send_media_ingested:
+    action: send
+    channel:
+      $ref: '#/channels/media_ingested'
+    summary: sync-engine publishes media.ingested
+  receive_media_ingested:
+    action: receive
+    channel:
+      $ref: '#/channels/media_ingested'
+    summary: core-api consume media.ingested
+  send_connector_health_changed:
+    action: send
+    channel:
+      $ref: '#/channels/connector_health_changed'
+    summary: connector-runtime publishes connector.health.changed
+  receive_connector_health_changed:
+    action: receive
+    channel:
+      $ref: '#/channels/connector_health_changed'
+    summary: core-api, sync-engine consume connector.health.changed
+  send_metrics_ingested:
+    action: send
+    channel:
+      $ref: '#/channels/metrics_ingested'
+    summary: stats-collector publishes metrics.ingested
+  receive_metrics_ingested:
+    action: receive
+    channel:
+      $ref: '#/channels/metrics_ingested'
+    summary: core-api consume metrics.ingested
+  send_rank_snapshot_captured:
+    action: send
+    channel:
+      $ref: '#/channels/rank_snapshot_captured'
+    summary: rank-tracker publishes rank.snapshot.captured
+  receive_rank_snapshot_captured:
+    action: receive
+    channel:
+      $ref: '#/channels/rank_snapshot_captured'
+    summary: core-api consume rank.snapshot.captured
+components:
+  schemas:
+    Envelope:
+      type: object
+      required:
+      - event_id
+      - type
+      - version
+      - tenant_id
+      - occurred_at
+      - producer
+      - trace_id
+      - data
+      properties:
+        event_id:
+          type: string
+          pattern: ^evt_
+        type:
+          type: string
+        version:
+          type: integer
+          minimum: 1
+        tenant_id: &id001
+          type: string
+        occurred_at: &id004
+          type: string
+          format: date-time
+        producer:
+          type: string
+          enum:
+          - core-api
+          - sync-engine
+          - matching
+          - connector-runtime
+          - stats-collector
+          - rank-tracker
+          - platform-simulator
+        trace_id: *id001
+        data:
+          type: object
+      additionalProperties: false
+    LocationSnapshot:
+      allOf:
+      - $ref: ../openapi/core-api.yaml#/components/schemas/LocationCore
+      - type: object
+        required:
+        - id
+        - version
+        properties:
+          id: *id001
+          version:
+            type: integer
+          group_ids: &id003
+            type: array
+            items:
+              type: string
+        additionalProperties: true
+    PlatformAccountDescriptor:
+      type: object
+      required:
+      - id
+      - platform_id
+      - auth_kind
+      - status
+      properties:
+        id: *id001
+        platform_id: *id001
+        auth_kind:
+          $ref: ../openapi/core-api.yaml#/components/schemas/PlatformAccountAuthKind
+        status:
+          $ref: ../openapi/core-api.yaml#/components/schemas/PlatformAccountStatus
+        display_name: &id002
+          type:
+          - string
+          - 'null'
+        vault_ref: *id002
+        external_account_id: *id002
+    location_created_data:
+      type: object
+      required:
+      - location_id
+      - version
+      - location
+      properties:
+        location_id: *id001
+        version:
+          type: integer
+        created_by: *id002
+        source:
+          type: string
+          enum:
+          - ui
+          - import
+          - api
+        location:
+          $ref: '#/components/schemas/LocationSnapshot'
+      additionalProperties: true
+    location_changed_data:
+      type: object
+      required:
+      - location_id
+      - version
+      - changed_fields
+      - location
+      properties:
+        location_id: *id001
+        version:
+          type: integer
+        changed_fields: *id003
+        changed_by: *id002
+        rollback_of:
+          type:
+          - integer
+          - 'null'
+        batch_id: *id002
+        location:
+          $ref: '#/components/schemas/LocationSnapshot'
+      additionalProperties: true
+    location_deleted_data:
+      type: object
+      required:
+      - location_id
+      properties:
+        location_id: *id001
+        deleted_by: *id002
+      additionalProperties: true
+    location_schedule_due_data:
+      type: object
+      required:
+      - location_id
+      - effective_at
+      - location
+      properties:
+        location_id: *id001
+        effective_at: *id004
+        location:
+          $ref: '#/components/schemas/LocationSnapshot'
+      additionalProperties: true
+    sync_batch_requested_data:
+      type: object
+      required:
+      - batch_id
+      - kind
+      - location_ids
+      - changed_fields
+      properties:
+        batch_id: *id001
+        kind:
+          type: string
+        location_ids: *id003
+        changed_fields: *id003
+        requested_by: *id002
+      additionalProperties: true
+    listing_action_requested_data:
+      type: object
+      required:
+      - listing_id
+      - platform_id
+      - action
+      properties:
+        listing_id: *id001
+        location_id: *id002
+        platform_id: *id001
+        action:
+          type: string
+        operation_id: *id002
+        batch_id: *id002
+        requested_by: *id002
+      additionalProperties: true
+    platform_account_check_requested_data:
+      type: object
+      required:
+      - platform_account_id
+      - platform_id
+      - account
+      properties:
+        platform_account_id: *id001
+        platform_id: *id001
+        initial:
+          type: boolean
+        account:
+          $ref: '#/components/schemas/PlatformAccountDescriptor'
+      additionalProperties: true
+    platform_account_changed_data:
+      type: object
+      required:
+      - platform_account_id
+      - status
+      properties:
+        platform_account_id: *id001
+        platform_id: *id001
+        status:
+          $ref: ../openapi/core-api.yaml#/components/schemas/PlatformAccountStatus
+        last_checked_at: &id005
+          type:
+          - string
+          - 'null'
+          format: date-time
+        error: *id002
+        account:
+          $ref: '#/components/schemas/PlatformAccountDescriptor'
+      additionalProperties: true
+    review_reply_requested_data:
+      type: object
+      required:
+      - reply_id
+      - review_id
+      - listing_id
+      - platform_id
+      - text
+      properties:
+        reply_id: *id001
+        review_id: *id001
+        listing_id: *id001
+        platform_id: *id001
+        text:
+          type: string
+        delete:
+          type: boolean
+        review_external_id: *id002
+        reply_external_id: *id002
+      additionalProperties: true
+    review_reply_changed_data:
+      type: object
+      required:
+      - reply_id
+      - review_id
+      - state
+      properties:
+        reply_id: *id001
+        review_id: *id001
+        state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ReplyState
+        external_id: *id002
+        published_at: *id005
+        error: *id002
+      additionalProperties: true
+    review_complaint_requested_data:
+      type: object
+      required:
+      - complaint_id
+      - review_id
+      - listing_id
+      - platform_id
+      - reason_code
+      properties:
+        complaint_id: *id001
+        review_id: *id001
+        listing_id: *id001
+        platform_id: *id001
+        reason_code:
+          type: string
+        text: *id002
+        review_external_id: *id002
+      additionalProperties: true
+    review_complaint_changed_data:
+      type: object
+      required:
+      - complaint_id
+      - review_id
+      - state
+      properties:
+        complaint_id: *id001
+        review_id: *id001
+        state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ComplaintState
+        submitted_at: *id005
+        error: *id002
+      additionalProperties: true
+    question_answer_requested_data:
+      type: object
+      required:
+      - answer_id
+      - question_id
+      - listing_id
+      - platform_id
+      - text
+      properties:
+        answer_id: *id001
+        question_id: *id001
+        listing_id: *id001
+        platform_id: *id001
+        text:
+          type: string
+        question_external_id: *id002
+      additionalProperties: true
+    question_answer_changed_data:
+      type: object
+      required:
+      - answer_id
+      - question_id
+      - state
+      properties:
+        answer_id: *id001
+        question_id: *id001
+        state:
+          type: string
+          enum:
+          - published
+          - failed
+        external_id: *id002
+        published_at: *id005
+        error: *id002
+      additionalProperties: true
+    publication_requested_data:
+      type: object
+      required:
+      - publication_id
+      - listing_ids
+      properties:
+        publication_id: *id001
+        listing_ids: *id003
+        delete:
+          type: boolean
+        type:
+          $ref: ../openapi/core-api.yaml#/components/schemas/PublicationType
+        title: *id002
+        text:
+          type: string
+        media_ids: *id003
+        media_urls: *id003
+        cta:
+          type:
+          - object
+          - 'null'
+        starts_at: *id005
+        ends_at: *id005
+      additionalProperties: true
+    publication_changed_data:
+      type: object
+      required:
+      - publication_id
+      - listing_id
+      - state
+      properties:
+        publication_id: *id001
+        listing_id: *id001
+        state:
+          type: string
+        external_id: *id002
+        url: *id002
+        error: *id002
+      additionalProperties: true
+    media_action_requested_data:
+      type: object
+      required:
+      - listing_media_id
+      - listing_id
+      - platform_id
+      - action
+      properties:
+        listing_media_id: *id001
+        listing_id: *id001
+        platform_id: *id001
+        action:
+          type: string
+        reason: *id002
+        requested_by: *id002
+        media_external_id: *id002
+      additionalProperties: true
+    media_changed_data:
+      type: object
+      required:
+      - listing_media_id
+      - state
+      properties:
+        listing_media_id: *id001
+        state:
+          type: string
+        error: *id002
+      additionalProperties: true
+    products_sync_requested_data:
+      type: object
+      required:
+      - batch_id
+      - product_ids
+      properties:
+        batch_id: *id001
+        product_ids: *id003
+        requested_by: *id002
+      additionalProperties: true
+    products_sync_requested_changed_data:
+      type: object
+      required:
+      - batch_id
+      - product_id
+      - synced
+      - failed
+      - done
+      properties:
+        batch_id: *id001
+        product_id: *id001
+        synced:
+          type: integer
+        failed:
+          type: integer
+        done:
+          type: boolean
+      additionalProperties: true
+    duplicate_action_requested_data:
+      type: object
+      required:
+      - case_id
+      - listing_id
+      - platform_id
+      - action
+      properties:
+        case_id: *id001
+        listing_id: *id001
+        location_id: *id002
+        platform_id: *id001
+        action:
+          type: string
+        note: *id002
+        requested_by: *id002
+      additionalProperties: true
+    duplicate_changed_data:
+      type: object
+      required:
+      - case_id
+      - state
+      properties:
+        case_id: *id001
+        state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/DuplicateState
+        action: *id002
+      additionalProperties: true
+    rank_run_requested_data:
+      type: object
+      required:
+      - project_id
+      - run_id
+      properties:
+        project_id: *id001
+        run_id: *id001
+        requested_by: *id002
+      additionalProperties: true
+    campaign_send_requested_data:
+      type: object
+      required:
+      - campaign_id
+      - batch_id
+      - recipients
+      properties:
+        campaign_id: *id001
+        batch_id: *id001
+        recipients:
+          type: integer
+      additionalProperties: true
+    export_requested_data:
+      type: object
+      required:
+      - export_id
+      - kind
+      properties:
+        export_id: *id001
+        kind:
+          type: string
+      additionalProperties: true
+    export_changed_data:
+      type: object
+      required:
+      - export_id
+      - state
+      properties:
+        export_id: *id001
+        state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ExportState
+        url: *id002
+      additionalProperties: true
+    webhook_delivery_requested_data:
+      type: object
+      required:
+      - webhook_id
+      - event
+      - payload
+      properties:
+        webhook_id: *id001
+        event:
+          type: string
+        payload:
+          type: object
+      additionalProperties: true
+    listing_discovered_data:
+      type: object
+      required:
+      - listing_id
+      - platform_id
+      - match_state
+      - sync_status
+      - score
+      properties:
+        listing_id: *id001
+        location_id: *id002
+        platform_id: *id001
+        platform_account_id: *id002
+        external_id: *id002
+        url: *id002
+        match_state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/MatchState
+        sync_status:
+          $ref: ../openapi/core-api.yaml#/components/schemas/SyncStatus
+        ownership:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ListingOwnership
+        verification:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ListingVerification
+        observed_name: *id002
+        observed_address: *id002
+        score:
+          type: number
+      additionalProperties: true
+    listing_match_changed_data:
+      type: object
+      required:
+      - listing_id
+      - from
+      - to
+      properties:
+        listing_id: *id001
+        from:
+          $ref: ../openapi/core-api.yaml#/components/schemas/MatchState
+        to:
+          $ref: ../openapi/core-api.yaml#/components/schemas/MatchState
+        location_id: *id002
+        external_id: *id002
+      additionalProperties: true
+    listing_snapshot_captured_data:
+      type: object
+      required:
+      - listing_id
+      - snapshot_id
+      - observed_at
+      - diff_summary
+      properties:
+        listing_id: *id001
+        snapshot_id: *id001
+        observed_at: *id004
+        diff_summary:
+          type: array
+          items:
+            type: object
+            required:
+            - field
+            - classification
+            properties:
+              field:
+                type: string
+              classification:
+                type: string
+                enum:
+                - IN_SYNC
+                - AWAITING_PLATFORM
+                - LOCAL_CHANGE
+                - REMOTE_DRIFT
+                - INITIAL_DIVERGENCE
+                - CONFLICT
+            additionalProperties: true
+        rating:
+          type:
+          - number
+          - 'null'
+        review_count:
+          type:
+          - integer
+          - 'null'
+      additionalProperties: true
+    listing_drift_detected_data:
+      type: object
+      required:
+      - listing_id
+      - fields
+      - classification
+      - snapshot_id
+      properties:
+        listing_id: *id001
+        fields: *id003
+        classification:
+          type: string
+          enum:
+          - moderation_normalization
+          - platform_edit
+          - owner_edit_in_cabinet
+          - unknown
+        snapshot_id: *id001
+      additionalProperties: true
+    listing_status_changed_data:
+      type: object
+      required:
+      - listing_id
+      - sync_status
+      - action_reason
+      properties:
+        listing_id: *id001
+        sync_status:
+          $ref: ../openapi/core-api.yaml#/components/schemas/SyncStatus
+        action_reason:
+          oneOf:
+          - $ref: ../openapi/core-api.yaml#/components/schemas/ActionReason
+          - type: 'null'
+        match_state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/MatchState
+        ownership:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ListingOwnership
+        verification:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ListingVerification
+        external_id: *id002
+        url: *id002
+        drift_fields: *id003
+        snapshot_at: *id005
+      additionalProperties: true
+    sync_operation_changed_data:
+      type: object
+      required:
+      - operation_id
+      - listing_id
+      - platform_id
+      - state
+      - attempts
+      - error
+      properties:
+        operation_id: *id001
+        listing_id: *id001
+        location_id: *id002
+        platform_id: *id001
+        batch_id: *id002
+        state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/SyncOperationState
+        attempts:
+          type: integer
+        error: *id002
+        error_detail:
+          oneOf:
+          - $ref: ../jobs/job-api.schema.json#/$defs/ConnectorError
+          - type: 'null'
+        patch:
+          type: array
+          items:
+            type: object
+        ticket_id: *id002
+      additionalProperties: true
+    review_ingested_data:
+      type: object
+      required:
+      - review_id
+      - listing_id
+      - location_id
+      - platform_id
+      - external_id
+      - author
+      - rating
+      - text
+      - published_at
+      properties:
+        review_id: *id001
+        listing_id: *id001
+        location_id: *id001
+        platform_id: *id001
+        external_id: *id002
+        url: *id002
+        author:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ReviewAuthor
+        rating:
+          type:
+          - number
+          - 'null'
+        text: *id002
+        lang: *id002
+        published_at: *id004
+        reply:
+          type:
+          - object
+          - 'null'
+          properties:
+            text:
+              type: string
+            published_at: *id004
+            external_id: *id002
+      additionalProperties: true
+    review_updated_data:
+      type: object
+      required:
+      - review_id
+      - rating
+      - text
+      properties:
+        review_id: *id001
+        rating:
+          type:
+          - number
+          - 'null'
+        text: *id002
+        observed_at: *id004
+        new_version:
+          type: integer
+        fields: *id003
+      additionalProperties: true
+    review_removed_data:
+      type: object
+      required:
+      - review_id
+      - platform_state
+      properties:
+        review_id: *id001
+        platform_state:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ReviewPlatformState
+      additionalProperties: true
+    question_ingested_data:
+      type: object
+      required:
+      - question_id
+      - listing_id
+      - location_id
+      - platform_id
+      - external_id
+      - author
+      - text
+      - published_at
+      properties:
+        question_id: *id001
+        listing_id: *id001
+        location_id: *id001
+        platform_id: *id001
+        external_id: *id001
+        author:
+          $ref: ../openapi/core-api.yaml#/components/schemas/ReviewAuthor
+        text:
+          type: string
+        published_at: *id004
+      additionalProperties: true
+    media_ingested_data:
+      type: object
+      required:
+      - listing_media_id
+      - listing_id
+      - location_id
+      - platform_id
+      - external_id
+      - url
+      - origin
+      - observed_at
+      properties:
+        listing_media_id: *id001
+        listing_id: *id001
+        location_id: *id001
+        platform_id: *id001
+        external_id: *id001
+        url:
+          type: string
+        thumbnail_url: *id002
+        origin:
+          type: string
+          enum:
+          - owner
+          - user
+          - platform
+        observed_at: *id004
+      additionalProperties: true
+    connector_health_changed_data:
+      type: object
+      required:
+      - platform_id
+      - capability
+      - health
+      properties:
+        platform_id: *id001
+        capability:
+          type: string
+        health:
+          type: string
+          enum:
+          - ok
+          - degraded
+          - down
+        reason: *id002
+      additionalProperties: true
+    metrics_ingested_data:
+      type: object
+      required:
+      - listing_ids
+      - date_range
+      properties:
+        listing_ids: *id003
+        date_range:
+          type: object
+          required:
+          - from
+          - to
+          properties:
+            from:
+              type: string
+              format: date
+            to:
+              type: string
+              format: date
+          additionalProperties: true
+        points:
+          type: array
+          items:
+            type: object
+            required:
+            - listing_id
+            - metric
+            - date
+            - value
+            properties:
+              listing_id: *id001
+              metric:
+                $ref: ../openapi/core-api.yaml#/components/schemas/Metric
+              date:
+                type: string
+                format: date
+              value:
+                type: number
+            additionalProperties: true
+      additionalProperties: true
+    rank_snapshot_captured_data:
+      type: object
+      required:
+      - project_id
+      - run_id
+      properties:
+        project_id: *id001
+        run_id: *id001
+        cells:
+          type: array
+          items:
+            type: object
+            required:
+            - location_id
+            - platform_id
+            - keyword
+            - lat
+            - lng
+            - rank
+            - top_results
+            properties:
+              location_id: *id001
+              platform_id: *id001
+              keyword:
+                type: string
+              lat:
+                type: number
+              lng:
+                type: number
+              rank:
+                type:
+                - integer
+                - 'null'
+              top_results:
+                type: array
+                items:
+                  type: object
+              captured_at: *id004
+            additionalProperties: true
+      additionalProperties: true
+  messages:
+    location_created:
+      name: location.created
+      title: location.created
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: location.created
+            data:
+              $ref: '#/components/schemas/location_created_data'
+    location_changed:
+      name: location.changed
+      title: location.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: location.changed
+            data:
+              $ref: '#/components/schemas/location_changed_data'
+    location_deleted:
+      name: location.deleted
+      title: location.deleted
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: location.deleted
+            data:
+              $ref: '#/components/schemas/location_deleted_data'
+    location_schedule_due:
+      name: location.schedule.due
+      title: location.schedule.due
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: location.schedule.due
+            data:
+              $ref: '#/components/schemas/location_schedule_due_data'
+    sync_batch_requested:
+      name: sync.batch.requested
+      title: sync.batch.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: sync.batch.requested
+            data:
+              $ref: '#/components/schemas/sync_batch_requested_data'
+    listing_action_requested:
+      name: listing.action.requested
+      title: listing.action.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: listing.action.requested
+            data:
+              $ref: '#/components/schemas/listing_action_requested_data'
+    platform_account_check_requested:
+      name: platform_account.check.requested
+      title: platform_account.check.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: platform_account.check.requested
+            data:
+              $ref: '#/components/schemas/platform_account_check_requested_data'
+    platform_account_changed:
+      name: platform_account.changed
+      title: platform_account.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: platform_account.changed
+            data:
+              $ref: '#/components/schemas/platform_account_changed_data'
+    review_reply_requested:
+      name: review.reply.requested
+      title: review.reply.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: review.reply.requested
+            data:
+              $ref: '#/components/schemas/review_reply_requested_data'
+    review_reply_changed:
+      name: review.reply.changed
+      title: review.reply.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: review.reply.changed
+            data:
+              $ref: '#/components/schemas/review_reply_changed_data'
+    review_complaint_requested:
+      name: review.complaint.requested
+      title: review.complaint.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: review.complaint.requested
+            data:
+              $ref: '#/components/schemas/review_complaint_requested_data'
+    review_complaint_changed:
+      name: review.complaint.changed
+      title: review.complaint.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: review.complaint.changed
+            data:
+              $ref: '#/components/schemas/review_complaint_changed_data'
+    question_answer_requested:
+      name: question.answer.requested
+      title: question.answer.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: question.answer.requested
+            data:
+              $ref: '#/components/schemas/question_answer_requested_data'
+    question_answer_changed:
+      name: question.answer.changed
+      title: question.answer.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: question.answer.changed
+            data:
+              $ref: '#/components/schemas/question_answer_changed_data'
+    publication_requested:
+      name: publication.requested
+      title: publication.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: publication.requested
+            data:
+              $ref: '#/components/schemas/publication_requested_data'
+    publication_changed:
+      name: publication.changed
+      title: publication.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: publication.changed
+            data:
+              $ref: '#/components/schemas/publication_changed_data'
+    media_action_requested:
+      name: media.action.requested
+      title: media.action.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: media.action.requested
+            data:
+              $ref: '#/components/schemas/media_action_requested_data'
+    media_changed:
+      name: media.changed
+      title: media.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: media.changed
+            data:
+              $ref: '#/components/schemas/media_changed_data'
+    products_sync_requested:
+      name: products.sync.requested
+      title: products.sync.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: products.sync.requested
+            data:
+              $ref: '#/components/schemas/products_sync_requested_data'
+    products_sync_requested_changed:
+      name: products.sync.requested.changed
+      title: products.sync.requested.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: products.sync.requested.changed
+            data:
+              $ref: '#/components/schemas/products_sync_requested_changed_data'
+    duplicate_action_requested:
+      name: duplicate.action.requested
+      title: duplicate.action.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: duplicate.action.requested
+            data:
+              $ref: '#/components/schemas/duplicate_action_requested_data'
+    duplicate_changed:
+      name: duplicate.changed
+      title: duplicate.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: duplicate.changed
+            data:
+              $ref: '#/components/schemas/duplicate_changed_data'
+    rank_run_requested:
+      name: rank.run.requested
+      title: rank.run.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: rank.run.requested
+            data:
+              $ref: '#/components/schemas/rank_run_requested_data'
+    campaign_send_requested:
+      name: campaign.send.requested
+      title: campaign.send.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: campaign.send.requested
+            data:
+              $ref: '#/components/schemas/campaign_send_requested_data'
+    export_requested:
+      name: export.requested
+      title: export.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: export.requested
+            data:
+              $ref: '#/components/schemas/export_requested_data'
+    export_changed:
+      name: export.changed
+      title: export.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: export.changed
+            data:
+              $ref: '#/components/schemas/export_changed_data'
+    webhook_delivery_requested:
+      name: webhook.delivery.requested
+      title: webhook.delivery.requested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: webhook.delivery.requested
+            data:
+              $ref: '#/components/schemas/webhook_delivery_requested_data'
+    listing_discovered:
+      name: listing.discovered
+      title: listing.discovered
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: listing.discovered
+            data:
+              $ref: '#/components/schemas/listing_discovered_data'
+    listing_match_changed:
+      name: listing.match.changed
+      title: listing.match.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: listing.match.changed
+            data:
+              $ref: '#/components/schemas/listing_match_changed_data'
+    listing_snapshot_captured:
+      name: listing.snapshot.captured
+      title: listing.snapshot.captured
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: listing.snapshot.captured
+            data:
+              $ref: '#/components/schemas/listing_snapshot_captured_data'
+    listing_drift_detected:
+      name: listing.drift.detected
+      title: listing.drift.detected
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: listing.drift.detected
+            data:
+              $ref: '#/components/schemas/listing_drift_detected_data'
+    listing_status_changed:
+      name: listing.status.changed
+      title: listing.status.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: listing.status.changed
+            data:
+              $ref: '#/components/schemas/listing_status_changed_data'
+    sync_operation_changed:
+      name: sync.operation.changed
+      title: sync.operation.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: sync.operation.changed
+            data:
+              $ref: '#/components/schemas/sync_operation_changed_data'
+    review_ingested:
+      name: review.ingested
+      title: review.ingested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: review.ingested
+            data:
+              $ref: '#/components/schemas/review_ingested_data'
+    review_updated:
+      name: review.updated
+      title: review.updated
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: review.updated
+            data:
+              $ref: '#/components/schemas/review_updated_data'
+    review_removed:
+      name: review.removed
+      title: review.removed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: review.removed
+            data:
+              $ref: '#/components/schemas/review_removed_data'
+    question_ingested:
+      name: question.ingested
+      title: question.ingested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: question.ingested
+            data:
+              $ref: '#/components/schemas/question_ingested_data'
+    media_ingested:
+      name: media.ingested
+      title: media.ingested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: media.ingested
+            data:
+              $ref: '#/components/schemas/media_ingested_data'
+    connector_health_changed:
+      name: connector.health.changed
+      title: connector.health.changed
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: connector.health.changed
+            data:
+              $ref: '#/components/schemas/connector_health_changed_data'
+    metrics_ingested:
+      name: metrics.ingested
+      title: metrics.ingested
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: metrics.ingested
+            data:
+              $ref: '#/components/schemas/metrics_ingested_data'
+    rank_snapshot_captured:
+      name: rank.snapshot.captured
+      title: rank.snapshot.captured
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: rank.snapshot.captured
+            data:
+              $ref: '#/components/schemas/rank_snapshot_captured_data'

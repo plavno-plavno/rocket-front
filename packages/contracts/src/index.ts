@@ -38,3 +38,8 @@ export type OperationBody<Op extends keyof operations> = operations[Op]['request
 export type PageResponse<T> = { items: T[]; meta: Schemas['PageMeta'] };
 export type CursorResponse<T> = { items: T[]; meta: Schemas['CursorMeta'] };
 export type ListResponse<T> = { items: T[] };
+
+// ── inter-service contracts (SDD-00 §6–7, SDD-05 §4) ────────────────────────
+export * from './events';
+export * from './jobs';
+export * from './spi';

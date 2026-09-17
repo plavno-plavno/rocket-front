@@ -1,0 +1,1989 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lp.example/contracts/jobs/job-api.schema.json",
+  "title": "Job API (SDD-00 §6)",
+  "description": "JobRequest / JobResult exchanged between the callers (sync-engine, matching, stats-collector, rank-tracker) and the connector-runtime. Payload and result shapes per kind are in $defs.payloads / $defs.results; TypeScript twin: @lp/contracts src/jobs.ts.",
+  "$defs": {
+    "JobKind": {
+      "type": "string",
+      "enum": [
+        "account.check",
+        "listing.discover",
+        "listing.fetch",
+        "listing.push",
+        "operation.poll",
+        "reviews.list",
+        "review.reply",
+        "review.reply.delete",
+        "review.complain",
+        "questions.list",
+        "question.answer",
+        "media.list",
+        "media.upload",
+        "media.delete",
+        "media.flag",
+        "publication.create",
+        "publication.delete",
+        "metrics.fetch",
+        "keywords.fetch",
+        "rank.search"
+      ]
+    },
+    "JobPriority": {
+      "type": "string",
+      "enum": [
+        "interactive",
+        "high",
+        "normal",
+        "background"
+      ]
+    },
+    "AccessMethod": {
+      "type": "string",
+      "enum": [
+        "api",
+        "feed",
+        "browser",
+        "public",
+        "manual"
+      ]
+    },
+    "CanonicalField": {
+      "type": "string",
+      "enum": [
+        "name",
+        "status",
+        "address",
+        "geo",
+        "phones",
+        "emails",
+        "website",
+        "social",
+        "hours.regular",
+        "hours.special",
+        "categories",
+        "attributes",
+        "description",
+        "media.logo",
+        "media.cover",
+        "media.gallery"
+      ]
+    },
+    "ListingRef": {
+      "type": "object",
+      "required": [
+        "listing_id"
+      ],
+      "properties": {
+        "listing_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "external_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ReviewRef": {
+      "type": "object",
+      "required": [
+        "review_id",
+        "external_id",
+        "listing"
+      ],
+      "properties": {
+        "review_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "external_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "listing": {
+          "$ref": "#/$defs/ListingRef"
+        }
+      }
+    },
+    "ReviewAuthor": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "avatar_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "Metric": {
+      "type": "string",
+      "enum": [
+        "impressions_maps",
+        "impressions_search",
+        "impressions_total",
+        "actions_calls",
+        "actions_website",
+        "actions_directions",
+        "actions_other",
+        "actions_bookings",
+        "actions_menu",
+        "conversations"
+      ]
+    },
+    "CanonicalPatchEntry": {
+      "type": "object",
+      "required": [
+        "field",
+        "to"
+      ],
+      "properties": {
+        "field": {
+          "$ref": "#/$defs/CanonicalField"
+        },
+        "from": {},
+        "to": {}
+      }
+    },
+    "ListingCandidate": {
+      "type": "object",
+      "required": [
+        "external_id",
+        "name"
+      ],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "geo": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "lat": {
+              "type": "number"
+            },
+            "lng": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "lat",
+            "lng"
+          ]
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "website": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rating": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "review_count": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "ownership": {
+          "type": "string",
+          "enum": [
+            "owned",
+            "claimable",
+            "unclaimed",
+            "foreign"
+          ]
+        },
+        "verification": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "pending",
+            "unverified",
+            "suspended"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed",
+            "suspended"
+          ]
+        }
+      }
+    },
+    "CanonicalListingSnapshot": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/ListingCandidate"
+        },
+        {
+          "type": "object",
+          "required": [
+            "snapshot_id",
+            "observed_at",
+            "fields"
+          ],
+          "properties": {
+            "snapshot_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "fields": {
+              "type": "object"
+            },
+            "evidence_ref": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CanonicalReview": {
+      "type": "object",
+      "required": [
+        "external_id",
+        "author",
+        "rating",
+        "text",
+        "published_at"
+      ],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "author": {
+          "$ref": "#/$defs/ReviewAuthor"
+        },
+        "rating": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 5
+        },
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lang": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "published_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "edited_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "platform_state": {
+          "type": "string",
+          "enum": [
+            "visible",
+            "edited",
+            "deleted_by_author",
+            "removed_by_platform"
+          ]
+        },
+        "reply": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "text",
+            "published_at"
+          ],
+          "properties": {
+            "external_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "text": {
+              "type": "string"
+            },
+            "published_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    },
+    "CanonicalQuestion": {
+      "type": "object",
+      "required": [
+        "external_id",
+        "author",
+        "text",
+        "published_at",
+        "answers"
+      ],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "author": {
+          "$ref": "#/$defs/ReviewAuthor"
+        },
+        "text": {
+          "type": "string"
+        },
+        "published_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "text",
+              "published_at",
+              "by_owner"
+            ],
+            "properties": {
+              "external_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "text": {
+                "type": "string"
+              },
+              "published_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "by_owner": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "CanonicalMediaItem": {
+      "type": "object",
+      "required": [
+        "external_id",
+        "url",
+        "kind",
+        "origin"
+      ],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string"
+        },
+        "thumbnail_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "photo",
+            "video",
+            "logo",
+            "cover"
+          ]
+        },
+        "origin": {
+          "type": "string",
+          "enum": [
+            "owner",
+            "user",
+            "platform"
+          ]
+        },
+        "published_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "RankGridCell": {
+      "type": "object",
+      "required": [
+        "lat",
+        "lng",
+        "rank",
+        "top_results"
+      ],
+      "properties": {
+        "lat": {
+          "type": "number"
+        },
+        "lng": {
+          "type": "number"
+        },
+        "rank": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "top_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "external_id",
+              "name"
+            ],
+            "properties": {
+              "external_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PushTicket": {
+      "type": "object",
+      "required": [
+        "ticket_id",
+        "state"
+      ],
+      "properties": {
+        "ticket_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "applied",
+            "pending_moderation"
+          ]
+        },
+        "applied_fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CanonicalField"
+          }
+        },
+        "normalized": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "field",
+              "pushed",
+              "observed"
+            ],
+            "properties": {
+              "field": {
+                "$ref": "#/$defs/CanonicalField"
+              },
+              "pushed": {},
+              "observed": {}
+            }
+          }
+        }
+      }
+    },
+    "OperationStatus": {
+      "type": "object",
+      "required": [
+        "ticket_id",
+        "state"
+      ],
+      "properties": {
+        "ticket_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "pending_moderation",
+            "confirmed",
+            "rejected"
+          ]
+        },
+        "rejected": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "field": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "platform_message": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reason_code": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ConnectorErrorCode": {
+      "type": "string",
+      "enum": [
+        "AUTH_EXPIRED",
+        "CHALLENGE_REQUIRED",
+        "RATE_LIMITED",
+        "NOT_FOUND",
+        "VALIDATION_REJECTED",
+        "MODERATION_PENDING",
+        "CAPABILITY_UNAVAILABLE",
+        "PLATFORM_CHANGED",
+        "TRANSIENT",
+        "FORBIDDEN_BY_POLICY"
+      ]
+    },
+    "ConnectorError": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ConnectorErrorCode"
+        },
+        "message": {
+          "type": "string"
+        },
+        "retry_after_s": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "field": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "platform_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ticket_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "payloads": {
+      "account.check": {
+        "type": "object",
+        "required": [
+          "platform_account_id"
+        ],
+        "properties": {
+          "platform_account_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "listing.discover": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "geo": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lng": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "lat",
+              "lng"
+            ]
+          },
+          "phones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "website": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "branch_code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        }
+      },
+      "listing.fetch": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "listing.push": {
+        "type": "object",
+        "required": [
+          "patch",
+          "desired",
+          "operation_id"
+        ],
+        "properties": {
+          "patch": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CanonicalPatchEntry"
+            }
+          },
+          "desired": {
+            "type": "object"
+          },
+          "operation_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "operation.poll": {
+        "type": "object",
+        "required": [
+          "ticket_id"
+        ],
+        "properties": {
+          "ticket_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "reviews.list": {
+        "type": "object",
+        "properties": {
+          "since": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "until": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "include_edits": {
+            "type": "boolean"
+          },
+          "cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          }
+        }
+      },
+      "review.reply": {
+        "type": "object",
+        "required": [
+          "review",
+          "text",
+          "reply_id"
+        ],
+        "properties": {
+          "review": {
+            "$ref": "#/$defs/ReviewRef"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reply_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "review.reply.delete": {
+        "type": "object",
+        "required": [
+          "review"
+        ],
+        "properties": {
+          "review": {
+            "$ref": "#/$defs/ReviewRef"
+          },
+          "reply_external_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "review.complain": {
+        "type": "object",
+        "required": [
+          "review",
+          "reason_code",
+          "complaint_id"
+        ],
+        "properties": {
+          "review": {
+            "$ref": "#/$defs/ReviewRef"
+          },
+          "reason_code": {
+            "type": "string"
+          },
+          "text": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "complaint_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "questions.list": {
+        "type": "object",
+        "properties": {
+          "since": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          }
+        }
+      },
+      "question.answer": {
+        "type": "object",
+        "required": [
+          "question_external_id",
+          "text",
+          "answer_id"
+        ],
+        "properties": {
+          "question_external_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "answer_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "media.list": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          }
+        }
+      },
+      "media.upload": {
+        "type": "object",
+        "required": [
+          "media_id",
+          "url",
+          "kind"
+        ],
+        "properties": {
+          "media_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "photo",
+              "video",
+              "logo",
+              "cover"
+            ]
+          },
+          "caption": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "media.delete": {
+        "type": "object",
+        "required": [
+          "media_external_id"
+        ],
+        "properties": {
+          "media_external_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "media.flag": {
+        "type": "object",
+        "required": [
+          "media_external_id"
+        ],
+        "properties": {
+          "media_external_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "publication.create": {
+        "type": "object",
+        "required": [
+          "publication_id",
+          "type",
+          "text",
+          "media_urls"
+        ],
+        "properties": {
+          "publication_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "news",
+              "offer",
+              "event"
+            ]
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "media_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cta": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string"
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "starts_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "ends_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "publication.delete": {
+        "type": "object",
+        "required": [
+          "publication_external_id"
+        ],
+        "properties": {
+          "publication_external_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "metrics.fetch": {
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "metrics"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Metric"
+            }
+          }
+        }
+      },
+      "keywords.fetch": {
+        "type": "object",
+        "required": [
+          "month"
+        ],
+        "properties": {
+          "month": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}$"
+          }
+        }
+      },
+      "rank.search": {
+        "type": "object",
+        "required": [
+          "keyword",
+          "lat",
+          "lng",
+          "grid",
+          "target_external_id"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "lng": {
+            "type": "number"
+          },
+          "grid": {
+            "type": "object",
+            "required": [
+              "size",
+              "radius_m"
+            ],
+            "properties": {
+              "size": {
+                "type": "integer",
+                "minimum": 3,
+                "maximum": 15
+              },
+              "radius_m": {
+                "type": "integer",
+                "minimum": 100
+              }
+            }
+          },
+          "target_external_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "results": {
+      "account.check": {
+        "type": "object",
+        "required": [
+          "health"
+        ],
+        "properties": {
+          "health": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "reauth_required",
+              "challenge_required",
+              "revoked"
+            ]
+          },
+          "display_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "listing.discover": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ListingCandidate"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "listing.fetch": {
+        "$ref": "#/$defs/CanonicalListingSnapshot"
+      },
+      "listing.push": {
+        "$ref": "#/$defs/PushTicket"
+      },
+      "operation.poll": {
+        "$ref": "#/$defs/OperationStatus"
+      },
+      "reviews.list": {
+        "type": "object",
+        "required": [
+          "items",
+          "window_complete"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CanonicalReview"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "window_complete": {
+            "type": "boolean"
+          }
+        }
+      },
+      "review.reply": {
+        "type": "object",
+        "required": [
+          "published_at"
+        ],
+        "properties": {
+          "external_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "review.reply.delete": {
+        "type": "object"
+      },
+      "review.complain": {
+        "type": "object",
+        "required": [
+          "submitted_at"
+        ],
+        "properties": {
+          "external_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "submitted_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "questions.list": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CanonicalQuestion"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "question.answer": {
+        "type": "object",
+        "required": [
+          "published_at"
+        ],
+        "properties": {
+          "external_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "media.list": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CanonicalMediaItem"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "media.upload": {
+        "type": "object",
+        "required": [
+          "external_id"
+        ],
+        "properties": {
+          "external_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "media.delete": {
+        "type": "object"
+      },
+      "media.flag": {
+        "type": "object"
+      },
+      "publication.create": {
+        "type": "object",
+        "required": [
+          "external_id",
+          "state"
+        ],
+        "properties": {
+          "external_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "published",
+              "pending_moderation"
+            ]
+          }
+        }
+      },
+      "publication.delete": {
+        "type": "object"
+      },
+      "metrics.fetch": {
+        "type": "object",
+        "required": [
+          "series"
+        ],
+        "properties": {
+          "series": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "metric",
+                "points"
+              ],
+              "properties": {
+                "metric": {
+                  "$ref": "#/$defs/Metric"
+                },
+                "points": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "date",
+                      "value"
+                    ],
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "keywords.fetch": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "keyword",
+                "impressions"
+              ],
+              "properties": {
+                "keyword": {
+                  "type": "string"
+                },
+                "impressions": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "rank.search": {
+        "type": "object",
+        "required": [
+          "cells",
+          "captured_at"
+        ],
+        "properties": {
+          "cells": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/RankGridCell"
+            }
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "JobRequest": {
+      "type": "object",
+      "required": [
+        "job_id",
+        "kind",
+        "tenant_id",
+        "platform_id",
+        "payload",
+        "priority",
+        "trace_id"
+      ],
+      "properties": {
+        "job_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "$ref": "#/$defs/JobKind"
+        },
+        "tenant_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform_account_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "listing_ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ListingRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payload": {
+          "type": "object"
+        },
+        "priority": {
+          "$ref": "#/$defs/JobPriority"
+        },
+        "deadline": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "account.check"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/account.check"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "listing.discover"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/listing.discover"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "listing.fetch"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/listing.fetch"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "listing.push"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/listing.push"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "operation.poll"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/operation.poll"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "reviews.list"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/reviews.list"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "review.reply"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/review.reply"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "review.reply.delete"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/review.reply.delete"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "review.complain"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/review.complain"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "questions.list"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/questions.list"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "question.answer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/question.answer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "media.list"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/media.list"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "media.upload"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/media.upload"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "media.delete"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/media.delete"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "media.flag"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/media.flag"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "publication.create"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/publication.create"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "publication.delete"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/publication.delete"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "metrics.fetch"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/metrics.fetch"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "keywords.fetch"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/keywords.fetch"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "rank.search"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/payloads/rank.search"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "JobResult": {
+      "type": "object",
+      "required": [
+        "job_id",
+        "status",
+        "method",
+        "finished_at"
+      ],
+      "properties": {
+        "job_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "succeeded",
+            "failed",
+            "deferred"
+          ]
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "$ref": "#/$defs/ConnectorError"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "api",
+            "feed",
+            "browser",
+            "public",
+            "manual"
+          ]
+        },
+        "cost": {
+          "type": "object",
+          "required": [
+            "requests"
+          ],
+          "properties": {
+            "requests": {
+              "type": "integer"
+            },
+            "browser_seconds": {
+              "type": "number"
+            }
+          }
+        },
+        "finished_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "data"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "error"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/JobRequest"
+    },
+    {
+      "$ref": "#/$defs/JobResult"
+    }
+  ]
+}

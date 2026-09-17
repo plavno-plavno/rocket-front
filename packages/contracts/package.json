@@ -1,8 +1,8 @@
 {
   "name": "@lp/contracts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Draft contracts of the Local Presence Platform core-api (OpenAPI 3.1) and generated TypeScript types. To be moved to the contracts repository (SDD-00).",
+  "description": "Contracts of the Local Presence Platform: core-api OpenAPI 3.1 (+ generated TS types), inter-service events (AsyncAPI 3), Job API JSON Schema and the Connector SPI (SDD-00). To be moved to the contracts repository.",
   "type": "module",
   "exports": {
     ".": {
@@ -10,10 +10,17 @@
       "default": "./src/index.ts"
     },
     "./openapi": "./src/openapi.ts",
-    "./core-api.yaml": "./openapi/core-api.yaml"
+    "./core-api.yaml": "./openapi/core-api.yaml",
+    "./events": "./src/events.ts",
+    "./jobs": "./src/jobs.ts",
+    "./spi": "./src/spi.ts",
+    "./asyncapi.yaml": "./events/asyncapi.yaml",
+    "./job-api.schema.json": "./jobs/job-api.schema.json"
   },
   "files": [
     "openapi",
+    "events",
+    "jobs",
     "src"
   ],
   "scripts": {
