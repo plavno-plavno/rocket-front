@@ -109,6 +109,7 @@ export function CampaignAnalytics() {
           hint={isQr ? t('qrNoSend') : undefined}
         />
         <StatusStatCard
+          surface='violet'
           title={t('steps.opened')}
           value={format.number(totals.opened)}
           icon='eye'
@@ -116,6 +117,7 @@ export function CampaignAnalytics() {
           hint={isQr ? undefined : pct(totals.opened, totals.sent)}
         />
         <StatusStatCard
+          surface='peach'
           title={t('steps.clicked')}
           value={format.number(totals.clicked)}
           icon='externalLink'

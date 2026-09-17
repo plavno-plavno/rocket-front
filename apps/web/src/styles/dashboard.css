@@ -967,3 +967,15 @@
 .lp-stat-card {
   --muted-foreground: var(--lp-stat-label);
 }
+
+/* Two more KPI tones so five tiles in a row never repeat a hue (slate = «no rating», violet = rating). */
+.lp-stat-card[data-tone='slate'] {
+  --lp-stat-surface: var(--lp-slate);
+  --lp-stat-glow: var(--lp-glow-slate);
+  --lp-stat-glow-2: var(--lp-glow2-slate);
+}
+.lp-stat-card[data-tone='violet'] {
+  --lp-stat-surface: var(--lp-violet);
+  --lp-stat-glow: var(--lp-glow-violet);
+  --lp-stat-glow-2: var(--lp-glow2-violet);
+}

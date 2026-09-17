@@ -186,6 +186,7 @@ export function PresenceKpis({ platformId }: { platformId?: string } = {}) {
         {...deltaOf(data?.actions, pct)}
       />
       <StatusStatCard
+        surface='violet'
         title={t('conversion')}
         value={data?.conversion.value == null ? null : `${pct(data.conversion.value * 100)} %`}
         icon='trendingUp'

@@ -16,6 +16,8 @@ export interface StatusStatCardProps {
   icon?: keyof typeof Icons;
   /** Tailwind colour classes for the icon (e.g. `text-status-synced`). */
   tone?: string;
+  /** Tile surface. Derived from `tone` by default; set it where neighbours would repeat a hue. */
+  surface?: StatSurface;
   hint?: string;
   active?: boolean;
   onClick?: () => void;
@@ -24,6 +26,23 @@ export interface StatusStatCardProps {
   /** Delta vs previous period, e.g. "+12 %". */
   delta?: string;
   deltaTone?: 'positive' | 'negative' | 'neutral';
+}
+
+export type StatSurface = 'mint' | 'blue' | 'peach' | 'rose' | 'slate' | 'violet';
+
+/**
+ * Surface of a KPI tile, derived from the semantic colour of its icon: one hue per meaning, so
+ * tiles standing side by side read as different (they all used to fall back to blue).
+ */
+function surfaceTone(tone?: string): StatSurface {
+  if (!tone) return 'blue';
+  if (/synced|positive/.test(tone)) return 'mint';
+  if (/sent/.test(tone)) return 'blue';
+  if (/action/.test(tone)) return 'peach';
+  if (/error|negative/.test(tone)) return 'rose';
+  if (/none|neutral/.test(tone)) return 'slate';
+  if (/star/.test(tone)) return 'violet';
+  return 'blue';
 }
 
 /**
@@ -37,6 +56,7 @@ export function StatusStatCard({
   ofLabel,
   icon,
   tone,
+  surface,
   hint,
   active,
   onClick,
@@ -64,15 +84,7 @@ export function StatusStatCard({
         className
       )}
       data-active={active || undefined}
-      data-tone={
-        tone?.includes('synced')
-          ? 'mint'
-          : tone?.includes('action')
-            ? 'peach'
-            : tone?.includes('negative')
-              ? 'rose'
-              : 'blue'
-      }
+      data-tone={surface ?? surfaceTone(tone)}
     >
       <Comp
         type={interactive ? 'button' : undefined}

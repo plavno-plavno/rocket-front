@@ -52,6 +52,8 @@ const PAIRS = [
   ['lp-stat-label', 'lp-blue', 4.5],
   ['lp-stat-label', 'lp-peach', 4.5],
   ['lp-stat-label', 'lp-rose', 4.5],
+  ['lp-stat-label', 'lp-slate', 4.5],
+  ['lp-stat-label', 'lp-violet', 4.5],
   ['lp-hero-ink', 'lp-hero', 7]
 ];
 

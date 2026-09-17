@@ -159,7 +159,9 @@ export function TemplatesTable() {
       cell: (tpl: ReplyTemplate) => (
         <button
           type='button'
-          className='flex min-w-0 flex-col text-left'
+          // Cap the column: the body preview is long, and truncate/line-clamp do not limit the
+          // intrinsic width — the table grew to ~1860px and did not fit even a 4K screen.
+          className='flex min-w-0 max-w-[42ch] flex-col text-left'
           onClick={() => {
             setEditing(tpl);
             setEditorOpen(true);

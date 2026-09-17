@@ -343,6 +343,7 @@ function RankTrackerBody({ access }: { access: boolean }) {
               loading={heatPending}
             />
             <StatusStatCard
+              surface='violet'
               title={t('kpi.captured')}
               value={heat ? format.dateTime(new Date(heat.captured_at), 'medium') : '—'}
               icon='calendar'

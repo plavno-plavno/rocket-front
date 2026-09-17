@@ -67,6 +67,7 @@ export function ReviewsKpis() {
         {...deltaOf(data?.complaints, pct, true)}
       />
       <StatusStatCard
+        surface='violet'
         title={t('edited')}
         value={data?.edited_by_users.value ?? null}
         icon='edit'
@@ -89,6 +90,7 @@ export function ReviewsKpis() {
         {...deltaOf(data?.answered_share, pct)}
       />
       <StatusStatCard
+        surface='slate'
         title={t('responseTime')}
         value={formatDuration(data?.avg_response_time_s.value, td)}
         icon='clock'

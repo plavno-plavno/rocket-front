@@ -125,7 +125,7 @@ export function DuplicatesQueue() {
           title={t('kpi.conflicting')}
           value={summary?.conflicting_owner ?? null}
           icon='userOff'
-          tone='text-status-action'
+          tone='text-status-neutral'
           active={p.kind === 'conflicting_owner'}
           onClick={() =>
             setP({
