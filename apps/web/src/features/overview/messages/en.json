@@ -4,7 +4,7 @@
   },
   "page": {
     "title": "Overview",
-    "description": "Listing health, reviews and activity for the last 30 days"
+    "description": "Listing state, reviews and activity for the selected period"
   },
   "kpi": {
     "ofListings": "of {total} listings",
@@ -18,5 +18,27 @@
   "actions": {
     "addLocation": "Add location",
     "import": "Import"
+  },
+  "welcome": {
+    "title": "Welcome to Local Presence",
+    "description": "Three steps and the system starts watching your listings and reviews",
+    "start": "Getting started",
+    "steps": {
+      "locations": {
+        "title": "Add locations",
+        "hint": "Import the list of branches from a file or add them by hand",
+        "cta": "Import"
+      },
+      "platforms": {
+        "title": "Connect platforms",
+        "hint": "Yandex, Google, 2GIS — the system finds your listings",
+        "cta": "Connect"
+      },
+      "team": {
+        "title": "Invite the team",
+        "hint": "Colleagues will reply to reviews and look after the listings",
+        "cta": "Invite"
+      }
+    }
   }
 }

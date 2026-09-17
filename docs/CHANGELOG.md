@@ -338,3 +338,13 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 - e2e: `duplicates.spec.ts` (KPI filter, sheet with map / comparison, dismiss, resolved tab), `publications.spec.ts` (validation, preview, create → results, state filter), `media.spec.ts` (upload, UGC filter, report), `products.spec.ts` (validation, create, category filter, sync); visual baselines `publications`, `products`, `duplicates`.
 
 **Verified locally**: `pnpm gen --check` ✓, `typecheck` ✓, `lint:strict` ✓ (0 warnings), `format:check` ✓, `check:templates` ✓, `depcruise` ✓, `pnpm e2e` (production build) **108/108** incl. visual; 0 browser console errors / 5xx on the four screens (owner).
+
+## UI-F8 — Overview (2026-09-17)
+
+**Done** (branch `ui/UI-F8/overview`, merged to main)
+- **Period**: `useOverviewPeriod()` — `PeriodPicker` (presets, range, granularity) in the header, `from` / `to` / `granularity` in the URL; both trend widgets (`ReviewsTrendCard`, `PresenceTrendCard`) follow it; page description no longer hard-codes «30 дней».
+- **Empty state**: `WelcomeWidget` for a tenant without locations — three first steps (companies / platforms / team) with links and «Первые шаги» → onboarding wizard; hidden as soon as one location exists. Recent reviews and action-required widgets keep their own empty states (F2 / F1).
+- Header actions use `LinkButton` (rule 10); widgets carry `data-testid`s for e2e; slot order per SDD-01 §8 unchanged (KPI → trends → recent reviews | action required).
+- e2e: `features/overview/e2e/overview.spec.ts` (KPI + widgets, week preset → URL + «по дням», KPI click → reviews inbox; `empty_tenant` → welcome card → onboarding). Visual baseline `overview` already existed (UI-DS).
+
+**Verified locally**: `pnpm gen --check` ✓, `typecheck` ✓, `lint:strict` ✓, `format:check` ✓, `check:templates` ✓, `depcruise` ✓, `pnpm e2e` (production build) **110/110** incl. visual (overview baseline refreshed with the period picker).

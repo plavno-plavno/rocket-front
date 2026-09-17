@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import PageContainer from '@/components/layout/page-container';
 import { OverviewHeaderActions } from '@/features/overview/components/overview-header-actions';
+import { WelcomeWidget } from '@/features/overview/components/widgets';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('overview.page');
@@ -33,6 +34,7 @@ export default async function OverviewLayout({
       pageHeaderAction={<OverviewHeaderActions />}
     >
       <div className='flex flex-1 flex-col gap-4' data-template='analytics'>
+        <WelcomeWidget />
         <div className='grid gap-4 sm:grid-cols-2 xl:grid-cols-4'>{kpi}</div>
         <div className='grid gap-4 lg:grid-cols-2'>
           {reviews_trend}

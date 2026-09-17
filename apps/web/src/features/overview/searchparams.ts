@@ -1,7 +1,7 @@
 import { createSearchParamsCache } from 'nuqs/server';
-import { commonSearchParams } from '@/lib/searchparams';
+import { commonSearchParams, periodSearchParams } from '@/lib/searchparams';
 
-/** URL state of the overview screens — spreads the shared parsers (scope, page, sort, q). */
-export const overviewSearchParams = { ...commonSearchParams };
+/** URL state of the overview: shared parsers (scope, …) + period (`from`, `to`, `granularity`). */
+export const overviewSearchParams = { ...commonSearchParams, ...periodSearchParams };
 
 export const overviewSearchParamsCache = createSearchParamsCache(overviewSearchParams);
