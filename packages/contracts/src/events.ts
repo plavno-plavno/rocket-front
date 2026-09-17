@@ -81,6 +81,7 @@ export interface EventData {
     error?: string | null;
     account?: PlatformAccountDescriptor;
   };
+  'platform_account.deleted': { platform_account_id: string; platform_id: string; deleted_by?: string | null };
   'review.reply.requested': { reply_id: string; review_id: string; listing_id: string; platform_id: string; text: string; delete?: boolean; review_external_id?: string | null; reply_external_id?: string | null };
   'review.reply.changed': { reply_id: string; review_id: string; state: Schema<'ReplyState'>; external_id?: string | null; published_at?: string | null; error?: string | null };
   'review.complaint.requested': { complaint_id: string; review_id: string; listing_id: string; platform_id: string; reason_code: string; text?: string | null; review_external_id?: string | null };
@@ -198,6 +199,7 @@ export const EVENT_TYPES = [
   'listing.action.requested',
   'platform_account.check.requested',
   'platform_account.changed',
+  'platform_account.deleted',
   'review.reply.requested',
   'review.reply.changed',
   'review.complaint.requested',

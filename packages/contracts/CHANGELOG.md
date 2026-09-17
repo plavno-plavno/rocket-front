@@ -1,6 +1,7 @@
 # @lp/contracts changelog
 
 ## 0.2.1-draft (2026-09-17)
+- Events: `platform_account.deleted` (core-api → sync-engine / runtime) so consumers drop accounts the core removed.
 - Job API: `listing.create` (create a card when discovery finds none; capability `listing.create`), SPI `listing.create?`.
 
 ## 0.2.0-draft (2026-09-17)

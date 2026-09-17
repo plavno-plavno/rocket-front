@@ -472,6 +472,18 @@ channels:
     messages:
       rank_snapshot_captured:
         $ref: '#/components/messages/rank_snapshot_captured'
+  platform_account_deleted:
+    address: lp.events.platform_account.deleted
+    title: platform_account.deleted
+    description: 'producer: core-api; consumers: sync-engine, connector-runtime'
+    x-producer: core-api
+    x-consumers:
+    - sync-engine
+    - connector-runtime
+    x-key: platform_account_id
+    messages:
+      platform_account_deleted:
+        $ref: '#/components/messages/platform_account_deleted'
 operations:
   send_location_created:
     action: send
@@ -883,6 +895,16 @@ operations:
     channel:
       $ref: '#/channels/rank_snapshot_captured'
     summary: core-api consume rank.snapshot.captured
+  send_platform_account_deleted:
+    action: send
+    channel:
+      $ref: '#/channels/platform_account_deleted'
+    summary: core-api publishes platform_account.deleted
+  receive_platform_account_deleted:
+    action: receive
+    channel:
+      $ref: '#/channels/platform_account_deleted'
+    summary: sync-engine, connector-runtime consume platform_account.deleted
 components:
   schemas:
     Envelope:
@@ -1738,6 +1760,21 @@ components:
               captured_at: *id004
             additionalProperties: true
       additionalProperties: true
+    platform_account_deleted_data:
+      type: object
+      required:
+      - platform_account_id
+      - platform_id
+      properties:
+        platform_account_id:
+          type: string
+        platform_id:
+          type: string
+        deleted_by:
+          type:
+          - string
+          - 'null'
+      additionalProperties: true
   messages:
     location_created:
       name: location.created
@@ -2231,3 +2268,15 @@ components:
               const: rank.snapshot.captured
             data:
               $ref: '#/components/schemas/rank_snapshot_captured_data'
+    platform_account_deleted:
+      name: platform_account.deleted
+      title: platform_account.deleted
+      payload:
+        allOf:
+        - $ref: '#/components/schemas/Envelope'
+        - type: object
+          properties:
+            type:
+              const: platform_account.deleted
+            data:
+              $ref: '#/components/schemas/platform_account_deleted_data'
