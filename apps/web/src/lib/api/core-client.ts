@@ -47,7 +47,18 @@ const forwardRequestContext: Middleware = {
 };
 
 const throwOnError: Middleware = {
-  async onResponse({ response }) {
+  async onResponse({ request, response }) {
+    if (response.ok && (response.headers.get('content-type') ?? '').includes('text/html')) {
+      // `/api/core` served a Next page instead of core-api (misconfigured proxy) — fail with a
+      // gateway error rather than a JSON SyntaxError on '<!DOCTYPE'.
+      throw new ApiError(502, {
+        type: 'https://lp.example/problems/bad_gateway',
+        title: 'core-api returned an HTML page instead of JSON',
+        status: 502,
+        code: 'bad_gateway',
+        detail: `${request.method} ${new URL(request.url).pathname}`
+      });
+    }
     if (response.ok) return response;
     let problem: Problem | undefined;
     const contentType = response.headers.get('content-type') ?? '';

@@ -4,8 +4,53 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/lib/i18n/request.ts');
 
+/**
+ * Where `/api/core/*` goes: the core-api origin to proxy to, or `undefined` = mock core-api inside
+ * Next.js (docs/deployment.md). Rewrites are baked in at build time, so the decision is made here
+ * once and handed to the runtime as `env.MOCK_API_INLINE` (instrumentation, core-client).
+ * - `MOCK_API_INLINE=true|1` → inline; `false|0` → proxy to `CORE_API_URL`.
+ * - Unset: proxy to `CORE_API_URL`, except on Vercel when it is missing or points to something the
+ *   deployment cannot reach (relative, localhost, the deployment itself). Rewriting there served a
+ *   Next page instead of JSON (sign-in: «Unexpected token '<'»), so the demo falls back to inline.
+ */
+function resolveCoreApiUrl(): string | undefined {
+  const flag = process.env.MOCK_API_INLINE?.trim().toLowerCase() ?? '';
+  const url = process.env.CORE_API_URL?.trim().replace(/\/+$/, '');
+  if (flag === 'true' || flag === '1') return undefined;
+  if (flag === 'false' || flag === '0' || !process.env.VERCEL) {
+    return url || 'http://localhost:4010';
+  }
+  if (url && isReachableFromVercel(url)) return url;
+  console.warn(
+    `core-api: CORE_API_URL (${url ? 'unreachable from Vercel' : 'not set'}) → mock core-api inside Next.js`
+  );
+  return undefined;
+}
+
+function isReachableFromVercel(url: string): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return false;
+  }
+  const ownHosts = [
+    process.env.VERCEL_URL,
+    process.env.VERCEL_BRANCH_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ];
+  return (
+    /^https?:$/.test(parsed.protocol) &&
+    !['localhost', '127.0.0.1', '0.0.0.0', '[::1]'].includes(parsed.hostname) &&
+    !ownHosts.includes(parsed.host)
+  );
+}
+
+const coreApiUrl = resolveCoreApiUrl();
+
 // Define the base Next.js configuration
 const baseConfig: NextConfig = {
+  env: { MOCK_API_INLINE: String(coreApiUrl === undefined) },
   output: process.env.BUILD_STANDALONE === 'true' ? 'standalone' : undefined,
   images: {
     remotePatterns: [
@@ -29,11 +74,10 @@ const baseConfig: NextConfig = {
   devIndicators: process.env.NEXT_DEV_INDICATORS === 'false' ? false : undefined,
   transpilePackages: ['geist'],
   async rewrites() {
-    // MOCK_API_INLINE (Vercel demo): /api/core/* is served by src/app/api/core/[...path]/route.ts.
-    if (process.env.MOCK_API_INLINE === 'true') return [];
+    // Inline mock: /api/core/* is served by src/app/api/core/[...path]/route.ts.
+    if (coreApiUrl === undefined) return [];
     // Same-origin proxy to core-api so the session cookie is first-party (SDD-01 §5.1, §5.3).
-    const core = (process.env.CORE_API_URL ?? 'http://localhost:4010').replace(/\/$/, '');
-    return [{ source: '/api/core/:path*', destination: `${core}/:path*` }];
+    return [{ source: '/api/core/:path*', destination: `${coreApiUrl}/:path*` }];
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'

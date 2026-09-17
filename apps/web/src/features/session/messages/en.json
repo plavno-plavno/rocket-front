@@ -8,6 +8,7 @@
     "submit": "Sign in",
     "forgot": "Forgot password?",
     "invalidCredentials": "Invalid email or password",
+    "unavailable": "The service is temporarily unavailable — please try again later",
     "demoHint": "Demo: {email} / {password}",
     "expired": "Your session has ended — please sign in again"
   },

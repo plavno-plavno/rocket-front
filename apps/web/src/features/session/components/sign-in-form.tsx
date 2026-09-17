@@ -49,9 +49,11 @@ export function SignInForm() {
         router.replace(safeNext(searchParams.get('next')));
       } catch (error) {
         setFormError(
-          isApiError(error) && error.status === 401
-            ? t('invalidCredentials')
-            : (error as Error).message
+          !isApiError(error) || error.status >= 500
+            ? t('unavailable')
+            : error.status === 401
+              ? t('invalidCredentials')
+              : error.message
         );
       }
     }

@@ -8,6 +8,7 @@
     "submit": "Войти",
     "forgot": "Забыли пароль?",
     "invalidCredentials": "Неверный email или пароль",
+    "unavailable": "Сервис временно недоступен — попробуйте позже",
     "demoHint": "Демо: {email} / {password}",
     "expired": "Сессия завершилась — войдите снова"
   },

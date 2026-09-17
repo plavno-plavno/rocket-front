@@ -281,3 +281,15 @@ Tag: `ui-foundation-v1`. Tracks of wave 1 (UI-DS, UI-F1, UI-F2, UI-F3, UI-F7) ma
 - e2e: templates (create with preview, groups, bulk select), tags (create / delete), rules (validation, create, toggle), AI (sandbox stream, composer stream, profile save); visual baselines `templates`, `auto-replies`, `ai`.
 
 **Verified locally**: typecheck ✓, lint:strict ✓ (0 warnings), format:check ✓, gen --check ✓, check:templates ✓, depcruise ✓, `pnpm e2e` (production build) **58/58** incl. visual; 0 browser console errors on all four screens and the streaming flows.
+
+## Deploy — Vercel demo on the inline mock (2026-09-17)
+
+**Problem**: on `rocket-front-web.vercel.app` sign-in failed with «Unexpected token '<', "<!DOCTYPE"… is not valid JSON». The first fix (`553a4f2`, mock core-api inside Next.js behind `MOCK_API_INLINE=true`) was deployed, but the Vercel project had no `MOCK_API_INLINE`, so the build kept the `/api/core/:path*` rewrite to `CORE_API_URL` (a value Vercel cannot reach); `/api/core/auth/sign-in` was served by the `/auth/sign-in` page, `/api/core/me` by `/_not-found`.
+
+**Done**
+- `next.config.ts` resolves the core-api target once at build time: `MOCK_API_INLINE=true|1` → inline, `false|0` → proxy; unset → proxy, except on Vercel when `CORE_API_URL` is missing, relative, localhost or the deployment's own host → inline (build log warning). The result is inlined as `env.MOCK_API_INLINE`, so instrumentation / core-client always match the rewrites.
+- `/api/ai/reply` (UI-F3 streaming) calls the inline mock too; `mocks/inline.ts` serves `/ai-replies/generate` as a web stream.
+- `core-client`: a `text/html` answer from `/api/core` becomes `ApiError` 502 `bad_gateway` instead of a JSON `SyntaxError`; the sign-in form shows «Сервис временно недоступен — попробуйте позже» for 5xx / network errors.
+- `docs/deployment.md` — auto mode and the failure it prevents.
+
+**Verified locally**: typecheck ✓, lint:strict ✓, format:check ✓, gen --check ✓. Production build with `VERCEL=1 CORE_API_URL=http://localhost:4010` and no `MOCK_API_INLINE`, started without those variables: no rewrite in `routes-manifest.json`, sign-in 200 JSON + `lp_session`, `/me` 200, `/dashboard/overview` SSR 200, `/api/ai/reply` streams, wrong password 401. Proxy mode (`CORE_API_URL` → `pnpm mock:api`, no `VERCEL`): the same checks pass through the rewrite.

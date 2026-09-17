@@ -1,5 +1,7 @@
 /**
  * In-process mock core-api for deployments without a core-api (Vercel demo), `MOCK_API_INLINE=true`.
+ * The flag is resolved by next.config.ts at build time (explicit value, or automatically on Vercel
+ * without a reachable `CORE_API_URL`) and inlined through `env`, so it always matches the rewrites.
  *
  * `src/instrumentation.ts` loads `mocks/inline.ts` once per server instance and registers it here;
  * `core-client` (server side) and the `/api/core/[...path]` route handler (browser side) both call

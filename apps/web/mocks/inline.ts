@@ -8,10 +8,11 @@
  *   shared between instances. The session cookie therefore also carries the user and tenant ids
  *   so that an instance that never saw the sign-in restores the session (demo data only).
  * - `/reviews/stream` closes itself after STREAM_MAX_MS (function time limit); EventSource
- *   reconnects on its own.
+ *   reconnects on its own. `/ai-replies/generate` streams are web streams too (lib/ai-stream.ts).
  * - Unknown routes answer 404 without the OpenAPI lookup; `/__mock/*` endpoints are not served.
  */
 import { getResponse } from 'msw';
+import { compose } from '@/features/ai-replies/mocks/handlers';
 import { featureHandlers } from '@/generated/mock-registry';
 import { dbFor, type MockDb } from './db';
 import { currentSession, nowIso, problem, readCookie, unauthenticated } from './lib/http';
@@ -27,6 +28,13 @@ export async function inlineCoreApiFetch(request: Request): Promise<Response> {
   try {
     if (request.method === 'GET' && url.pathname === '/reviews/stream') {
       return reviewStream(request, db);
+    }
+    if (
+      request.method === 'POST' &&
+      url.pathname === '/ai-replies/generate' &&
+      (request.headers.get('accept') ?? '').includes('text/event-stream')
+    ) {
+      return aiReplyStream(request, db);
     }
     const response = await getResponse(featureHandlers, request, { baseUrl: url.origin });
     if (!response) {
@@ -121,6 +129,61 @@ function reviewStream(request: Request, db: MockDb): Response {
       'content-type': 'text/event-stream',
       'cache-control': 'no-cache, no-transform',
       'x-accel-buffering': 'no'
+    }
+  });
+}
+
+/** Web-stream variant of lib/ai-stream.ts (AI SDK UI message stream). */
+async function aiReplyStream(request: Request, db: MockDb): Promise<Response> {
+  if (!currentSession(request, db)) return unauthenticated();
+  const body = (await request.json().catch(() => ({}))) as {
+    review_id?: string | null;
+    profile_id?: string | null;
+    sample_review?: { text?: string; rating?: number | null; location_name?: string };
+  };
+  const profile = db.aiProfiles.find((p) => p.id === body.profile_id) ?? db.aiProfiles[0];
+  const review = body.review_id ? db.reviews.find((r) => r.id === body.review_id) : null;
+  const words = compose(
+    review?.text ?? body.sample_review?.text ?? null,
+    review?.rating ?? body.sample_review?.rating ?? null,
+    review?.location_name ?? body.sample_review?.location_name ?? 'наш магазин',
+    review?.author.name ?? 'Гость',
+    profile?.tone ?? 'friendly',
+    profile?.signature ?? 'Команда'
+  ).split(/(?<=\s)/);
+  const delay = Number(process.env.MOCK_STREAM_WORD_MS ?? 40);
+  const encoder = new TextEncoder();
+  let timer: ReturnType<typeof setInterval> | undefined;
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      const send = (chunk: Record<string, unknown> | string) =>
+        controller.enqueue(
+          encoder.encode(`data: ${typeof chunk === 'string' ? chunk : JSON.stringify(chunk)}\n\n`)
+        );
+      send({ type: 'start' });
+      send({ type: 'text-start', id: 't1' });
+      let i = 0;
+      timer = setInterval(() => {
+        if (i < words.length) {
+          send({ type: 'text-delta', id: 't1', delta: words[i++] });
+          return;
+        }
+        clearInterval(timer);
+        send({ type: 'text-end', id: 't1' });
+        send({ type: 'finish' });
+        send('[DONE]');
+        controller.close();
+      }, delay);
+    },
+    cancel() {
+      clearInterval(timer);
+    }
+  });
+  return new Response(stream, {
+    headers: {
+      'content-type': 'text/event-stream; charset=utf-8',
+      'cache-control': 'no-cache, no-transform',
+      'x-vercel-ai-ui-message-stream': 'v1'
     }
   });
 }
