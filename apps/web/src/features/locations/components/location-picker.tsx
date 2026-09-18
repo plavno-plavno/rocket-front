@@ -242,16 +242,19 @@ export function LocationPicker({
           className={cn(
             'grid min-h-0 flex-1 border-y',
             allowGroups && tree.length
-              ? 'grid-cols-[minmax(0,1fr)] sm:grid-cols-[16rem_minmax(0,1fr)]'
+              ? // On a phone the two panes are rows: the group row takes its own height and the list
+                // row gets the rest. Without explicit rows both panes kept their fixed heights inside
+                // a shorter row and spilled over each other.
+                'grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] sm:grid-cols-[16rem_minmax(0,1fr)] sm:grid-rows-1'
               : 'grid-cols-1'
           )}
         >
           {allowGroups && tree.length ? (
-            <div className='flex min-h-0 flex-col border-b sm:border-r sm:border-b-0'>
+            <div className='flex min-h-0 flex-col overflow-hidden border-b sm:border-r sm:border-b-0'>
               <div className='text-muted-foreground px-3 py-2 text-xs font-medium uppercase'>
                 {t('groups')}
               </div>
-              <ScrollArea className='h-56 px-2 pb-2 sm:h-96'>
+              <ScrollArea className='h-40 px-2 pb-2 sm:h-96'>
                 <GroupTree
                   nodes={tree}
                   selected={selected.grp}
@@ -260,9 +263,10 @@ export function LocationPicker({
               </ScrollArea>
             </div>
           ) : null}
-          <div className='flex min-h-0 flex-col'>
-            <div className='flex items-center gap-2 px-3 py-2'>
-              <div className='relative flex-1'>
+          <div className='flex min-h-0 flex-col overflow-hidden'>
+            <div className='flex flex-wrap items-center gap-2 px-3 py-2'>
+              {/* Keep the field readable: «Выбрать найденные» wraps to its own line instead. */}
+              <div className='relative min-w-40 flex-1'>
                 <Icons.search className='text-muted-foreground absolute top-1/2 left-2 size-4 -translate-y-1/2' />
                 <Input
                   value={search}
@@ -276,6 +280,7 @@ export function LocationPicker({
                 <Button
                   variant='ghost'
                   size='sm'
+                  className='shrink-0'
                   onClick={toggleAllVisible}
                   disabled={!items.length}
                 >
@@ -285,7 +290,7 @@ export function LocationPicker({
                 </Button>
               )}
             </div>
-            <ScrollArea className='h-72 sm:h-[22rem]'>
+            <ScrollArea className='min-h-40 flex-1 sm:h-[22rem] sm:flex-none'>
               <ul className='flex flex-col px-2 pb-2'>
                 {isPending &&
                   Array.from({ length: 8 }, (_, i) => (
